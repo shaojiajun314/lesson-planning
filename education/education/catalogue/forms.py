@@ -2,35 +2,32 @@
 from django import forms
 from django.forms import fields
 
+from education.catalogue.models import Category
 
-class ExampleCreateForm(forms.Form):
+class CategoryCreateForm(forms.Form):
+    name = fields.CharField(required=True, max_length=16)
+    ancestor_id = fields.IntegerField(required=False)
+    this_node_id = fields.IntegerField(required=False)
 
-    categories
-    content
+    ancestor_node = None
+    this_node = None
+    # image = fields.ImageField(required=True)
 
+    def __init__(self, data, ancestor_id, this_node_id):
+        self.ancestor_id = ancestor_id
+        self.this_node_id = this_node_id
+        super(CategoryCreateForm, self).__init__(data)
 
-    store_bonus_ratio = fields.IntegerField(required=True)
-    consume_bonus_ratio = fields.IntegerField(required=True)
-    share_bonus_ratio = fields.IntegerField(required=True)
-    leader_bonus_ratio = fields.IntegerField(required=True)
-    product_recommend_bonus_ratio = fields.IntegerField(required=True)
-    company_management_bonus_ratio = fields.IntegerField(required=True)
-    company_risk_reserve_ratio = fields.IntegerField(required=True)
-    platform_profit = fields.IntegerField(required=True)
+    def clean_ancestor_id(self):
+        
+        try:
+            self.ancestor_node = Category.objects.get(
+                id=self.cleaned_data['ancestor_id'])
+        except Category.DoesNotExist:
+            raise forms.ValidationError('上级分类不存在', 1011)
 
+    def clean_this_node_id(self):
 
-    def __init__(self, )
-
-    def clean(self):
-        clean_data = self.cleaned_data
-        keys = clean_data.keys()
-        assert keys == 8 #9
-        total_ratio = 0
-        for key in keys:
-            clean_data[key] = int(clean_data[key])
-            total_ratio = total_ratio + clean_data[key]
-        assert total_ratio == 100
 
     def save(self):
-        new_setting = Setting()
-        new_setting.update_setting(**self.cleaned_data)
+        print self.cleaned_data

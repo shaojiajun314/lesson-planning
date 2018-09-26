@@ -5,27 +5,38 @@ from django.shortcuts import render
 
 from rest_framework.views import APIView
 
+from education.catalogue.forms import CategoryCreateForm
 # Create your views here.
 
-class UpdateExampleView(APIView):
-    # userinfo_by_openid_form = GetUserInfoByProfileOpenidForm
-    
-    def get(self, request, *args, **kwargs):
-        get_form = self.userinfo_by_openid_form(request.GET)
-
+class BaseApiView(APIView):
+    def err_response(self, form):
         res = {}
-        if get_form.is_valid():
+        errs = loads(form.errors.as_json())
+        desc, code = [], []
+        for k, err in errs.items():
+            desc.append(err[0]['message'])
+            code.append(err[0]['code'])
+        res['msg'] = 'fail'
+        res['desc'] = desc
+        res['code'] = code
+        return res
+
+class UpdateCategoryView(BaseApiView):
+    def post(self, request, *args, **kw):
+        # images = request.FILES.get("file", None)
+        form = self.CategoryCreateForm(request.POST,
+            kw.get('parent_pk'),
+            kw.get('pk'))
+
+        if form.is_valid():
+            res = {}
             res['msg']  = 'success'
             res['desc'] = 'success'
             res['code'] = 0
-            res['data'] = UserInfoSerializer(get_form.user).data
+
+            form.save()
+            # res['data'] = UserInfoSerializer(form.user).data
         else:
-            errs = loads(get_form.errors.as_json())
-            desc, code = [], []
-            for k, err in errs.items():
-                desc.append(err[0]['message'])
-                code.append(err[0]['code'])
-            res['msg'] = 'fail'
-            res['desc'] = desc
-            res['code'] = code
+            res = self.err_response(form)
+
         return JsonResponse(res)
