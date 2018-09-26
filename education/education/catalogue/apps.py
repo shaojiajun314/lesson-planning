@@ -18,8 +18,11 @@ def get_urls():
         #     UpdateExampleView.as_view(),
         #     ),
 
-        url(r'category/create/',
-            UpdateExampleView.as_view(),
+        url(r'category/(?:(?P<parent_pk>\d+)/)?create/$',
+            UpdateCategoryView.as_view(),
+            ),
+        url(r'category/(?P<pk>\d+)/update/$',
+            UpdateCategoryView.as_view(),
             ),
     ]
     return urls

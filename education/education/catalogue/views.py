@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from json import loads
 
 from django.shortcuts import render
+from django.http import JsonResponse
 
 from rest_framework.views import APIView
 
-from education.catalogue.forms import CategoryCreateForm
+from education.catalogue.forms import CategoryCreateForm, CategoryUpdateForm
 # Create your views here.
 
 class BaseApiView(APIView):
@@ -24,16 +26,18 @@ class BaseApiView(APIView):
 class UpdateCategoryView(BaseApiView):
     def post(self, request, *args, **kw):
         # images = request.FILES.get("file", None)
-        form = self.CategoryCreateForm(request.POST,
-            kw.get('parent_pk'),
-            kw.get('pk'))
+        if kw.get('pk'):
+            form = CategoryUpdateForm(request.POST,
+                kw.get('pk'))
+        else:
+            form = CategoryCreateForm(request.POST,
+                kw.get('parent_pk'))
 
         if form.is_valid():
             res = {}
             res['msg']  = 'success'
             res['desc'] = 'success'
             res['code'] = 0
-
             form.save()
             # res['data'] = UserInfoSerializer(form.user).data
         else:
