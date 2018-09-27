@@ -1,4 +1,4 @@
-from sorl import thumbnail
+# from sorl import thumbnail
 from rest_framework import serializers
 
 from education.catalogue.models import Category

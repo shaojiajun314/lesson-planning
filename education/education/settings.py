@@ -131,6 +131,7 @@ STATIC_ROOT = posixpath.join(BASE_DIR, 'share', 'static')
 
 STATICFILES_DIRS = (
     posixpath.join(BASE_DIR, 'education', 'static'),
+    posixpath.join(BASE_DIR, 'static'),
 )
 
 

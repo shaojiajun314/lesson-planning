@@ -12,24 +12,18 @@ class CatalogueConfig(AppConfig):
 
 def get_urls():
     urls = [
-        # url(r'example/(?P<pk>\d+)/update/',
-        #     UpdateExampleView.as_view(),
-        #     name=''),
-        # url(r'example/create/',
-        #     UpdateExampleView.as_view(),
-        #     ),
-
+        # 分类
         url(r'category/(?:(?P<parent_pk>\d+)/)?create/$',
             UpdateCategoryView.as_view(),
         ),
         url(r'category/(?P<pk>\d+)/update/$',
             UpdateCategoryView.as_view(),
         ),
-
         url(r'category/(?:(?P<parent_pk>\d+)/)?list/$',
             CategoryView.as_view(),
         ),
 
+        # 题目
         url(r'example/create/$',
             UpdateExampleView.as_view(),
         ),

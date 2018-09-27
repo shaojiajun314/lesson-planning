@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+    <style>
+    #category{
+        width: 100%
+    }
+
+    .category{
+        width: 200px;
+        background: #fff;
+        line-height: 35px;
+        font-size: 14px;
+        display: inline-flex;
+        margin-right: 2px;
+    }
+    .title{
+        width: 200px;
+
+        line-height: 40px;
+        height: 40px;
+        background: #2bbb61;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 400;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        position: relative;
+        z-index: 20;
+    }
+    .category .category_root_list{
+        width: 196px;
+        border: 2px solid #2bbb61;
+    }
+    .category .item{
+        width: 160px;
+        margin-left: 18px;
+        text-align: center;
+        cursor: pointer;
+        border-top: 1px dashed #eee;
+    }
+    </style>
+
+</head>
+
+<body>
+
+<div id="category">
+
+<div class="title">
+    分类
+</div>
+<div class="category" v-for="(category_item, category_index) in category">
+    <div class="category_root_list" v-if="category_item.length > 0">
+        <div v-for="(item, index) in category_item" class="item" v-on:mouseover="get_category(item.id, category_index)">
+            {{item.name}}
+        </div>
+    </div>
+</div>
+
+<script>
+new Vue({
+    el: '#category',
+    data: {
+        category: [],
+    },
+    created: function () {
+      this.get_category_root();
+    },
+    methods: {
+        get_category_root: function(){
+            this.$http.get(api.CategoryRoot).then(function(res){
+                    var result = res.body
+                    if(result.code === 0){
+                        this.category.push(res.body.data);
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+        },
+        get_category: function(parent_id, category_index){
+            var current_length = category_index + 1
+            if(this.category.length > current_length){
+                this.category = this.category.slice(0, current_length)
+            }
+            this.$http.get(api.Category.replace(/{parent_pk}/, parent_id)).then(function(res){
+                    var result = res.body
+                    if(result.code === 0){
+                        this.category.push(res.body.data);
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+
+        }
+    }
+})
+</script>
+</body>
+</html>
