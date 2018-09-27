@@ -48,12 +48,12 @@ class Answer(models.Model):
         related_name='answers',)
     answer = models.TextField()
 
-    image = EDUImageField(_('Image'),
-        upload_to='categories',
-        blank=True,
-        null=True,
-        max_length=255)
-    image_name = models.CharField(_('Image Name'), max_length=64)
+    # image = EDUImageField(_('Image'),
+    #     upload_to='categories',
+    #     blank=True,
+    #     null=True,
+    #     max_length=255)
+    # image_name = models.CharField(_('Image Name'), max_length=64)
 
 class AnswerImage(models.Model):
     answer = models.ForeignKey(

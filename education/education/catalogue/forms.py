@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+#django
 from django import forms
 from django.forms import fields
+from django.db import transaction
 
-from education.catalogue.models import Category
+#apps
+from education.catalogue.models import Category, Example
 
 class CategoryCreateForm(forms.Form):
     name = fields.CharField(required=True, max_length=16)
@@ -61,3 +64,47 @@ class CategoryUpdateForm(forms.Form):
         self.this_node.name = self.cleaned_data['name']
         self.this_node.save()
         return self.this_node
+
+class ExampleCreateForm(forms.Form):
+    category_id = fields.IntegerField(required=True)
+    content = fields.CharField(required=True, max_length=512)
+    answer = fields.CharField(required=True, max_length=512)
+
+    def clean_category_id(self):
+        try:
+            self.category = Category.objects.get(id=self.cleaned_data['category_id'])
+        except Category.DoesNotExist:
+            raise forms.ValidationError('该分类不存在', 1011)
+        return self.cleaned_data['category_id']
+
+    def save(self):
+        with transaction.atomic():
+            example = self.category.examples.create(
+                content=self.cleaned_data['content']
+            )
+            example.answers.create(
+                answer=self.cleaned_data['answer']
+            )
+            return example
+
+class ExampleUpdateForm(forms.Form):
+    content = fields.CharField(required=True, max_length=512)
+
+    def __init__(self, data, this_example_id):
+        self.this_example_id = this_example_id
+        super(ExampleUpdateForm, self).__init__(data)
+
+    def clean(self):
+        try:
+            self.this_example = Example.objects.get(
+                id=self.this_example_id)
+        except Example.DoesNotExist:
+            raise forms.ValidationError('该题目不存在', 1011)
+
+        return self.cleaned_data
+
+
+    def save(self):
+        self.this_example.content = self.cleaned_data['content']
+        self.this_example.save()
+        return self.this_example
