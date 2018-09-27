@@ -1,5 +1,7 @@
-const HTTPRootUrl = 'http://127.0.0.1:8000'
-const HTTPSRootUrl = 'http://127.0.0.1:8000'
+// const HTTPRootUrl = 'http://127.0.0.1:8000'
+// const HTTPSRootUrl = 'http://127.0.0.1:8000'
+const HTTPRootUrl = ''
+const HTTPSRootUrl = ''
 
 const ApiRootUrl = HTTPSRootUrl + '/api/';
 
