@@ -1,1 +1,66 @@
 create category
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EDU测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="nav">
+    <a class="item">
+            首页
+    </a>
+    <a class="item" href="/static/catalogue/category/create.html">
+            创建分类
+    </a>
+    <a class="item" href="/static/catalogue/example/create.html">
+            创建题目
+    </a>
+</div>
+
+<div id="category-create">
+    <div class="form">
+        <form>
+            <div class="input-div">
+                <label class="input-label">
+                    名称
+                </label>
+                <input name="name" class="input" v-model="name" placeholder="输入新分类名称" type="text">
+            </div>
+
+            <div class="input-div">
+                <label class="input-label">
+                    父级分类
+                </label>
+                <input name="parent" v-model="parent_category.name" v-on:focus="get_category_root" class="input" placeholder="输入新分类名称" type="text">
+            </div>
+            <div class="category-create" v-for="(category_item, category_index) in category">
+                <div class="category_root_list" v-if="category_item.length > 0">
+                    <div v-for="(item, index) in category_item" class="item" v-on:blur="clean_category"  tabindex="0" v-on:mouseover="get_category(item.id, category_index)" v-on:click="input_parent(item.id, item.name)">
+                        {{item.name}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="button"v-on:click="submit_input">
+                确定
+            </dv>
+
+        </form>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="/static/catalogue/category/create.css"></link>
+<script src="/static/catalogue/category/create.js"></script>
+
+</body>
+</html>

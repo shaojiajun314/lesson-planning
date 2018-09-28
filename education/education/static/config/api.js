@@ -7,5 +7,6 @@ const ApiRootUrl = HTTPSRootUrl + '/api/';
 
 const api = {
     CategoryRoot: ApiRootUrl + 'catalogue/category/list/',
-    Category: ApiRootUrl + 'catalogue/category/{parent_pk}/list/'
+    Category: ApiRootUrl + 'catalogue/category/{parent_pk}/list/',
+    CreateCategory: ApiRootUrl + 'catalogue/category/{parent_id}create/',
 }
