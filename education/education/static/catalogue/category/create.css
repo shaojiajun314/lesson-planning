@@ -57,6 +57,7 @@ body {
     margin-bottom: 35px;
     border: none;
     float: right;
+    cursor: pointer;
 }
 .hidden{
     display: none;

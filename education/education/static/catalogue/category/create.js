@@ -3,10 +3,14 @@ new Vue({
     data: {
         category: [],
         name:'',
-        parent_category: {name:'', id: null}
+        parent_category: {name:'', id: null},
+        img:null
     },
     methods: {
         get_category_root: function(){
+            if(this.category.length != 0){
+                return ;
+            }
             this.$http.get(api.CategoryRoot).then(function(res){
                     var result = res.body
                     if(result.code === 0){
@@ -58,6 +62,7 @@ new Vue({
                 {name:this.name}, {emulateJSON:true}).then(function(res){
                     var result = res.body
                     if(result.code === 0){
+                        this.upload_img(result.data.id)
                         alert(result.desc)
                     }else {
                         alert(result.desc)
@@ -66,6 +71,27 @@ new Vue({
                     alert('请求错误');
                 });
 
-        }
+        },
+
+        upload_img: function(id){
+            if (this.$refs.imgInput.files.length !== 0) {
+                var image = new FormData()
+                image.append('img', this.$refs.imgInput.files[0])
+                console.log(image);
+                this.$http.post(api.CatalogueUploadImg.replace(/{type}/, 'category').replace(/{pk}/, id),
+                 image, {headers: {"Content-Type": "multipart/form-data"}}).then(function(res){
+                         var result = res.body
+                         console.log(result);
+                         if(result.code === 0){
+                         }else {
+                             alert(result.desc)
+                         }
+                     },function(){
+                         alert('请求错误');
+                     });
+            }
+        },
+
+
     }
 })

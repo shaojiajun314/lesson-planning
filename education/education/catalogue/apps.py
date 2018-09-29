@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.apps import AppConfig
 
 from education.catalogue.views import (UpdateCategoryView, CategoryView,
-    UpdateExampleView)
+    UpdateExampleView, UploadImage)
 
 class CatalogueConfig(AppConfig):
     name = 'catalogue'
@@ -29,6 +29,12 @@ def get_urls():
         ),
         url(r'example/(?P<pk>\d+)/update/$',
             UpdateExampleView.as_view(),
+        ),
+
+        # 图片
+
+        url(r'img/(?P<type>[\w-]{1,33})/(?P<pk>\d+)/upload/$',
+            UploadImage.as_view(),
         ),
 
     ]

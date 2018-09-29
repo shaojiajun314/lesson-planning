@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # 取消强行验证
-    'education.lib.middleware.APIMiddleware'
+    'education.middleware.APIMiddleware'
 ]
 
 ROOT_URLCONF = 'education.urls'
