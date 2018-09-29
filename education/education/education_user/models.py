@@ -48,12 +48,14 @@ class UserManager(auth_models.BaseUserManager):
 class User(auth_models.AbstractBaseUser,
            auth_models.PermissionsMixin):
     username = models.CharField(
-        max_length=64, unique=True)
+        max_length=16, unique=True)
+    password = models.CharField(_('password'),
+        max_length=32)
     nickname = models.CharField(
-        max_length=64, null=True, blank=True)
+        max_length=10, null=True, blank=True)
     mobile = models.CharField(
         _('mobile phone number'),
-        max_length=64,
+        max_length=11,
         validators=[is_mobile_phone_number],
         unique=True)
     # email = models.EmailField(
@@ -67,6 +69,8 @@ class User(auth_models.AbstractBaseUser,
         help_text=_('Designates whether this user should be treated as '
                     'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(_('last login'),
+        default=timezone.now)
 
     USERNAME_FIELD = 'username'
     objects = UserManager()
@@ -74,6 +78,7 @@ class User(auth_models.AbstractBaseUser,
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
+        db_table = 'user'
 
     # def get_full_name(self):
     #     full_name = '%s %s' % (self.first_name, self.last_name)

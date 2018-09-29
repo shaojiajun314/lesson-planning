@@ -1,3 +1,4 @@
+#!coding:utf-8
 """
 Django settings for education project.
 
@@ -58,6 +59,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 取消强行验证
+    'education.lib.middleware.APIMiddleware'
 ]
 
 ROOT_URLCONF = 'education.urls'

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 #python
 from __future__ import unicode_literals
-from json import loads
 
 #django
-from django.shortcuts import render
 from django.http import JsonResponse
 
 #rest
 from rest_framework.views import APIView
+
+#lib
+from education.lib.baseviews import BaseApiView
 
 #apps
 from education.catalogue.models import Category
@@ -16,19 +17,6 @@ from education.catalogue.serializers import CategorySerializer
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
     ExampleCreateForm, ExampleUpdateForm)
 # Create your views here.
-
-class BaseApiView(APIView):
-    def err_response(self, form):
-        res = {}
-        errs = loads(form.errors.as_json())
-        desc, code = [], []
-        for k, err in errs.items():
-            desc.append(err[0]['message'])
-            code.append(err[0]['code'])
-        res['msg'] = 'fail'
-        res['desc'] = desc
-        res['code'] = code
-        return res
 
 ################################################################################
 #                              分类                                            #
@@ -38,10 +26,10 @@ class BaseApiView(APIView):
 class UpdateCategoryView(BaseApiView):
     def post(self, request, *args, **kw):
         if kw.get('pk'):
-            form = CategoryUpdateForm(request.POST,
+            form = CategoryUpdateForm(request.data,
                 kw.get('pk'))
         else:
-            form = CategoryCreateForm(request.POST,
+            form = CategoryCreateForm(request.data,
                 kw.get('parent_pk'))
 
         if form.is_valid():
@@ -67,13 +55,10 @@ class CategoryView(APIView):
             'code': 0,
         }
         if not parent_pk:
-            print dir(Category)
             tree = Category.get_root_nodes()
-            print tree
             data = CategorySerializer(tree, many=True)
             res['data'] = data.data
             return JsonResponse(res, safe=False)
-            # return HttpResponse(JSONRenderer().render(tree))
         try:
             node = Category.objects.get(id=parent_pk)
             data = CategorySerializer(node.get_children(), many=True)
@@ -94,10 +79,10 @@ class UpdateExampleView(BaseApiView):
     def post(self, request, *args, **kw):
         # images = request.FILES.get("file", None)
         if kw.get('pk'):
-            form = ExampleUpdateForm(request.POST,
+            form = ExampleUpdateForm(request.data,
                 kw.get('pk'))
         else:
-            form = ExampleCreateForm(request.POST)
+            form = ExampleCreateForm(request.data)
         if form.is_valid():
             res = {
                 'msg': 'success',

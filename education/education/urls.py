@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from education.catalogue.apps import get_urls
+from education.catalogue.apps import get_urls as catalogue_urls
+from education.education_user.apps import get_urls as user_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^api/catalogue/', include(get_urls())),
+    url(r'^api/catalogue/', include(catalogue_urls())),
+    url(r'^api/user/', include(user_urls())),
 ]
