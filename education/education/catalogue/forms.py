@@ -7,22 +7,23 @@ from django.db import transaction
 #apps
 from education.catalogue.models import Category, Example
 
-# class UploadImageForm(forms.Form):
-#     img = fields.ImageField()
-#
-#     type_model_maps = {
-#         'category': Category,
-#         'example': Example
-#     }
-#
-#     def __init__(self, data, kw):
-#         self.type = kw['type']
-#         self.model = self.type_model_maps[self.type].objects.get(id=kw['pk'])
-#         print data, 21313131313
-#         print data['img']
-#         super(UploadImageForm, self).__init__(data)
-#     def clean(self):
-#         print self.cleaned_data
+class UploadImageForm(forms.Form):
+    img = fields.ImageField()
+
+    type_model_maps = {
+        'category': Category,
+        'example': Example
+    }
+
+    def __init__(self, data, files, kw):
+        self.type = kw['type']
+        self.model = self.type_model_maps[self.type].objects.get(id=kw['pk'])
+        print data, 21313131313
+        print data['img']
+        super(UploadImageForm, self).__init__(data, files=files)
+    def clean(self):
+        print self.cleaned_data
+        return self.cleaned_data
 
 
 class CategoryCreateForm(forms.Form):

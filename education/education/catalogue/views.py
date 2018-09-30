@@ -15,7 +15,7 @@ from education.lib.baseviews import BaseApiView
 from education.catalogue.models import Category, Example
 from education.catalogue.serializers import CategorySerializer
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
-    ExampleCreateForm, ExampleUpdateForm)
+    ExampleCreateForm, ExampleUpdateForm, UploadImageForm)
 # Create your views here.
 
 ################################################################################
@@ -28,35 +28,37 @@ class UploadImage(BaseApiView):
     }
 
     def post(self, request, *args, **kw):
-        img = request.data.get('img')
-        if not img:
-            return JsonResponse({
-                'code': 100,
-                'msg': 'no img',
-                'desc': '没有图片'
-            })
-        type = kw['type']
-        self.model = self.type_model_maps[type].objects.get(id=kw['pk'])
-        getattr(self, type)(img)
-        return JsonResponse({
-                'msg': 'success',
-                'desc': 'success',
-                'code': 0,
-            })
-        # print request.FILES
-        # form = UploadImageForm(request.data, kw)
-        # if form.is_valid():
-        #     res = {
+        # print request.data
+        # img = request.data.get('img')
+        # if not img:
+        #     return JsonResponse({
+        #         'code': 100,
+        #         'msg': 'no img',
+        #         'desc': '没有图片'
+        #     })
+        # type = kw['type']
+        # self.model = self.type_model_maps[type].objects.get(id=kw['pk'])
+        # getattr(self, type)(img)
+        # return JsonResponse({
         #         'msg': 'success',
         #         'desc': 'success',
         #         'code': 0,
-        #     }
-        #
-        #     form.save()
-        #     # res['data'] = UserInfoSerializer(form.user).data
-        # else:
-        #     res = self.err_response(form)
-        # return JsonResponse(res)
+        #     })
+
+        print request.FILES
+        form = UploadImageForm(request.data, request.FILES, kw)
+        if form.is_valid():
+            res = {
+                'msg': 'success',
+                'desc': 'success',
+                'code': 0,
+            }
+
+            form.save()
+            # res['data'] = UserInfoSerializer(form.user).data
+        else:
+            res = self.err_response(form)
+        return JsonResponse(res)
     def category(self, img):
         self.model.image_name = img.name
         self.model.image = img

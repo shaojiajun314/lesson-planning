@@ -35,7 +35,7 @@ create category
                 <input name="name" class="input" v-model="name" placeholder="输入新分类名称" type="text">
             </div>
             <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="imgInput">
-            
+
 
             <div class="input-div">
                 <label class="input-label">
@@ -50,6 +50,10 @@ create category
                     </div>
                 </div>
             </div>
+
+            <div class="button"v-on:click="upload_img(9)">
+                test
+            </dv>
 
             <div class="button"v-on:click="submit_input">
                 确定
