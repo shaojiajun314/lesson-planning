@@ -28,15 +28,16 @@ class UploadImageForm(forms.Form):
 
 class CategoryCreateForm(forms.Form):
     name = fields.CharField(required=True, max_length=16)
+    img = fields.ImageField(required=False)
     # ancestor_id = fields.IntegerField(required=False)
 
     ancestor_node = None
     # image = fields.ImageField(required=True)
 
-    def __init__(self, data, ancestor_id):
+    def __init__(self, data, file, ancestor_id):
         print ancestor_id
         self.ancestor_id = ancestor_id
-        super(CategoryCreateForm, self).__init__(data)
+        super(CategoryCreateForm, self).__init__(data, files=file)
 
     def clean(self):
         if self.ancestor_id:
@@ -48,15 +49,17 @@ class CategoryCreateForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
+        image_name = None
+        if self.cleaned_data['img']:
+            image_name = self.cleaned_data['img'].name
+        agrs = {
+            'name': self.cleaned_data['name'],
+            'image_name': image_name,
+            'image': self.cleaned_data['img']
+        }
         if not self.ancestor_node:
-            print self.cleaned_data
-            return Category.add_root(**{
-                'name': self.cleaned_data['name']
-            })
-        return self.ancestor_node.add_child(**{
-                'name': self.cleaned_data['name']
-            })
-            # print dir(Category)
+            return Category.add_root(**agrs)
+        return self.ancestor_node.add_child(**agrs)
 
 class CategoryUpdateForm(forms.Form):
     name = fields.CharField(required=True, max_length=16)

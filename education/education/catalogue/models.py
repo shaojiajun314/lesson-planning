@@ -18,7 +18,9 @@ class Category(MP_Node):
         null=True,
         max_length=255)
     image_name = models.CharField(_('Image Name'),
-        max_length=64)
+        max_length=64,
+        blank=True,
+        null=True,)
 
 
 class Example(models.Model):
@@ -39,7 +41,9 @@ class ExampleImage(models.Model):
         null=True,
         max_length=255)
     image_name = models.CharField(_('Image Name'),
-        max_length=64)
+        max_length=64,
+        blank=True,
+        null=True,)
 
 class Answer(models.Model):
     example = models.ForeignKey(
@@ -61,6 +65,12 @@ class AnswerImage(models.Model):
         on_delete=models.CASCADE,
         related_name='images',)
 
-    image = EDUImageField(_('Image'), upload_to='example', blank=True,
-    null=True, max_length=255)
-    image_name = models.CharField(_('Image Name'), max_length=64)
+    image = EDUImageField(_('Image'),
+        upload_to='example',
+        blank=True,
+        null=True,
+        max_length=255)
+    image_name = models.CharField(_('Image Name'),
+        max_length=64,
+        blank=True,
+        null=True,)

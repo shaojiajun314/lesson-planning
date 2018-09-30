@@ -73,9 +73,11 @@ class UpdateCategoryView(BaseApiView):
     def post(self, request, *args, **kw):
         if kw.get('pk'):
             form = CategoryUpdateForm(request.data,
+                request.FILES, 
                 kw.get('pk'))
         else:
             form = CategoryCreateForm(request.data,
+                request.FILES,
                 kw.get('parent_pk'))
 
         if form.is_valid():

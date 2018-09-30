@@ -34,6 +34,7 @@ create category
                 </label>
                 <input name="name" class="input" v-model="name" placeholder="输入新分类名称" type="text">
             </div>
+
             <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="imgInput">
 
 
@@ -43,19 +44,24 @@ create category
                 </label>
                 <input name="parent" v-model="parent_category.name" v-on:focus="get_category_root" class="input" placeholder="输入新分类名称" type="text">
             </div>
-            <div class="category-create" v-for="(category_item, category_index) in category">
+            <div class="category-create" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
                 <div class="category_root_list" v-if="category_item.length > 0">
-                    <div v-for="(item, index) in category_item" class="item" v-on:blur="clean_category"  tabindex="0" v-on:mouseover="get_category(item.id, category_index)" v-on:click="input_parent(item.id, item.name)">
+                    <div v-for="(item, index) in category_item" class="item"
+                        v-on:blur="clean_category"  tabindex="0"
+                        v-on:mouseover="get_category(item.id, category_index)"
+                        v-on:click="input_parent(item.id, item.name)">
                         {{item.name}}
                     </div>
                 </div>
             </div>
-
-            <div class="button"v-on:click="upload_img(9)">
-                test
-            </dv>
-
-            <div class="button"v-on:click="submit_input">
+            <div class="cancel_parent_button button"
+                v-if="category.length > 0 || parent_category.id"
+                :style="'top:' + ((category.length && category[0].length) * 36 + 130) + 'px'"
+                v-on:click="cancel_parent"
+                >
+                取消父级
+            </div>
+            <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
                 确定
             </dv>
 
