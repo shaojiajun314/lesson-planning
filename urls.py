@@ -13,8 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf import settings
 from django.contrib import admin
+from django.views.static import serve
+from django.conf.urls import url, include
+
 
 from education.catalogue.apps import get_urls as catalogue_urls
 from education.education_user.apps import get_urls as user_urls
@@ -24,4 +27,5 @@ urlpatterns = [
 
     url(r'^api/catalogue/', include(catalogue_urls())),
     url(r'^api/user/', include(user_urls())),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ]

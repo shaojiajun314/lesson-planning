@@ -1,5 +1,3 @@
-create category
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -49,8 +47,11 @@ create category
                     <div v-for="(item, index) in category_item" class="item"
                         v-on:blur="clean_category"  tabindex="0"
                         v-on:mouseover="get_category(item.id, category_index)"
-                        v-on:click="input_parent(item.id, item.name)">
-                        {{item.name}}
+                        v-on:click="input_parent(item.id, item.name, category_index, index)">
+                        <img :src="item.image" />
+                        <span class="name">
+                            {{item.name}}
+                        </span>
                     </div>
                 </div>
             </div>

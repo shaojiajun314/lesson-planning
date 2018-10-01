@@ -40,6 +40,17 @@ body {
     text-align: center;
     cursor: pointer;
     border-top: 1px dashed #eee;
+    display: inline-block;
+}
+.category-create img{
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin-top: 3px
+}
+.category-create .name{
+    float: left;
+    margin-left: 20px
 }
 .cancel_parent_button {
     position: absolute;

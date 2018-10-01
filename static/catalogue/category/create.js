@@ -5,9 +5,7 @@ new Vue({
         name:'',
         parent_category: {name:'', id: null},
         img:null,
-
-        // XXX:
-        key: false
+        current_category_lead: [],
     },
     methods: {
         get_category_root: function(){
@@ -43,23 +41,27 @@ new Vue({
 
         },
         clean_category: function() {
-            // console.log('blur');
-            // var that = this;
-            // setTimeout(function(){
-            //     console.log(that.key);
-            //     if(that.key){
-            //         that.key = false
-            //     }else {
-            //         that.category = []
-            //     }
-            // }, 100)
             this.category = []
         },
-        input_parent: function(id, name){
-            // console.log('click');
-            // console.log(this.key);
-            // this.key = true;
-            this.parent_category = {name:name, id:id}
+        input_parent: function(id, name, root_index, index){
+            var parent = this.category[root_index][index]
+            var path = parent.path
+            var current_category_lead = []
+            var tmp_category
+            while(root_index>=0){
+                tmp_category = this.category[root_index]
+                for(var i=0; i<tmp_category.length; i++){
+                    if(tmp_category[i].path == path){
+                        current_category_lead.push(tmp_category[i].name)
+                        path = tmp_category[i].path.slice(0, -4)
+                    }
+                }
+                root_index--
+            }
+            current_category_lead.reverse()
+            this.parent_category = {name:current_category_lead.join(' -> '), id:id}
+
+            this.clean_category()
         },
         submit_input: function(){
             if(!this.name){

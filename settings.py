@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import posixpath
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -135,6 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# static
 STATIC_URL = '/static/'
 STATIC_ROOT = posixpath.join(BASE_DIR, 'share', 'static')
 STATICFILES_DIRS = (
@@ -142,6 +144,8 @@ STATICFILES_DIRS = (
     posixpath.join(BASE_DIR, 'static'),
 )
 
+# media
+MEDIA_URL = '/media/'
 MEDIA_ROOT = posixpath.join(BASE_DIR, 'var', 'media')
 
 AUTH_USER_MODEL='education_user.User'
