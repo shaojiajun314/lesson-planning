@@ -57,8 +57,7 @@ create category
             <div class="cancel_parent_button button"
                 v-if="category.length > 0 || parent_category.id"
                 :style="'top:' + ((category.length && category[0].length) * 36 + 130) + 'px'"
-                v-on:click="cancel_parent"
-                >
+                v-on:click="cancel_parent">
                 取消父级
             </div>
             <div class="button"　v-on:click="submit_input" v-if="category.length == 0">

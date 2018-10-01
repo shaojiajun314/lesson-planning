@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
 
-    'tools',
+    'education.tools',
     # education
     'education.education_user',
     'education.catalogue',
@@ -137,11 +137,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = posixpath.join(BASE_DIR, 'share', 'static')
-
 STATICFILES_DIRS = (
     posixpath.join(BASE_DIR, 'education', 'static'),
     posixpath.join(BASE_DIR, 'static'),
 )
 
+MEDIA_ROOT = posixpath.join(BASE_DIR, 'var', 'media')
 
 AUTH_USER_MODEL='education_user.User'
