@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 #python
 from __future__ import unicode_literals
+import docx
+from docx.shared import Inches
 
 #django
-from django.http import JsonResponse
+from django.utils import timezone
+from django.http import JsonResponse, StreamingHttpResponse, HttpResponse, FileResponse
+from django.utils.six import StringIO
 
 #rest
 from rest_framework.views import APIView
@@ -132,3 +136,81 @@ class ExampleView(BaseApiView):
         res['data'] = {'examples': data.data,
             'next_link': page.get_next_link()}
         return JsonResponse(res, safe=False)
+
+class DocxView(BaseApiView):
+    file_word = docx.Document()
+    IObuf = StringIO()
+    def get(self, request, *args, **kw):
+        # example_id_list = request.get('example_ids', '').split('_')
+        # examples = Example.objects.filter(id__in=example_id_list)
+        examples = Example.objects.all()
+        self.examples = examples
+        self.write_heading()
+        self.write_example()
+        self.file_word.add_section()
+        self.write_answer_heading()
+        self.write_answer()
+        zbuf = StringIO()
+        self.file_word.save(zbuf)
+        response = HttpResponse(zbuf.getvalue(),content_type='application/msword')
+        response['Content-Disposition'] = 'attachment;filename=%s.doc' \
+            % self.file_name
+        return response
+
+    def get_file_name(self):
+        self.file_name = timezone.now().strftime('%Y-%m-%d %H:%M:%S ') + 'examples'
+        return self.file_name
+
+    def write_heading(self):
+        head = self.get_file_name()
+        self.file_word.add_heading(head, 0)
+
+    def write_answer_heading(self):
+        self.file_word.add_heading('答案', 0)
+
+    def write_example(self):
+        for index, e in enumerate(self.examples):
+            self.file_word.add_paragraph(''.join((str(index + 1), ': ',  e.content)))
+            self.write_images(e.images.all())
+            # 一题空1行
+            self.file_word.add_paragraph('')
+
+    def write_answer(self):
+        for index, e in enumerate(self.examples):
+            self.file_word.add_paragraph(''.join(('题', str(index + 1), ': ')))
+            self.write_answer_of_example(e.answers.all())
+            # 一题空1行
+            self.file_word.add_paragraph('')
+
+    def write_answer_of_example(self, answer_qs):
+        for index, a in enumerate(answer_qs):
+            self.file_word.add_paragraph(''.join(('　　解法', str(index + 1),
+                ': ',
+                a.answer)))
+            self.write_images(a.images.all())
+
+    def write_images(self, images_qs):
+        for i, img in enumerate(images_qs):
+            #　一行四图
+            if (i+1) % 4 == 1:
+                pic_name_list = [' ' * 7, ] # 首行全角空三格对齐图片
+                pic_paragraph = self.file_word.add_paragraph().add_run()
+            self.IObuf.write(img.image.read())
+            pic = pic_paragraph.add_picture(self.IObuf,
+                width=Inches(1.0),
+                height=Inches(1.0))
+            self.IObuf.truncate()
+
+            # XXX:
+            pic_name_list.append(('图' + str(i+1)))
+            # 四图后换行插入每个图片名称
+            if (i+1) % 4 == 0:
+                pic_paragraph = self.file_word.add_paragraph()
+                for img_name in pic_name_list:
+                    pic_paragraph.add_run(img_name)
+            else:
+                pic_name_list.append(' ' * 13) # 每张图片名称间距七个对齐图片
+        if len(pic_name_list) != 1:
+            pic_paragraph = self.file_word.add_paragraph()
+            for img_name in pic_name_list:
+                pic_paragraph.add_run(img_name)
