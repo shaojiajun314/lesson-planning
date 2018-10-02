@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+query
 <html>
 <head>
     <meta charset="utf-8">
@@ -27,9 +27,9 @@
     </a>
 </div>
 
-<div id="category">
+<div id="example-query">
     <div class="title">
-        立即查题
+        选择分类
     </div>
     <!-- <div class="category-list-content" :style="'height:' + (category.length && ((category.length && category[0].length) * 36 + 70)) + 'px'"> -->
         <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
@@ -48,8 +48,8 @@
     <!-- </div> -->
 </div>
 
-<link rel="stylesheet" href="/static/catalogue/index.css"></link>
-<script src="/static/catalogue/index.js"></script>
+<link rel="stylesheet" href="/static/catalogue/example/query/query.css"></link>
+<script src="/static/catalogue/example/query/query.js"></script>
 
 </body>
 </html>

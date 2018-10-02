@@ -93,6 +93,8 @@ class ExampleCreateForm(BaseMultiImagesForm):
             example = self.category.examples.create(
                 content=self.cleaned_data['content']
             )
+            for cate in self.category.get_ancestors():
+                example.categories.add(cate)
             for k, v in self.cleaned_data.items():
                 if k.startswith('content_img'):
                     example.images.create(

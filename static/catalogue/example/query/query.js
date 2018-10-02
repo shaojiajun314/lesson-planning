@@ -1,5 +1,5 @@
 new Vue({
-    el: '#category',
+    el: '#example-query',
     data: {
         category: [],
         clean_key: true

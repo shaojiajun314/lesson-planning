@@ -1,5 +1,6 @@
 body {
     background: #f5f5f5;
+    /*  test*/
 }
 
 .nav{
@@ -18,8 +19,8 @@ body {
 }
 
 /* category */
-#category{
-    width: 100%
+#example-query{
+    position: fixed;
 }
 .category-list{
     width: 200px;

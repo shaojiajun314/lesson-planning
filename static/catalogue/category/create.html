@@ -1,4 +1,4 @@
-cancel_category_button<html>
+<html>
 <head>
     <meta charset="utf-8">
     <title>EDU测试版</title>
@@ -12,13 +12,16 @@ cancel_category_button<html>
 <body>
 
 <div class="nav">
-    <a class="item">
+    <a class="item" href="/static/catalogue/index.html">
             首页
+    </a>
+    <a class="item" href="/static/catalogue/example/query/query.html">
+            查题
     </a>
     <a class="item" href="/static/catalogue/category/create.html">
             创建分类
     </a>
-    <a class="item" href="/static/catalogue/example/create.html">
+    <a class="item" href="/static/catalogue/example/create/create.html">
             创建题目
     </a>
 </div>
@@ -58,8 +61,7 @@ cancel_category_button<html>
                 <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
                     <div class="category_root_list" v-if="category_item.length > 0">
                         <div v-for="(item, index) in category_item" class="item"
-                            v-on:blur="clean_category"  tabindex="0"
-                            v-on:mouseover="get_category(item.id, category_index)"
+                            v-on:mouseenter="get_category(item.id, category_index)"
                             v-on:click="input_category(item.id, category_index, index)">
                             <img :src="item.image" />
                             <span class="name">
