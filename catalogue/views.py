@@ -7,16 +7,28 @@ from django.http import JsonResponse
 
 #rest
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 #lib
 from education.lib.baseviews import BaseApiView
 
 #apps
 from education.catalogue.models import Category, Example
-from education.catalogue.serializers import CategorySerializer
+from education.catalogue.serializers import CategorySerializer, ExampleSerializer
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
     ExampleCreateForm, ExampleUpdateForm)
 # Create your views here.
+################################################################################
+#                              分页                                            #
+################################################################################
+
+class Page(PageNumberPagination):
+    # 每页显示的数据条数
+    max_page_size = 30
+    page_size = 1
+    page_size_query_param = 'size'
+    # 页码
+    page_query_param = 'page'
 
 ################################################################################
 #                              分类                                            #
@@ -97,7 +109,26 @@ class UpdateExampleView(BaseApiView):
             res = self.err_response(form)
         return JsonResponse(res)
 
-# 题目分类更新
-class UpdateExampleCategoryView(BaseApiView):
-    def post(self, request, *args, **kw):
-        pass
+# 获取题目列表
+class ExampleView(BaseApiView):
+    def get(self, request, *args, **kw):
+        res = {
+            'msg': 'success',
+            'desc': 'success',
+            'code': 0,
+        }
+        category_pk = kw.get('category_pk')
+        if category_pk:
+            manager = Category.objects.get(id=category_pk).examples
+        else:
+            manager = Example.objects
+
+        # 用于之后过滤数据 暂时没用
+        example_qs = manager.all()
+        page = Page()
+        page_data = page.paginate_queryset( \
+            queryset=example_qs, request=request, view=self)
+        data = ExampleSerializer(page_data, many=True)
+        res['data'] = {'examples': data.data,
+            'next_link': page.get_next_link()}
+        return JsonResponse(res, safe=False)

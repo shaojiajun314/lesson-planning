@@ -1,4 +1,3 @@
-query
 <html>
 <head>
     <meta charset="utf-8">
@@ -27,7 +26,7 @@ query
     </a>
 </div>
 
-<div id="example-query">
+<div id="category">
     <div class="title">
         选择分类
     </div>
@@ -46,6 +45,61 @@ query
             </div>
         </div>
     <!-- </div> -->
+</div>
+
+<div id="example-list">
+    <div class="example" v-for="(example_item, example_index) in examples">
+
+        <div class="example-container">
+            <div class="content">
+                {{example_index + 1}}: {{example_item.content}}
+            </div>
+
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td valign="top" width="189" v-for="(content_img, content_img_index) in example_item.images">
+                            <img height="80" width="88" :src="content_img.image">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr v-if="answer_key_list.indexOf(example_index) != -1">
+        </hr>
+        <div class="answer-container" v-for="(answer_item, answer_index) in example_item.answers"
+            v-if="answer_key_list.indexOf(example_index) != -1">
+            答案{{answer_index + 1}}:
+            <div class="content">
+                {{answer_item.answer}}
+            </div>
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td valign="top" width="189" v-for="(answer_img, answer_img_index) in answer_item.images">
+                            <img height="80" width="88" :src="answer_img.image">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="msg">
+            <div class="button">
+                选题
+            </div>
+            <div class="answer-visible" v-on:click="change_answer_key(example_index)"
+             v-if="answer_key_list.indexOf(example_index) == -1">
+                查看答案
+            </div>
+        </div>
+
+    </div>
+
+    <div class="next-link" v-on:click="get_examples()">
+        下一页
+    </div>
+
 </div>
 
 <link rel="stylesheet" href="/static/catalogue/example/query/query.css"></link>

@@ -11,4 +11,5 @@ const api = {
     CreateCategory: ApiRootUrl + 'catalogue/category/{parent_id}create/',
 
     CreateExample: ApiRootUrl + 'catalogue/example/create/',
+    Examples: ApiRootUrl + 'catalogue/category/{category_pk}examples/list/',
 }

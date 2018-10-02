@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.apps import AppConfig
 
 from education.catalogue.views import (UpdateCategoryView, CategoryView,
-    UpdateExampleView)
+    UpdateExampleView, ExampleView)
 
 class CatalogueConfig(AppConfig):
     name = 'catalogue'
@@ -29,6 +29,9 @@ def get_urls():
         ),
         url(r'example/(?P<pk>\d+)/update/$',
             UpdateExampleView.as_view(),
+        ),
+        url(r'category/(?:(?P<category_pk>\d+)/)?examples/list/$',
+            ExampleView.as_view(),
         ),
 
 

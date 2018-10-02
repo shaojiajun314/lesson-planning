@@ -1,5 +1,19 @@
-new Vue({
-    el: '#example-query',
+var GetRequest = function() {
+   var url = location.search; //获取url中"?"符后的字串
+   var theRequest = {}
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+var category_id = GetRequest().category_id;
+
+var category = new Vue({
+    el: '#category',
     data: {
         category: [],
         clean_key: true
@@ -38,8 +52,11 @@ new Vue({
                 });
 
         },
-        query_example: function(example_id){
-            console.log(example_id);
+        query_example: function(category_id){
+            examples_list.examples = []
+            examples_list.answer_key_list = []
+            examples_list.next_link = api.Examples.replace(/{category_pk}/, (category_id + '/'))
+            examples_list.get_examples()
         },
         clean_category: function(){
             this.clean_key = true
@@ -51,4 +68,52 @@ new Vue({
             }, 300)
         }
     }
+})
+
+var examples_list = new Vue({
+    el: '#example-list',
+    data: {
+        examples: [],
+        next_link: null,
+        answer_key_list: []
+    },
+    created: function () {
+        if(category_id){
+            category_pk = category_id + '/' // url 请求拼接
+        }else {
+            category_pk = ''
+        }
+        this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
+        this.get_examples()
+    },
+    methods: {
+        get_examples: function(){
+            if(! this.next_link){
+                alert('没有更多了')
+                return;
+            }
+            this.$http.get(this.next_link).then(function(res){
+                    var result = res.body
+                    console.log(result);
+                    if(result.code === 0){
+                        this.next_link = result.data.next_link;
+                        this.examples = this.examples.concat(result.data.examples)
+                        console.log(this.examples);
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+        },
+        change_answer_key: function(example_index) {
+            var i = this.answer_key_list.indexOf(example_index)
+            if( i< 0){
+                this.answer_key_list.push(example_index)
+            }else {
+                this.answer_key_list.splice(i, 1)
+            }
+            // this.$set(examples[example_index]., !this.examples[example_index].answer_key);
+        },
+    },
 })

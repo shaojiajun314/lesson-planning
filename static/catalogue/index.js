@@ -38,8 +38,8 @@ new Vue({
                 });
 
         },
-        query_example: function(example_id){
-            console.log(example_id);
+        query_example: function(category_id){
+            window.location.href = '/static/catalogue/example/query/query.html?category_id=' + category_id
         },
         clean_category: function(){
             this.clean_key = true

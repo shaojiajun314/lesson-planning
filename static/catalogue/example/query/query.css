@@ -19,7 +19,7 @@ body {
 }
 
 /* category */
-#example-query{
+#category{
     position: fixed;
 }
 .category-list{
@@ -66,4 +66,85 @@ body {
 .category-list .name{
     float: left;
     margin-left: 20px
+}
+
+
+
+#example-list{
+    margin: 20px 50px 0 230px
+}
+.example{
+    background: #fff;
+    margin-bottom: 10px;
+}
+.example .example-container{
+    padding: 20px 20px 0 20px;
+    line-height: 24px;
+    color: #333;
+    font-size: 14px;
+}
+.example .example-container .content{
+    margin-bottom: 10px;
+}
+.example .example-container table{
+    margin-bottom: 10px;
+}
+
+.example .answer-container{
+    padding: 5px 20px 0 20px;
+    line-height: 24px;
+    color: #333;
+    font-size: 14px;
+}
+.example .answer-container  .content{
+    margin-bottom: 10px;
+}
+.example .answer-container table{
+    margin-bottom: 10px;
+}
+
+.example .msg{
+    padding: 0 20px;
+    height: 50px;
+    font-size: 12px;
+    border-top: 1px solid #f5f5f5;
+}
+.example .msg .answer-visible{
+    display: inline-block;
+    float: right;
+    height: 20px;
+    margin-top: 15px;
+    line-height: 20px;
+    margin-right: 25px;
+    font-size: 10px;
+    color: #52c684;
+    border-bottom: 1px solid;
+    cursor: pointer;
+}
+
+.button{
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    background: #52c684;
+    border-radius: 5px;
+    border: none;
+    float: right;
+    cursor: pointer;
+    margin-top: 10px
+}
+
+.next-link{
+    float: right;
+    height: 20px;
+    margin-top: 15px;
+    line-height: 20px;
+    margin-right: 25px;
+    font-size: 10px;
+    color: #52c684;
+    border-bottom: 1px solid;
+    cursor: pointer;
 }
