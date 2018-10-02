@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EDU测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="nav">
+    <a class="item" href="/static/catalogue/index.html">
+            首页
+    </a>
+    <a class="item" href="/static/catalogue/example/query/query.html">
+            查题
+    </a>
+    <a class="item" href="/static/catalogue/category/create.html">
+            创建分类
+    </a>
+    <a class="item" href="/static/catalogue/example/create/create.html">
+            创建题目
+    </a>
+</div>
+
+<div id="category-create">
+    <div class="form">
+        <form>
+            <div class="input-div">
+                <label class="input-label">
+                    名称
+                </label>
+                <input name="name" class="input" v-model="name" placeholder="输入新分类名称" type="text">
+            </div>
+
+
+            <div class="file-extra">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        图片上传
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="imgInput">
+                </div>
+            </div>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    父级分类
+                </label>
+                <div name="parent" tabindex="0" v-on:focus="get_category_root" class="input disabale-input">
+                    {{current_category.name || "输入新分类名称"}}
+                </div>
+            </div>
+
+            <div class="category-list-content" :style="'height:' + (category.length && ((category.length && category[0].length) * 36 + 70)) + 'px'">
+                <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+                    <div class="category_root_list" v-if="category_item.length > 0">
+                        <div v-for="(item, index) in category_item" class="item"
+                            v-on:mouseenter="get_category(item.id, category_index)"
+                            v-on:click="input_category(item.id, category_index, index)">
+                            <img :src="item.image" />
+                            <span class="name">
+                                {{item.name}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cancel_category_button button"
+                    v-if="category.length > 0 || current_category.id"
+                    :style="'top:' + ((category.length && category[0].length) * 36) + 'px'"
+                    v-on:click="cancel_input_category">
+                    取消父级
+                </div>
+            </div>
+
+            <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
+                确定
+            </dv>
+
+        </form>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="/static/catalogue/category/create.css"></link>
+<script src="/static/catalogue/category/create.js"></script>
+
+</body>
+</html>
