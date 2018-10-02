@@ -13,7 +13,7 @@ class Category(MP_Node):
     name = models.CharField(_('Name'),
         max_length=64)
     image = EDUImageField(_('Image'),
-        upload_to='categories',
+        upload_to='images/categories',
         blank=True,
         null=True,
         max_length=255)
@@ -36,7 +36,7 @@ class ExampleImage(models.Model):
         related_name='images',)
 
     image = EDUImageField(_('Image'),
-        upload_to='example',
+        upload_to='images/example',
         blank=True,
         null=True,
         max_length=255)
@@ -66,7 +66,7 @@ class AnswerImage(models.Model):
         related_name='images',)
 
     image = EDUImageField(_('Image'),
-        upload_to='example',
+        upload_to='images/example',
         blank=True,
         null=True,
         max_length=255)
