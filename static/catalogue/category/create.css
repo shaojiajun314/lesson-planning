@@ -21,20 +21,24 @@ body {
 #category-create{
     width: 100%
 }
-.category-create{
+
+.category-list-content{
+    position: absolute;
+    width: 500px;
+    background: #f5f5f5;
+}
+.category-list-content .category-list{
     width: 160px;
     background: #fff;
     line-height: 35px;
     font-size: 14px;
     position: absolute;
 }
-
-
-.category-create .category_root_list{
+.category-list .category_root_list{
     width: 156px;
     border: 2px solid #2bbb61;
 }
-.category-create .item{
+.category-list .item{
     width: 120px;
     margin-left: 18px;
     text-align: center;
@@ -42,17 +46,17 @@ body {
     border-top: 1px dashed #eee;
     display: inline-block;
 }
-.category-create img{
+.category-list img{
     width: 30px;
     height: 30px;
     float: left;
     margin-top: 3px
 }
-.category-create .name{
+.category-list .name{
     float: left;
     margin-left: 20px
 }
-.cancel_parent_button {
+.cancel_category_button {
     position: absolute;
 }
 
@@ -90,6 +94,10 @@ form .input-label{
     display: inline-block;
     text-align: center;
 }
+form .disabale-input-label{
+    height: 34px;
+    line-height: 34px;
+}
 form .input-div{
     border: 1px solid #2bbb61;
     -webkit-border-radius: 5px;
@@ -97,10 +105,28 @@ form .input-div{
     border-radius: 5px;
     overflow: hidden;
     background: #2bbb61;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    height: 34px;
 }
 
-form input[name="img"]{
+form .input-div-only-label{
+    width: 64px;
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+    float: left;
+}
+
+form .file-extra{
+    display: inline-block;
+}
+
+form .input-div-img{
+    float: left;
+    height: 36px;
+    padding: 5px 0 0 10px;
+}
+
+form .input-div-img input[name="img"]{
     margin-bottom: 10px
 }
 
@@ -111,4 +137,13 @@ form .input-div .input{
     padding: 8px 0 8px 10px;
     border: 0;
     background: #fff;
+}
+
+form .input-div .disabale-input{
+    width: 420px;
+    height: 18px;
+    float: right;
+    cursor: text;
+    font-size: 14px;
+    line-height: 18px;
 }

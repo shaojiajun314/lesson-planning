@@ -1,4 +1,4 @@
-create example
+input_categorycreate example
 <html>
 <head>
     <meta charset="utf-8">
@@ -22,6 +22,88 @@ create example
     <a class="item" href="/static/catalogue/example/create.html">
             创建题目
     </a>
+</div>
+
+<div id="example-create">
+    <div class="form">
+        <form>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    分类
+                </label>
+                <div name="parent" tabindex="0" v-on:focus="get_category_root" class="input disabale-input">
+                    {{current_category.name || "选择分类"}}
+                </div>
+            </div>
+            <div class="category-list-content" v-if="category.length > 0" :style="'height:' + ((category.length && category[0].length) * 36 + 70) + 'px'">
+                <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+                    <div class="category_root_list" v-if="category_item.length > 0">
+                        <div v-for="(item, index) in category_item" class="item"
+                            v-on:blur="clean_category"  tabindex="0"
+                            v-on:mouseover="get_category(item.id, category_index)"
+                            v-on:click="input_category(item.id, category_index, index)">
+                            <img :src="item.image" />
+                            <span class="name">
+                                {{item.name}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cancel_category_button button"
+                    v-if="category.length > 0 || current_category.id"
+                    :style="'top:' + ((category.length && category[0].length) * 36) + 'px'"
+                    v-on:click="cancel_input_category">
+                    取消分类
+                </div>
+            </div>
+
+            <div class="text-div">
+                <label class="text-label">
+                    题干
+                </label>
+                <textarea name="content" v-model="content" placeholder="输入题目内容" type="text">
+                </textarea>
+            </div>
+
+            <div class="file-extra" v-for="(item, index) in content_img_ctr">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        题目图{{index + 1}}
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img"
+                        accept="image/gif,image/jpeg,image/jpg,image/png"
+                        ref="contentImg" v-on:change="input_img(index, 'content')">
+                </div>
+            </div>
+
+            <div class="text-div">
+                <label class="text-label">
+                    答案
+                </label>
+                <textarea name="answer" v-model="answer" placeholder="输入题目答案" type="text">
+                </textarea>
+            </div>
+
+            <div class="file-extra" v-for="(item, index) in answer_img_ctr">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        答案图{{index + 1}}
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="answerImg" v-on:change="input_img(index, 'answer')">
+                </div>
+            </div>
+
+            <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
+                确定
+            </dv>
+
+        </form>
+    </div>
 </div>
 
 <link rel="stylesheet" href="/static/catalogue/example/create.css"></link>

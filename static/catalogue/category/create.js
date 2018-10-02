@@ -1,10 +1,10 @@
 new Vue({
     el: '#category-create',
     data: {
-        category: [],
         name:'',
-        parent_category: {name:'', id: null},
-        img:null,
+
+        category: [],
+        current_category: {name:'', id: null},
         current_category_lead: [],
     },
     methods: {
@@ -43,7 +43,7 @@ new Vue({
         clean_category: function() {
             this.category = []
         },
-        input_parent: function(id, name, root_index, index){
+        input_category: function(id, root_index, index){
             var parent = this.category[root_index][index]
             var path = parent.path
             var current_category_lead = []
@@ -59,17 +59,21 @@ new Vue({
                 root_index--
             }
             current_category_lead.reverse()
-            this.parent_category = {name:current_category_lead.join(' -> '), id:id}
+            this.current_category = {name:current_category_lead.join(' -> '), id:id}
 
             this.clean_category()
+        },
+        cancel_input_category: function(){
+            this.clean_category();
+            this.current_category = {name:'', id: null};
         },
         submit_input: function(){
             if(!this.name){
                 alert('请输入新分类名称')
                 return
             };
-            if(this.parent_category.id){
-                parent_id = this.parent_category.id + '/' //url拼接需要
+            if(this.current_category.id){
+                parent_id = this.current_category.id + '/' //url拼接需要
             }else {
                 parent_id = ''
             }
@@ -93,10 +97,6 @@ new Vue({
                 });
 
         },
-        cancel_parent: function(){
-            this.clean_category();
-            this.parent_category = {name:'', id: null};
-        }
 
     }
 })

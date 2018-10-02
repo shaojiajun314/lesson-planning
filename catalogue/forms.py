@@ -7,24 +7,9 @@ from django.db import transaction
 #apps
 from education.catalogue.models import Category, Example
 
-class UploadImageForm(forms.Form):
-    img = fields.ImageField()
-
-    type_model_maps = {
-        'category': Category,
-        'example': Example
-    }
-
-    def __init__(self, data, files, kw):
-        self.type = kw['type']
-        self.model = self.type_model_maps[self.type].objects.get(id=kw['pk'])
-        print data, 21313131313
-        print data['img']
-        super(UploadImageForm, self).__init__(data, files=files)
-    def clean(self):
-        print self.cleaned_data
-        return self.cleaned_data
-
+class BaseMultiImagesForm(forms.Form):
+    def add_image_field(self, field_name):
+        self.fields[field_name] = fields.ImageField(required=True)
 
 class CategoryCreateForm(forms.Form):
     name = fields.CharField(required=True, max_length=16)
@@ -35,7 +20,6 @@ class CategoryCreateForm(forms.Form):
     # image = fields.ImageField(required=True)
 
     def __init__(self, data, file, ancestor_id):
-        print ancestor_id
         self.ancestor_id = ancestor_id
         super(CategoryCreateForm, self).__init__(data, files=file)
 
@@ -87,10 +71,15 @@ class CategoryUpdateForm(forms.Form):
         self.this_node.save()
         return self.this_node
 
-class ExampleCreateForm(forms.Form):
+class ExampleCreateForm(BaseMultiImagesForm):
     category_id = fields.IntegerField(required=True)
     content = fields.CharField(required=True, max_length=512)
     answer = fields.CharField(required=True, max_length=512)
+
+    def __init__(self, data, files):
+        super(ExampleCreateForm, self).__init__(data, files=files)
+        for file_name in files:
+            self.add_image_field(file_name)
 
     def clean_category_id(self):
         try:
@@ -104,12 +93,26 @@ class ExampleCreateForm(forms.Form):
             example = self.category.examples.create(
                 content=self.cleaned_data['content']
             )
-            example.answers.create(
+            for k, v in self.cleaned_data.items():
+                if k.startswith('content_img'):
+                    example.images.create(
+                        image=v,
+                        image_name=v.name
+                    )
+
+            ans = example.answers.create(
                 answer=self.cleaned_data['answer']
             )
+            for k, v in self.cleaned_data.items():
+                if k.startswith('answer_img'):
+                    ans.images.create(
+                        image=v,
+                        image_name=v.name
+                    )
+
             return example
 
-class ExampleUpdateForm(forms.Form):
+class ExampleUpdateForm(BaseMultiImagesForm):
     content = fields.CharField(required=True, max_length=512)
 
     def __init__(self, data, this_example_id):
