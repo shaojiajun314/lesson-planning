@@ -18,13 +18,14 @@ from django.contrib import admin
 from django.views.static import serve
 from django.conf.urls import url, include
 
-
+from education.index_views import IndexRedirctView
 from education.catalogue.apps import get_urls as catalogue_urls
 from education.education_user.apps import get_urls as user_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
+    url(r'^$', IndexRedirctView.as_view()),
     url(r'^api/catalogue/', include(catalogue_urls())),
     url(r'^api/user/', include(user_urls())),
     url(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
