@@ -48,6 +48,19 @@
 </div>
 
 <div id="example-list">
+    <div class="title">
+        <div v-on:click="download_docx" class="assembly button download" v-if="is_assembly">
+            下载
+        </div>
+
+        <div class="start-assembly assembly button" v-if="!is_assembly" v-on:click="change_assembly()">
+            开始组卷
+        </div>
+        <div class="cancel-assembly assembly button" v-if="is_assembly" v-on:click="change_assembly()">
+            取消组卷
+        </div>
+    </div>
+
     <div class="example" v-for="(example_item, example_index) in examples">
 
         <div class="example-container">
@@ -85,9 +98,14 @@
         </div>
 
         <div class="msg">
-            <div class="button">
+
+            <div class="button" v-if="is_assembly && assembled_example.indexOf(example_item.id) == -1" v-on:click="change_assembly_checked(example_item.id)">
                 选题
             </div>
+            <div class="button example_assemble_cancel" v-if="is_assembly && assembled_example.indexOf(example_item.id) != -1" v-on:click="change_assembly_checked(example_item.id)">
+                取消
+            </div>
+
             <div class="answer-visible" v-on:click="change_answer_key(example_index)"
              v-if="answer_key_list.indexOf(example_index) == -1">
                 查看答案

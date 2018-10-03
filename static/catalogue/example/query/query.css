@@ -29,7 +29,7 @@ body {
     display: inline-flex;
     margin-right: 2px;
 }
-.title{
+#category .title{
     width: 200px;
 
     line-height: 40px;
@@ -72,6 +72,25 @@ body {
 
 #example-list{
     margin: 20px 50px 0 230px
+}
+#example-list .title{
+    background: #fff;
+    margin-bottom: 15px;
+    height: 35px;
+}
+#example-list .title .assembly{
+    display: inline-block;
+    height: 29px;
+    line-height: 29px;
+    margin-top: 3px;
+    border-radius: unset
+}
+#example-list .title .cancel-assembly{
+    background: #e72b2b;
+}
+#example-list .title .download{
+    float: left;
+    background: #e72b2b;
 }
 .example{
     background: #fff;
@@ -121,6 +140,9 @@ body {
     border-bottom: 1px solid;
     cursor: pointer;
 }
+.example .msg .example_assemble_cancel{
+    background: #e72b2b;
+}
 
 .button{
     width: 80px;
@@ -136,6 +158,8 @@ body {
     cursor: pointer;
     margin-top: 10px
 }
+
+
 
 .next-link{
     float: right;

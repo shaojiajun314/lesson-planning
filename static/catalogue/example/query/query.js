@@ -70,12 +70,15 @@ var category = new Vue({
     }
 })
 
+var example_assemble_limit = 60;// 每次选题
 var examples_list = new Vue({
     el: '#example-list',
     data: {
         examples: [],
         next_link: null,
-        answer_key_list: []
+        answer_key_list: [],
+        is_assembly: false,
+        assembled_example: []
     },
     created: function () {
         if(category_id){
@@ -115,5 +118,32 @@ var examples_list = new Vue({
             }
             // this.$set(examples[example_index]., !this.examples[example_index].answer_key);
         },
+
+        change_assembly: function(){
+            this.is_assembly = !this.is_assembly
+            this.assembled_example = []
+        },
+        change_assembly_checked: function(example_id){
+            var i = this.assembled_example.indexOf(example_id)
+            if( i< 0){
+                if(this.assembled_example.length >= example_assemble_limit){
+                    alert('限选'+example_assemble_limit+'题')
+                    return ;
+                }
+                this.assembled_example.push(example_id)
+            }else {
+                this.assembled_example.splice(i, 1)
+            }
+        },
+        download_docx: function(){
+            if(this.assembled_example.length == 0){
+                alert('请先选题')
+                return ;
+            }
+            var args = this.assembled_example.join('-')
+            var url = api.DownloadAssembledExamples + '?example_ids=' + args
+            window.open(url, '_blank'); // 新开窗口下载
+            this.change_assembly()
+        }
     },
 })

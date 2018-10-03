@@ -12,4 +12,5 @@ const api = {
 
     CreateExample: ApiRootUrl + 'catalogue/example/create/',
     Examples: ApiRootUrl + 'catalogue/category/{category_pk}examples/list/',
+    DownloadAssembledExamples: ApiRootUrl + 'catalogue/examples/docx/create/',
 }

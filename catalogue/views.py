@@ -29,7 +29,7 @@ from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
 class Page(PageNumberPagination):
     # 每页显示的数据条数
     max_page_size = 30
-    page_size = 1
+    page_size = 30
     page_size_query_param = 'size'
     # 页码
     page_query_param = 'page'
@@ -141,9 +141,10 @@ class DocxView(BaseApiView):
     file_word = docx.Document()
     IObuf = StringIO()
     def get(self, request, *args, **kw):
-        # example_id_list = request.get('example_ids', '').split('_')
-        # examples = Example.objects.filter(id__in=example_id_list)
-        examples = Example.objects.all()
+        print request.GET.get('example_ids', '')
+        example_id_list = request.GET.get('example_ids', '').split('-')
+        examples = Example.objects.filter(id__in=example_id_list)
+        # examples = Example.objects.all()
         self.examples = examples
         self.write_heading()
         self.write_example()
