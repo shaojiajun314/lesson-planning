@@ -21,6 +21,7 @@ body {
 /* category */
 #category{
     position: fixed;
+    margin-top: 15px;
 }
 .category-list{
     width: 200px;
@@ -74,9 +75,20 @@ body {
     margin: 20px 50px 0 230px
 }
 #example-list .title{
-    background: #fff;
-    margin-bottom: 15px;
+    background: #fffee9;
     height: 35px;
+    position: fixed;
+    text-align: center;
+    width: calc(100% - 300px);
+}
+#example-list .title .category-path{
+    color:#2bbb61;
+    cursor:pointer;
+    line-height: 35px;
+}
+#example-list .extra{
+    height:35px;
+    margin-bottom: 15px
 }
 #example-list .title .assembly{
     display: inline-block;
@@ -91,6 +103,7 @@ body {
 #example-list .title .download{
     float: left;
     background: #e72b2b;
+    width: unset;
 }
 .example{
     background: #fff;

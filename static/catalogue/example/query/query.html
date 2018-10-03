@@ -50,8 +50,21 @@
 <div id="example-list">
     <div class="title">
         <div v-on:click="download_docx" class="assembly button download" v-if="is_assembly">
-            下载
+            下载(已选择{{assembled_example.length}}题)
         </div>
+
+        <span>
+            <a class="category-path" v-on:click="change_category()">
+                全部
+            </a>
+            /
+        </span>
+        <span v-for="(path, index) in current_category_path" >
+            <a class="category-path" v-on:click="change_category(path.id)">
+                {{path.name}}
+            </a>
+            /
+        </span>
 
         <div class="start-assembly assembly button" v-if="!is_assembly" v-on:click="change_assembly()">
             开始组卷
@@ -59,6 +72,8 @@
         <div class="cancel-assembly assembly button" v-if="is_assembly" v-on:click="change_assembly()">
             取消组卷
         </div>
+    </div>
+    <div class="extra">
     </div>
 
     <div class="example" v-for="(example_item, example_index) in examples">

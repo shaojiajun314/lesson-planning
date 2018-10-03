@@ -5,7 +5,8 @@ from django.conf.urls import url
 from django.apps import AppConfig
 
 from education.catalogue.views import (UpdateCategoryView, CategoryView,
-    UpdateExampleView, ExampleView, DocxView)
+    UpdateExampleView, ExampleView, DocxView, AncestorsCategoryView,
+    ExampleDetaiView)
 
 class CatalogueConfig(AppConfig):
     name = 'catalogue'
@@ -19,8 +20,11 @@ def get_urls():
         url(r'category/(?P<pk>\d+)/update/$',
             UpdateCategoryView.as_view(),
         ),
-        url(r'category/(?:(?P<parent_pk>\d+)/)?list/$',
+        url(r'category/(?:(?P<parent_pk>\d+)/)?query/$',
             CategoryView.as_view(),
+        ),
+        url(r'category/(?P<category_pk>\d+)/ancestors/query/$',
+            AncestorsCategoryView.as_view(),
         ),
 
         # 题目
@@ -30,9 +34,13 @@ def get_urls():
         url(r'example/(?P<pk>\d+)/update/$',
             UpdateExampleView.as_view(),
         ),
-        url(r'category/(?:(?P<category_pk>\d+)/)?examples/list/$',
+        url(r'example/(?P<pk>\d+)/query/$',
+            ExampleDetaiView.as_view(),
+        ),
+        url(r'category/(?:(?P<category_pk>\d+)/)?examples/query/$',
             ExampleView.as_view(),
         ),
+
         url(r'examples/docx/create/$',
             DocxView.as_view(),
         ),

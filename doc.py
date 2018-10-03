@@ -42,8 +42,13 @@
     arg: {name: '分类名称'}
 
 分类列表：
-    url: api/catalogue/category/(?:(?P<parent_pk>\d+)/)?list/
+    url: api/catalogue/category/(?:(?P<parent_pk>\d+)/)?query/
     kw: parent_pk(父节点id，不填获取根目录列表)
+
+父级分类列表：
+    url: api/catalogue/category/(?P<category_pk>\d+)/ancestors/query/
+    kw: category_pk(分类id)
+
 
 
 
@@ -64,3 +69,14 @@
     url: api/catalogue/example/(?P<pk>\d+)/update/
     kw: pk(题目id)
     arg: {content: '题目内容'}
+
+题目详情:
+    url: api/catalogue/example/(?P<pk>\d+)/query/
+    kw: pk(题目id)
+    data: {
+    
+    }
+
+下载题目(docx):
+    url: api/catalogue/examples/docx/create/
+    arg: {example_ids: 'id1-id2-id3'} #('-'分割需要下载的题目id)

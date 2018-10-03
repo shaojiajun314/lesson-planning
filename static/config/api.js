@@ -6,11 +6,12 @@ const HTTPSRootUrl = ''
 const ApiRootUrl = HTTPSRootUrl + '/api/';
 
 const api = {
-    CategoryRoot: ApiRootUrl + 'catalogue/category/list/',
-    Category: ApiRootUrl + 'catalogue/category/{parent_pk}/list/',
+    CategoryRoot: ApiRootUrl + 'catalogue/category/query/',
+    Category: ApiRootUrl + 'catalogue/category/{parent_pk}/query/',
     CreateCategory: ApiRootUrl + 'catalogue/category/{parent_id}create/',
+    AncestorsCategory: ApiRootUrl + 'catalogue/category/{category_pk}/ancestors/query/',
 
     CreateExample: ApiRootUrl + 'catalogue/example/create/',
-    Examples: ApiRootUrl + 'catalogue/category/{category_pk}examples/list/',
+    Examples: ApiRootUrl + 'catalogue/category/{category_pk}examples/query/',
     DownloadAssembledExamples: ApiRootUrl + 'catalogue/examples/docx/create/',
 }

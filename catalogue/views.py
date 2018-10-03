@@ -18,7 +18,8 @@ from education.lib.baseviews import BaseApiView
 
 #apps
 from education.catalogue.models import Category, Example
-from education.catalogue.serializers import CategorySerializer, ExampleSerializer
+from education.catalogue.serializers import (CategorySerializer,
+    ExampleSerializer, ExampleDetailSerializer)
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
     ExampleCreateForm, ExampleUpdateForm)
 # Create your views here.
@@ -87,6 +88,20 @@ class CategoryView(APIView):
             res['data'] = data.data
             return JsonResponse(res, safe=False)
 
+# 或许父节点分类树
+class AncestorsCategoryView(APIView):
+    def get(self, request, *arg, **kw):
+        category_id = kw.get('category_pk')
+        res = {
+            'msg': 'success',
+            'desc': 'success',
+            'code': 0,
+        }
+        node = Category.objects.get(id=category_id)
+        category_qs = list(node.get_ancestors()) + [node]
+        data = CategorySerializer(category_qs, many=True)
+        res['data'] = data.data
+        return JsonResponse(res, safe=False)
 
 ################################################################################
 #                              题目                                            #
@@ -136,6 +151,22 @@ class ExampleView(BaseApiView):
         res['data'] = {'examples': data.data,
             'next_link': page.get_next_link()}
         return JsonResponse(res, safe=False)
+
+class ExampleDetaiView(APIView):
+    def get(self, request, *args, **kw):
+        res = {
+            'msg': 'success',
+            'desc': 'success',
+            'code': 0,
+        }
+        example_pk = kw.get('pk')
+        example = Example.objects.get(id=example_pk)
+
+        # 用于之后过滤数据 暂时没用
+        data = ExampleDetailSerializer(example)
+        res['data'] = data.data
+        return JsonResponse(res, safe=False)
+
 
 class DocxView(BaseApiView):
     file_word = docx.Document()
@@ -191,6 +222,7 @@ class DocxView(BaseApiView):
             self.write_images(a.images.all())
 
     def write_images(self, images_qs):
+        pic_name_list = [' ' * 7, ]
         for i, img in enumerate(images_qs):
             #　一行四图
             if (i+1) % 4 == 1:

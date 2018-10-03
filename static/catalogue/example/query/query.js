@@ -57,6 +57,7 @@ var category = new Vue({
             examples_list.answer_key_list = []
             examples_list.next_link = api.Examples.replace(/{category_pk}/, (category_id + '/'))
             examples_list.get_examples()
+            examples_list.get_ancestors_category(category_id)
         },
         clean_category: function(){
             this.clean_key = true
@@ -78,18 +79,50 @@ var examples_list = new Vue({
         next_link: null,
         answer_key_list: [],
         is_assembly: false,
-        assembled_example: []
+        assembled_example: [],
+        current_category_path: []
     },
     created: function () {
         if(category_id){
             category_pk = category_id + '/' // url 请求拼接
         }else {
-            category_pk = ''
+            category_pk = '';
         }
         this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
         this.get_examples()
+        this.get_ancestors_category(category_id)
     },
     methods: {
+        get_ancestors_category: function(category_id){
+            if(!category_id){
+                this.current_category_path = [];
+                return ;
+            }
+            this.$http.get(api.AncestorsCategory.replace(/{category_pk}/, category_id))
+                .then(function(res){
+                    var result = res.body
+                    console.log(result);
+                    if(result.code === 0){
+                        this.current_category_path = result.data
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+        },
+        change_category: function(category_id) {
+            if(category_id){
+                category_pk = category_id + '/' // url 请求拼接
+            }else {
+                category_pk = '';
+            }
+            this.examples = []
+            this.answer_key_list = []
+            this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
+            this.get_examples()
+            this.get_ancestors_category(category_id)
+        },
         get_examples: function(){
             if(! this.next_link){
                 alert('没有更多了')
