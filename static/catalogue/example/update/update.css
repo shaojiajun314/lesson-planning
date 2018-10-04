@@ -83,6 +83,14 @@ form {
     margin: auto;
     position: relative;
 }
+form .input-div.nav{
+    background: #f5f5f5;
+    border: 0
+}
+form .nav .nav-button{
+    margin-top: 0;
+    margin-bottom: 0
+}
 form .input-label{
     width: 64px;
     display: inline-block;
@@ -157,4 +165,11 @@ form .text-div .text-label{
 form textarea{
     height: 340px;
     width: 430px
+}
+form .textarea-div{
+    height: 340px;
+    width: 430px;
+    background: #fff;
+    float: right;
+    overflow: auto;
 }

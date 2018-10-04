@@ -1,17 +1,72 @@
+var GetRequest = function() {
+   var url = location.search; //获取url中"?"符后的字串
+   var theRequest = {}
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+var example_id = GetRequest().example_id;
+
 new Vue({
-    el: '#example-create',
+    el: '#example-update',
     data: {
         content: '',　//题目
+        content_imgs: [],
         content_img_ctr: [true,], //题目图片数量控制
 
-        answer: '',　//答案
+        answer: [],　//答案
+        add_answer: '',
         answer_img_ctr: [true,], //答案图片数量控制
 
         category: [],
         current_category: {name:'', id: null},
-        current_category_lead: [],
+        delete_example_imgs: [], //删除图片id
+        delete_answer: [], //删除答案id
+        is_edit: false, // 模式 是否为编辑模式
+
+    },
+    created: function () {
+      this.get_example_detail(example_id);
     },
     methods: {
+        // 查询模式 start
+        get_example_detail: function(pk){
+            this.$http.get(api.ExampleDetail.replace(/{pk}/, pk)).then(function(res){
+                    var result = res.body
+                    if(result.code === 0){
+                        var data = result.data
+                        console.log(data);
+                        this.content = data.content
+                        this.handle_categories(data.categories)
+                        this.content_imgs = data.images
+                        this.answer = data.answers
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+        },
+        handle_categories: function(categories){
+            var current_category_lead = []
+            for(var i=0; i<categories.length; i++){
+                current_category_lead.push(categories[i].name)
+            };
+            this.current_category = {name:current_category_lead.join(' -> '),
+                id:current_category_lead[i-1].id}
+        },
+        // 查询模式 end
+
+        change_mode: function() {
+            this.is_edit = !this.is_edit
+        },
+
+        // 编辑模式 start
         get_category_root: function(){
             if(this.category.length != 0){
                 return ;
@@ -81,13 +136,23 @@ new Vue({
                 maps[type].push(true)
             }
         },
+        add_delete_img: function(example_img_id){
+            var i = this.delete_example_imgs.indexOf(example_img_id)
+            if( i< 0){
+                this.delete_example_imgs.push(example_index)
+            }else {
+                this.delete_example_imgs.splice(i, 1)
+            }
+        },
+        add_delete_answers: function(answer_id){
 
+        },
         submit_input: function(){
             if(!this.content){
                 alert('请输入提干')
                 return
             };
-            if(!this.answer){
+            if(!this.add_answer){
                 alert('请输入答案')
                 return
             };
@@ -98,7 +163,7 @@ new Vue({
             var form = new FormData()
             form.append('category_id', this.current_category.id)
             form.append('content', this.content)
-            form.append('answer', this.answer)
+            form.append('add_answer', this.add_answer)
 
             // 图片添加
             var content_img = this.$refs.contentImg
@@ -126,6 +191,7 @@ new Vue({
                     alert('请求错误');
                 });
         },
-
+        // 编辑模式 end
     }
+
 })

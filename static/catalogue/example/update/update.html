@@ -26,17 +26,29 @@
     </a>
 </div>
 
-<div id="example-create">
+<div id="example-update">
     <div class="form">
         <form>
-
+            <div class="nav input-div">
+                <div class="button nav-button" v-on:click="change_mode()">
+                    编辑/查看
+                </div>
+            </div>
             <div class="input-div">
                 <label class="disabale-input-label input-label">
                     分类
                 </label>
-                <div name="parent" tabindex="0" v-on:focus="get_category_root" class="input disabale-input">
+
+                <!-- 编辑模式 -->
+                <div name="parent" tabindex="0" v-if="is_edit" v-on:focus="get_category_root" class="input disabale-input">
                     {{current_category.name || "选择分类"}}
                 </div>
+
+                <!-- 查看模式 -->
+                <div class="input disabale-input" v-if="!is_edit">
+                    {{current_category.name}}
+                </div>
+
             </div>
             <div class="category-list-content" v-if="category.length > 0" :style="'height:' + ((category.length && category[0].length) * 36 + 70) + 'px'">
                 <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
@@ -63,14 +75,55 @@
                 <label class="text-label">
                     题干
                 </label>
-                <textarea name="content" v-model="content" placeholder="输入题目内容" type="text">
+
+                <!-- 编辑模式 -->
+                <textarea name="content" v-if="is_edit" v-model="content" placeholder="输入题目内容" type="text">
                 </textarea>
+
+                <!-- 查看模式 -->
+                <div class="textarea-div" v-if="!is_edit">
+                    {{content}}
+
+                    <table cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td valign="top" width="189" v-for="(content_img, content_img_index) in content_imgs">
+                                    <img height="80" width="88" :src="content_img.image">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
 
-            <div class="file-extra" v-for="(item, index) in content_img_ctr">
+            <!-- 编辑模式 -->
+            <div class="text-div" v-if="is_edit">
+                <label class="text-label">
+                    题干图片
+                </label>
+                <div class="textarea-div">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td valign="top" width="140" v-for="(content_img, content_img_index) in content_imgs">
+                                    <img height="80" width="88" :src="content_img.image">
+                                    <div>
+                                        删除
+                                        <input type="checkbox" v-on:click="add_delete_img(content_img.id)"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 编辑模式 -->
+            <div class="file-extra" v-for="(item, index) in content_img_ctr" v-if="is_edit">
                 <div class="input-div input-div-only-label disabale-input-label">
                     <label class="input-label">
-                        题目图{{index + 1}}
+                        新题图{{index + 1}}
                     </label>
                 </div>
                 <div class="input-div-img">
@@ -79,19 +132,51 @@
                         ref="contentImg" v-on:change="input_img(index, 'content')">
                 </div>
             </div>
+            <hr/>
 
-            <div class="text-div">
+
+
+            <div v-for="(item, index) in  answer">
+                <div class="text-div">
+                    <label class="text-label">
+                        答案 {{index + 1}}
+                    </label>
+                    <!-- 查看模式 -->
+                    <div class="textarea-div">
+                        <div>
+                            删除
+                            <input type="checkbox" v-on:click="add_delete_answers(item.id)"/>
+                        </div>
+                        {{item.answer}}
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" width="189" v-for="(answer_img, answer_img_index) in item.images">
+                                        <img height="80" width="88" :src="answer_img.image">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr v-if="is_edit"/>
+            <!-- 编辑模式 -->
+            <div class="text-div" v-if="is_edit">
                 <label class="text-label">
-                    答案
+                    新增答案
                 </label>
-                <textarea name="answer" v-model="answer" placeholder="输入题目答案" type="text">
+                <textarea name="answer" v-model="add_answer" placeholder="输入题目答案" type="text">
                 </textarea>
             </div>
 
-            <div class="file-extra" v-for="(item, index) in answer_img_ctr">
+            <!-- 编辑模式 -->
+            <div class="file-extra" v-for="(item, index) in answer_img_ctr" v-if="is_edit">
                 <div class="input-div input-div-only-label disabale-input-label">
                     <label class="input-label">
-                        答案图{{index + 1}}
+                        新答图{{index + 1}}
                     </label>
                 </div>
                 <div class="input-div-img">
@@ -99,9 +184,10 @@
                 </div>
             </div>
 
-            <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
+            <!-- 编辑模式 -->
+            <div class="button"　v-on:click="submit_input" v-if="is_edit" v-if="category.length == 0">
                 确定
-            </dv>
+            </div>
 
         </form>
     </div>

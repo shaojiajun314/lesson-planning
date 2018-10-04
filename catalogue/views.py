@@ -112,7 +112,7 @@ class UpdateExampleView(BaseApiView):
     def post(self, request, *args, **kw):
         if kw.get('pk'):
             form = ExampleUpdateForm(request.data,
-                kw.get('pk'))
+                kw.get('pk'), request.FILES,)
         else:
             form = ExampleCreateForm(request.data,
                 request.FILES,)
@@ -222,7 +222,9 @@ class DocxView(BaseApiView):
             self.write_images(a.images.all())
 
     def write_images(self, images_qs):
-        pic_name_list = [' ' * 7, ]
+        if not images_qs:
+            return
+        # pic_name_list = [' ' * 7, ]
         for i, img in enumerate(images_qs):
             #　一行四图
             if (i+1) % 4 == 1:
