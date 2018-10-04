@@ -16,6 +16,7 @@ new Vue({
     el: '#example-update',
     data: {
         content: '',　//题目
+
         content_imgs: [],
         content_img_ctr: [true,], //题目图片数量控制
 
@@ -25,9 +26,13 @@ new Vue({
 
         category: [],
         current_category: {name:'', id: null},
+        is_edit: false, // 模式 是否为编辑模式
+
+        edit_content: '',
         delete_example_imgs: [], //删除图片id
         delete_answer: [], //删除答案id
-        is_edit: false, // 模式 是否为编辑模式
+        edit_current_category: {name:'', id: null},
+
 
     },
     created: function () {
@@ -42,6 +47,7 @@ new Vue({
                         var data = result.data
                         console.log(data);
                         this.content = data.content
+                        this.edit_content = data.content
                         this.handle_categories(data.categories)
                         this.content_imgs = data.images
                         this.answer = data.answers
@@ -58,7 +64,9 @@ new Vue({
                 current_category_lead.push(categories[i].name)
             };
             this.current_category = {name:current_category_lead.join(' -> '),
-                id:current_category_lead[i-1].id}
+                id:categories[i-1].id}
+            this.edit_current_category = {name:current_category_lead.join(' -> '),
+                id:categories[i-1].id}
         },
         // 查询模式 end
 
@@ -118,13 +126,13 @@ new Vue({
                 root_index--
             }
             current_category_lead.reverse()
-            this.current_category = {name:current_category_lead.join(' -> '), id:id}
+            this.edit_current_category = {name:current_category_lead.join(' -> '), id:id}
 
             this.clean_category()
         },
         cancel_input_category: function(){
             this.clean_category();
-            this.current_category = {name:'', id: null};
+            this.edit_current_category = {name:'', id: null};
         },
 
         input_img: function(index, type) {
@@ -137,33 +145,44 @@ new Vue({
             }
         },
         add_delete_img: function(example_img_id){
+            console.log(example_img_id);
             var i = this.delete_example_imgs.indexOf(example_img_id)
             if( i< 0){
-                this.delete_example_imgs.push(example_index)
+                this.delete_example_imgs.push(example_img_id)
             }else {
                 this.delete_example_imgs.splice(i, 1)
             }
         },
         add_delete_answers: function(answer_id){
-
+            var i = this.delete_answer.indexOf(answer_id)
+            if( i< 0){
+                this.delete_answer.push(answer_id)
+            }else {
+                this.delete_answer.splice(i, 1)
+            }
         },
         submit_input: function(){
-            if(!this.content){
+            if(!this.edit_content){
                 alert('请输入提干')
                 return
             };
-            if(!this.add_answer){
-                alert('请输入答案')
-                return
-            };
-            if(!this.current_category.id){
+            // if(!this.add_answer){
+            //     alert('请输入答案')
+            //     return
+            // };
+            console.log(this.edit_current_category.id);
+            if(!this.edit_current_category.id){
                 alert('请输入分类')
                 return
             }
             var form = new FormData()
-            form.append('category_id', this.current_category.id)
-            form.append('content', this.content)
-            form.append('add_answer', this.add_answer)
+            form.append('category_id', this.edit_current_category.id)
+            form.append('content', this.edit_content)
+            form.append('answer', this.add_answer)
+
+            console.log(this.delete_example_imgs);
+            form.append('example_imgs_delete', JSON.stringify(this.delete_example_imgs))
+            form.append('answer_delete', JSON.stringify(this.delete_answer))
 
             // 图片添加
             var content_img = this.$refs.contentImg
@@ -179,9 +198,10 @@ new Vue({
                     form.append(('answer_img' + i), answer_img[i].files[0])
                 }
             }
-            this.$http.post(api.CreateExample,
+            this.$http.post(api.UpdateExample.replace(/{pk}/, example_id),
                 form, {"Content-Type": "multipart/form-data"}).then(function(res){
                     var result = res.body
+                    console.log(result);
                     if(result.code === 0){
                         alert(result.desc)
                     }else {

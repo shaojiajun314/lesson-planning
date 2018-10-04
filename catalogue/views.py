@@ -110,6 +110,7 @@ class AncestorsCategoryView(APIView):
 # 题目创建及更新
 class UpdateExampleView(BaseApiView):
     def post(self, request, *args, **kw):
+        print request.data
         if kw.get('pk'):
             form = ExampleUpdateForm(request.data,
                 kw.get('pk'), request.FILES,)
@@ -172,7 +173,6 @@ class DocxView(BaseApiView):
     file_word = docx.Document()
     IObuf = StringIO()
     def get(self, request, *args, **kw):
-        print request.GET.get('example_ids', '')
         example_id_list = request.GET.get('example_ids', '').split('-')
         examples = Example.objects.filter(id__in=example_id_list)
         # examples = Example.objects.all()

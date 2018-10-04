@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>EDU测试版</title>
+    <title>jiajin教育内测版</title>
     <script src="/static/js/vue.min.js"></script>
     <script src="/static/config/api.js"></script>
     <script src="/static/js/vue-resource.min.js"></script>
@@ -82,18 +82,20 @@
             <div class="content">
                 {{example_index + 1}}: {{example_item.content}}
             </div>
-
-            <table cellspacing="0" cellpadding="0" border="0">
-                <tbody>
-                    <tr>
-                        <td valign="top" width="189" v-for="(content_img, content_img_index) in example_item.images">
-                            <img height="80" width="88" :src="content_img.image">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="imgs">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td valign="top" width="189"
+                                v-for="(content_img, content_img_index) in example_item.images">
+                                <img height="80" width="88" :src="content_img.image">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <hr v-if="answer_key_list.indexOf(example_index) != -1">
+        <!-- <hr v-if="answer_key_list.indexOf(example_index) != -1">
         </hr>
         <div class="answer-container" v-for="(answer_item, answer_index) in example_item.answers"
             v-if="answer_key_list.indexOf(example_index) != -1">
@@ -110,7 +112,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div> -->
 
         <div class="msg">
 
@@ -121,8 +123,7 @@
                 取消
             </div>
 
-            <div class="answer-visible" v-on:click="change_answer_key(example_index)"
-             v-if="answer_key_list.indexOf(example_index) == -1">
+            <div class="answer-visible" v-on:click="get_example_detail(example_item.id)">
                 查看答案
             </div>
         </div>

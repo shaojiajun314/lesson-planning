@@ -54,7 +54,7 @@ var category = new Vue({
         },
         query_example: function(category_id){
             examples_list.examples = []
-            examples_list.answer_key_list = []
+            // examples_list.answer_key_list = []
             examples_list.next_link = api.Examples.replace(/{category_pk}/, (category_id + '/'))
             examples_list.get_examples()
             examples_list.get_ancestors_category(category_id)
@@ -77,7 +77,7 @@ var examples_list = new Vue({
     data: {
         examples: [],
         next_link: null,
-        answer_key_list: [],
+        // answer_key_list: [],
         is_assembly: false,
         assembled_example: [],
         current_category_path: []
@@ -118,7 +118,7 @@ var examples_list = new Vue({
                 category_pk = '';
             }
             this.examples = []
-            this.answer_key_list = []
+            // this.answer_key_list = []
             this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
             this.get_examples()
             this.get_ancestors_category(category_id)
@@ -142,14 +142,14 @@ var examples_list = new Vue({
                     alert('请求错误');
                 });
         },
-        change_answer_key: function(example_index) {
-            var i = this.answer_key_list.indexOf(example_index)
-            if( i< 0){
-                this.answer_key_list.push(example_index)
-            }else {
-                this.answer_key_list.splice(i, 1)
-            }
-            // this.$set(examples[example_index]., !this.examples[example_index].answer_key);
+        get_example_detail: function(example_id) {
+            window.location.href = '/static/catalogue/example/update/update.html?example_id=' + example_id
+            // var i = this.answer_key_list.indexOf(example_index)
+            // if( i< 0){
+            //     this.answer_key_list.push(example_index)
+            // }else {
+            //     this.answer_key_list.splice(i, 1)
+            // }
         },
 
         change_assembly: function(){

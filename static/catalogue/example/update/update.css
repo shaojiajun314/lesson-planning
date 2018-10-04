@@ -72,11 +72,15 @@ body {
     cursor: pointer;
 }
 
+.button.submit{
+    float: left;
+    background: #e72b2b;
+}
 
 
 .form{
     width: 100%;
-    margin-top: 30px;
+    margin-top: 60px;
 }
 form {
     width: 500px;
@@ -84,8 +88,11 @@ form {
     position: relative;
 }
 form .input-div.nav{
-    background: #f5f5f5;
-    border: 0
+    border: 0;
+    width: 500px;
+    top: 70px;
+    position: fixed;
+    background: #fffee9;
 }
 form .nav .nav-button{
     margin-top: 0;
@@ -155,6 +162,9 @@ form .text-div{
     margin-bottom: 10px;
     height: 340px;
 }
+form .text-div.imgs-display-div{
+    height: 130px;
+}
 form .text-div .text-label{
     width: 68px;
     display: inline-block;
@@ -162,9 +172,19 @@ form .text-div .text-label{
     float: left;
     line-height: 340px
 }
+form .imgs-display-div .imgs-display-label{
+    line-height: 140px
+}
+form .text-div .answer-delete{
+    text-align: right;
+    border-bottom: 1px dashed;
+}
 form textarea{
     height: 340px;
     width: 430px
+}
+form .textarea-div.imgs-div{
+    height: 130px
 }
 form .textarea-div{
     height: 340px;
@@ -172,4 +192,7 @@ form .textarea-div{
     background: #fff;
     float: right;
     overflow: auto;
+}
+form .imgs-display{
+    height: 130px
 }

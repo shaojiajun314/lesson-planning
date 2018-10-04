@@ -118,6 +118,9 @@ body {
 .example .example-container .content{
     margin-bottom: 10px;
 }
+.example .example-container .imgs{
+    overflow: scroll;
+}
 .example .example-container table{
     margin-bottom: 10px;
 }

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from json import loads
+
 #django
 from django import forms
 from django.forms import fields
@@ -122,14 +124,14 @@ class ExampleUpdateForm(EDUBaseForm):
     category_id = fields.IntegerField(required=True)
     content = fields.CharField(required=True, max_length=512)
     answer = fields.CharField(required=False, max_length=512)
-
     example_imgs_delete = fields.CharField(required=False, max_length=512) #json
     answer_delete = fields.CharField(required=False, max_length=512) #json
 
     answer_delete_list = []
+    example_imgs_delete_list = []
 
     def __init__(self, data, this_example_id, files):
-        super(ExampleUpdateForm, self).__init__(data)
+        super(ExampleUpdateForm, self).__init__(data, files=files)
         self.this_example_id = this_example_id
         for file_name in files:
             self.add_image_field(file_name)
@@ -158,17 +160,18 @@ class ExampleUpdateForm(EDUBaseForm):
 
         try:
             example_imgs_list = loads(self.cleaned_data['example_imgs_delete'])
-            self.example_imgs_delete = \
+
+            self.example_imgs_delete_list = \
                 self.this_example.images.filter(id__in=example_imgs_list)
         except:
-            raise forms.ValidationError('answer_delete 参数错误', 1019)
+            raise forms.ValidationError('example_imgs_delete 参数错误', 1019)
 
         return self.cleaned_data
 
     def update_categories(self):
         for cate in self.this_example.categories.all():
-            self.this_example.remove(cate)
-        self.categories.add(self.category)
+            self.this_example.categories.clear()
+        self.this_example.categories.add(self.category)
         for cate in self.category.get_ancestors():
             self.this_example.categories.add(cate)
 
@@ -176,7 +179,7 @@ class ExampleUpdateForm(EDUBaseForm):
         with transaction.atomic():
             self.update_categories()
             self.answer_delete_list.delete()
-            self.example_imgs_delete.delete()
+            self.example_imgs_delete_list.delete()
             self.this_example.content = self.cleaned_data['content']
             for k, v in self.cleaned_data.items():
                 if k.startswith('content_img'):
@@ -184,6 +187,7 @@ class ExampleUpdateForm(EDUBaseForm):
                         image=v,
                         image_name=v.name
                     )
+            print self.cleaned_data['answer'],1238713819837 
             if self.cleaned_data['answer']:
                 ans = self.this_example.answers.create(
                     answer=self.cleaned_data['answer']
@@ -194,4 +198,5 @@ class ExampleUpdateForm(EDUBaseForm):
                             image=v,
                             image_name=v.name
                         )
+            self.this_example.save()
             return self.this_example

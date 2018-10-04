@@ -16,7 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
                 'image_name')
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
-    ancestors = serializers.SerializerMethodField()
+    # ancestors = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
@@ -26,24 +26,25 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
                 'numchild',
                 'name',
                 'image',
-                'image_name',
-                'ancestors')
+                'image_name')
 
-    def get_ancestors(self, obj):
-        qs = obj.get_ancestors()
-        return CategorySerializer(qs, many=True).data
+    # def get_ancestors(self, obj):
+    #     qs = obj.get_ancestors()
+    #     return CategorySerializer(qs, many=True).data
 
 class AnswerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerImage
         fields = ('image',
-            'image_name')
+            'image_name',
+            'id')
 
 class ExampleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExampleImage
         fields = ('image',
-            'image_name')
+            'image_name',
+            'id')
 
 class AnswerSerializer(serializers.ModelSerializer):
     images = AnswerImageSerializer(many=True, read_only=True)
@@ -56,13 +57,13 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class ExampleSerializer(serializers.ModelSerializer):
     images = ExampleImageSerializer (many=True, read_only=True)
-    answers = AnswerSerializer (many=True, read_only=True)
+    # answers = AnswerSerializer (many=True, read_only=True)
 
     class Meta:
         model = Example
         fields = ('id',
             'content',
-            'answers',
+            # 'answers',
             'images')
 
 class ExampleDetailSerializer(serializers.ModelSerializer):

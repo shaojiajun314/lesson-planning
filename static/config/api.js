@@ -12,7 +12,8 @@ const api = {
     AncestorsCategory: ApiRootUrl + 'catalogue/category/{category_pk}/ancestors/query/',
 
     CreateExample: ApiRootUrl + 'catalogue/example/create/',
+    UpdateExample: ApiRootUrl + 'catalogue/example/{pk}/update/',
     Examples: ApiRootUrl + 'catalogue/category/{category_pk}examples/query/',
-    DownloadAssembledExamples: ApiRootUrl + 'catalogue/examples/docx/create/',
     ExampleDetail: ApiRootUrl + 'catalogue/example/{pk}/query/',
+    DownloadAssembledExamples: ApiRootUrl + 'catalogue/examples/docx/create/',
 }
