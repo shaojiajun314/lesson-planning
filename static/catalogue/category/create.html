@@ -11,19 +11,15 @@
 
 <body>
 
-<div class="nav">
-    <a class="item" href="/static/catalogue/index.html">
-            首页
-    </a>
-    <a class="item" href="/static/catalogue/example/query/query.html">
-            查题
-    </a>
-    <a class="item" href="/static/catalogue/category/create.html">
-            创建分类
-    </a>
-    <a class="item" href="/static/catalogue/example/create/create.html">
-            创建题目
-    </a>
+<div id="nav" v-html="html">
+</div>
+
+<div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
+    <modal v-bind:title="title" v-bind:body="body"
+        v-bind:cancel="cancel" v-bind:sure="sure"
+        v-bind:cancel_func="cancel_func"
+        v-bind:sure_func="sure_func">
+    </modal>
 </div>
 
 <div id="category-create">
@@ -86,7 +82,11 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="/static/templates/nav/nav.css"></link>
+<script src="/static/templates/nav/nav.js"></script>
 
+<link rel="stylesheet" href="/static/templates/modal/modal.css"></link>
+<script src="/static/templates/modal/modal.js"></script>
 
 <link rel="stylesheet" href="/static/catalogue/category/create.css"></link>
 <script src="/static/catalogue/category/create.js"></script>

@@ -88,7 +88,20 @@ new Vue({
                 form, {"Content-Type": "multipart/form-data"}).then(function(res){
                     var result = res.body
                     if(result.code === 0){
-                        alert(result.desc)
+
+                        Modal.is_hidden = false
+                        Modal.title = '创建成功'
+                        Modal.body = '请选择跳转页面'
+                        Modal.cancel = '留在本页'
+                        Modal.cancel_func = function(){
+                            Modal.is_hidden = true
+                        }
+                        Modal.sure = '创建新题'
+                        Modal.sure_func = function(){
+                            window.location.href =
+                                '/static/catalogue/example/create/create.html'
+                        }
+
                     }else {
                         alert(result.desc)
                     }

@@ -101,7 +101,6 @@ var examples_list = new Vue({
             this.$http.get(api.AncestorsCategory.replace(/{category_pk}/, category_id))
                 .then(function(res){
                     var result = res.body
-                    console.log(result);
                     if(result.code === 0){
                         this.current_category_path = result.data
                     }else {
@@ -176,6 +175,7 @@ var examples_list = new Vue({
             var args = this.assembled_example.join('-')
             var url = api.DownloadAssembledExamples + '?example_ids=' + args
             window.open(url, '_blank'); // 新开窗口下载
+            alert('下载完成')
             this.change_assembly()
         }
     },

@@ -203,7 +203,20 @@ new Vue({
                     var result = res.body
                     console.log(result);
                     if(result.code === 0){
-                        alert(result.desc)
+
+                        Modal.is_hidden = false
+                        Modal.title = '修改成功'
+                        Modal.body = '请选择跳转页面'
+                        Modal.cancel = '留在详情页面'
+                        Modal.cancel_func = function(){
+                            window.location.reload()
+                        }
+                        Modal.sure = '跳转首页'
+                        Modal.sure_func = function(){
+                            window.location.href =
+                                '/'
+                        }
+
                     }else {
                         alert(result.desc)
                     }

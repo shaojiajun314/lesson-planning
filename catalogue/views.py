@@ -123,7 +123,9 @@ class UpdateExampleView(BaseApiView):
                 'desc': 'success',
                 'code': 0,
             }
-            form.save()
+            example = form.save()
+            data = ExampleDetailSerializer(example)
+            res['data'] = data.data
             # res['data'] = UserInfoSerializer(form.user).data
         else:
             res = self.err_response(form)

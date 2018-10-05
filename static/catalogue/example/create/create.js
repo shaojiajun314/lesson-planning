@@ -118,7 +118,20 @@ new Vue({
                 form, {"Content-Type": "multipart/form-data"}).then(function(res){
                     var result = res.body
                     if(result.code === 0){
-                        alert(result.desc)
+                        // 模态框
+                        Modal.is_hidden = false
+                        Modal.title = '创建成功'
+                        Modal.body = '跳转详情页面'
+                        Modal.cancel = '取消'
+                        Modal.cancel_func = function(){
+                            Modal.is_hidden = true
+                        }
+                        Modal.sure = '确定'
+                        Modal.sure_func = function(){
+                            window.location.href =
+                                '/static/catalogue/example/update/update.html?example_id='+result.data.id
+                        }
+                        
                     }else {
                         alert(result.desc)
                     }
