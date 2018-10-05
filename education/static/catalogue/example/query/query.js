@@ -1,3 +1,5 @@
+Nav.index = 1
+
 var GetRequest = function() {
    var url = location.search; //获取url中"?"符后的字串
    var theRequest = {}

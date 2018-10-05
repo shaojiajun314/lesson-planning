@@ -1,14 +1,107 @@
-#nav{
+/* .nav{
     width: 100%;
     height: 50px;
     background: #fff;
     display: table;
+    margin-bottom: 5px;
 }
 
-#nav .item{
+.nav .item{
     vertical-align: middle;
     display: table-cell;
     text-align: center;
     text-decoration: none;
     color: rgb(0, 0, 0)
+}
+
+.nav .active{
+    border-bottom: 1px solid #95c1aa;
+} */
+
+*, ul, li, p {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+#nav img{
+    width: 188px;
+    height: 75px
+}
+#nav{
+    width: 100%;
+    height: 80px;
+    /* position: fixed; */
+    z-index: 999;
+    background-color: rgba(255,255,255,1);
+    border-bottom: solid 1px #ebebeb;
+}
+.navInner {
+    width: 100%;
+    max-width: 1200px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.navLogo {
+    display: block;
+    line-height: 80px;
+    float: left;
+}
+
+.navLogo img {
+    vertical-align: middle;
+}
+
+.navMenu {
+    float: right;
+    width: 47%;
+    height: 80px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.navMenu li {
+    display: block;
+    margin-left: 15px;
+    margin-right: 15px;
+    line-height: 77px;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    color: #333333;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.navMenu li:hover {
+    color: #cc2020;
+    text-decoration: none;
+}
+.navMenu li a{
+    text-decoration: none;
+}
+
+.navMenu .menuAction {
+    color: #cc2020;
+    border-bottom: 3px solid #cc2020;
+}
+
+.navInner .BusinessLogin {
+    display: block;
+    width: 100px;
+    font-size: 16px;
+    float: right;
+    line-height: 40px;
+    background-color: #cc2020;
+    color: white;
+    text-align: center;
+    margin-top: 18px;
+}
+.navMenu li:last-child{
+    padding: 0;    text-decoration: none;
 }

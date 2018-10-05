@@ -1,3 +1,5 @@
+Nav.index = 3
+
 new Vue({
     el: '#example-create',
     data: {
@@ -131,7 +133,7 @@ new Vue({
                             window.location.href =
                                 '/static/catalogue/example/update/update.html?example_id='+result.data.id
                         }
-                        
+
                     }else {
                         alert(result.desc)
                     }

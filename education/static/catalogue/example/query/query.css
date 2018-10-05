@@ -104,7 +104,7 @@ body {
     margin-bottom: 10px;
 }
 .example .example-container .imgs{
-    overflow: scroll;
+    overflow-x: auto;
 }
 .example .example-container table{
     margin-bottom: 10px;

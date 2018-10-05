@@ -11,8 +11,11 @@
 
 <body>
 
-<div id="nav" v-html="html">
+<div id="nav">
+    <edunav v-bind:index="index">
+    </edunav>
 </div>
+
 
 <div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
     <modal v-bind:title="title" v-bind:body="body"

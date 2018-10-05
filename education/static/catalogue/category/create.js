@@ -1,3 +1,5 @@
+Nav.index = 2
+
 new Vue({
     el: '#category-create',
     data: {
