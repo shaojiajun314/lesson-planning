@@ -26,12 +26,17 @@
             <div class="category_root_list" v-if="category_item.length > 0">
                 <div v-for="(item, index) in category_item" class="item"
                     v-on:mouseenter="get_category(item.id, category_index)"
-                    v-on:mouseleave="clean_category"
-                    v-on:click="query_example(item.id)">
-                    <img :src="item.image" />
-                    <span class="name">
-                        {{item.name}}
+                    v-on:mouseleave="clean_category">
+                    <span v-on:click="query_example(item.id)">
+                        <img :src="item.image" />
+                        <span class="name">
+                            {{item.name}}
+                        </span>
                     </span>
+                    <a :href="'/static/catalogue/category/update/update.html?category_id='+item.id">
+                        <img class="edit" src="/static/images/catalogue/edit.png">
+                        </img>
+                    </a>
                 </div>
             </div>
         </div>

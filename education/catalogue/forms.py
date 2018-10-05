@@ -53,14 +53,13 @@ class CategoryCreateForm(forms.Form):
 
 class CategoryUpdateForm(forms.Form):
     name = fields.CharField(required=True, max_length=16)
-    # this_node_id = fields.IntegerField(required=True)
+    img = fields.ImageField(required=False)
 
     this_node = None
-    # image = fields.ImageField(required=True)
 
-    def __init__(self, data, this_node_id):
+    def __init__(self, data, files, this_node_id):
         self.this_node_id = this_node_id
-        super(CategoryUpdateForm, self).__init__(data)
+        super(CategoryUpdateForm, self).__init__(data, files=files)
 
     def clean(self):
         try:
@@ -71,11 +70,19 @@ class CategoryUpdateForm(forms.Form):
 
         return self.cleaned_data
 
-
     def save(self):
+        if self.this_node.name == self.cleaned_data['name'] and \
+            (not self.cleaned_data['img']):
+            return self.this_node
         self.this_node.name = self.cleaned_data['name']
+        if self.cleaned_data['img']:
+            self.this_node.image = self.cleaned_data['img']
+            self.this_node.image_name = self.cleaned_data['img'].name
         self.this_node.save()
         return self.this_node
+        # self.this_node.name = self.cleaned_data['name']
+        # self.this_node.save()
+        # return self.this_node
 
 class ExampleCreateForm(EDUBaseForm):
     category_id = fields.IntegerField(required=True)
@@ -187,7 +194,7 @@ class ExampleUpdateForm(EDUBaseForm):
                         image=v,
                         image_name=v.name
                     )
-            print self.cleaned_data['answer'],1238713819837 
+            print self.cleaned_data['answer'],1238713819837
             if self.cleaned_data['answer']:
                 ans = self.this_example.answers.create(
                     answer=self.cleaned_data['answer']

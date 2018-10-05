@@ -9,6 +9,7 @@ const api = {
     CategoryRoot: ApiRootUrl + 'catalogue/category/query/',
     Category: ApiRootUrl + 'catalogue/category/{parent_pk}/query/',
     CreateCategory: ApiRootUrl + 'catalogue/category/{parent_id}create/',
+    UpdateCategory: ApiRootUrl + 'catalogue/category/{pk}/update/',
     AncestorsCategory: ApiRootUrl + 'catalogue/category/{category_pk}/ancestors/query/',
 
     CreateExample: ApiRootUrl + 'catalogue/example/create/',

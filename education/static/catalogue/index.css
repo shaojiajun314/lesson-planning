@@ -51,5 +51,12 @@ body {
 }
 .category-list .name{
     float: left;
-    margin-left: 20px
+    width: 100px;
+}
+.category-list .edit{
+    float: right;
+    height: 20px;
+    width: 20px;
+    margin-top: 6px;
+
 }

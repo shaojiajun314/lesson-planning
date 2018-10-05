@@ -1,15 +1,3 @@
-var GetRequest = function() {
-   var url = location.search; //获取url中"?"符后的字串
-   var theRequest = {}
-   if (url.indexOf("?") != -1) {
-      var str = url.substr(1);
-      strs = str.split("&");
-      for(var i = 0; i < strs.length; i ++) {
-         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-      }
-   }
-   return theRequest;
-}
 var example_id = GetRequest().example_id;
 
 new Vue({
@@ -45,7 +33,6 @@ new Vue({
                     var result = res.body
                     if(result.code === 0){
                         var data = result.data
-                        console.log(data);
                         this.content = data.content
                         this.edit_content = data.content
                         this.handle_categories(data.categories)
@@ -145,7 +132,6 @@ new Vue({
             }
         },
         add_delete_img: function(example_img_id){
-            console.log(example_img_id);
             var i = this.delete_example_imgs.indexOf(example_img_id)
             if( i< 0){
                 this.delete_example_imgs.push(example_img_id)
@@ -170,7 +156,6 @@ new Vue({
             //     alert('请输入答案')
             //     return
             // };
-            console.log(this.edit_current_category.id);
             if(!this.edit_current_category.id){
                 alert('请输入分类')
                 return
@@ -180,7 +165,6 @@ new Vue({
             form.append('content', this.edit_content)
             form.append('answer', this.add_answer)
 
-            console.log(this.delete_example_imgs);
             form.append('example_imgs_delete', JSON.stringify(this.delete_example_imgs))
             form.append('answer_delete', JSON.stringify(this.delete_answer))
 
@@ -201,7 +185,6 @@ new Vue({
             this.$http.post(api.UpdateExample.replace(/{pk}/, example_id),
                 form, {"Content-Type": "multipart/form-data"}).then(function(res){
                     var result = res.body
-                    console.log(result);
                     if(result.code === 0){
 
                         Modal.is_hidden = false
