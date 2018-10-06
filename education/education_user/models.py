@@ -57,9 +57,13 @@ class User(auth_models.AbstractBaseUser,
         _('mobile phone number'),
         max_length=11,
         validators=[is_mobile_phone_number],
+        null=True,
         unique=True)
-    # email = models.EmailField(
-    #     _('email address'), null=True, blank=True, unique=True)
+    email = models.EmailField(
+        _('email address'),
+        null=True,
+        blank=True)
+
     is_staff = models.BooleanField(
         _('Staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin '

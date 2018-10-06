@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>jiajin教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+</head>
+<body>
+    <div class="header" id="head">
+      <div class="title">jiajin教育测试版</div>
+    </div>
+
+	<form id="register">
+		<div class="red">请注意：带有“*”的项目必须填写。</div>
+		<table>
+			<tr>
+				<td class="blue" colspan="3">请填写您的用户名：</td>
+			</tr>
+			<tr>
+				<td class="left"><span class="red">*</span>帐号：</td>
+				<td class="center"><input type="text" v-model="username" name="username" placeholder="请输入帐号"><br />
+                    <!-- <a href="#">查看是否被占用</a> -->
+                </td>
+				<td class="right">6~16位，由字母、数字或下划线组成，只能以数字或字母开头，例如：ge_165</td>
+			</tr>
+
+            <tr>
+				<td colspan="3"><hr /></td>
+			</tr>
+            <tr>
+				<td class="left"><span class="red"></span>昵称：</td>
+				<td class="center"><input type="text" v-model="nickname" name="nickname" placeholder="请输入昵称"><br />
+                    <!-- <a href="#">查看是否被占用</a> -->
+                </td>
+				<td class="right">10位以内字符，例如：小仙女</td>
+			</tr>
+
+			<tr>
+				<td class="blue" colspan="3">请填写安全设置：<span class="normal">（安全设置用于验证账号和找回密码）</span></td>
+			</tr>
+			<tr>
+				<td colspan="3"><div class="red">以下信息对您账号的安全极为重要，请您务必认真填写。</div></td>
+			</tr>
+			<tr>
+				<td class="left"><span class="red">*</span>登录密码：<br /><span class="red">*</span>确认密码：</td>
+				<td class="center">
+                    <input type="password" v-model="password" name="pwd">
+                    <br />
+                    <input type="password" v-model="password2" name="pwd2">
+                    <br />
+                </td>
+				<td class="right">8~32位，由字母、数字或特殊字符组成，区分字母大小写</td>
+			</tr>
+			<!-- <tr>
+				<td colspan="3"><hr /></td>
+			</tr>
+
+			<tr>
+				<td class="left"><span class="red">*</span>密码提示问题：<br /><span class="red">*</span>密码提示答案：</td>
+				<td class="center"><input type="text" name="question"><br /><input type="text" name="ans"><br /></td>
+				<td class="right">忘记密码时，用于找回密码，例如，问题是“我的女朋友是谁？”，答案为“Mark”。问题长度不大于36个字符，一个汉字占两个字符。答案长度不大于36个字符，区分大小写。</td>
+			</tr> -->
+			<tr>
+				<td colspan="3"><hr /></td>
+			</tr>
+
+			<tr>
+				<td class="left"><span class="red">*</span>手机号码：<br /><span class="red"></span>邮箱地址：</td>
+				<td class="center">
+                    <input type="text" v-model="mobile" name="code">
+                    <br />
+                    <input type="text" v-model="email" name="code2">
+                    <br />
+                </td>
+				<td class="right">忘记密码时，可以通过手机号码或邮箱找回密码</td>
+			</tr>
+			<tr>
+				<td colspan="3"><hr /></td>
+			</tr>
+			<tr>
+				<td class="tocenter" colspan="3">
+					<div class="submit" v-on:click="login()">
+                        注册
+                    </div>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+    <div class="footer" id="foot">
+      <div class="copyright">
+        <p>Copyright © 2018 sxc.com Inc. All Rights Reserved.</p>
+        <div class="img">
+    		<i class="icon"></i><span>联系邮箱：63770117@qq.com</span>
+    	</div>
+
+    	<div class="img">
+    		<i class="icon1"></i><span>联系地址：浙江省湖州市</span>
+    	</div>
+
+    	<div class="img">
+    	  <i class="icon2"></i><span>联系电话：15757194948</span>
+    	</div>
+      </div>
+
+<link rel="stylesheet" href="/static/user/register/register.css"></link>
+<script src="/static/user/register/register.js"></script>
+</body>
+</html>
