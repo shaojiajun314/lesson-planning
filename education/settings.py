@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # education
     'education.education_user',
     'education.catalogue',
+    'education.analytics',
 
 ]
 

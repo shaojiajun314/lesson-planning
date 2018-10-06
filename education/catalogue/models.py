@@ -6,7 +6,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from education.db.models.fields import EDUImageField
-
 # Create your models here.
 
 class Category(MP_Node):
@@ -28,6 +27,15 @@ class Example(models.Model):
         Category,
         related_name='examples')
     content = models.TextField()
+
+    # def get_analytics(self):
+    #     try:
+    #         return self.analytics
+    #     except:
+    #         return ExampleRecord.objects.create(
+    #             example=self
+    #         )
+
 
 class ExampleImage(models.Model):
     example = models.ForeignKey(

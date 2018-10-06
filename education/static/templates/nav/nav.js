@@ -31,8 +31,6 @@ Vue.component('edunav', {
 //     <nav v-bind:index="index">
 //     </nav>
 // </div>
-console.log(123123123);
-
 var Nav = new Vue({
     el: '#nav',
     data: {

@@ -17,6 +17,7 @@ from rest_framework.pagination import PageNumberPagination
 from education.lib.baseviews import BaseApiView
 
 #apps
+from education.analytics.models import ExampleRecord
 from education.catalogue.models import Category, Example
 from education.catalogue.serializers import (CategorySerializer,
     ExampleSerializer, ExampleDetailSerializer)
@@ -184,6 +185,7 @@ class DocxView(BaseApiView):
         self.file_word.add_section()
         self.write_answer_heading()
         self.write_answer()
+        self.change_example_analytics()
         zbuf = StringIO()
         self.file_word.save(zbuf)
         response = HttpResponse(zbuf.getvalue(),content_type='application/msword')
@@ -251,3 +253,9 @@ class DocxView(BaseApiView):
             pic_paragraph = self.file_word.add_paragraph()
             for img_name in pic_name_list:
                 pic_paragraph.add_run(img_name)
+
+    def change_example_analytics(self):
+        records = ExampleRecord.objects.filter(example__in=self.examples)
+        for record in records:
+            record.num_assemble = record.num_assemble + 1
+            record.save()

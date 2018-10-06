@@ -7,6 +7,7 @@ from django.forms import fields
 from django.db import transaction
 
 #apps
+from education.analytics.models import ExampleRecord
 from education.catalogue.models import Category, Example
 
 class EDUBaseForm(forms.Form):
@@ -105,6 +106,9 @@ class ExampleCreateForm(EDUBaseForm):
         with transaction.atomic():
             example = self.category.examples.create(
                 content=self.cleaned_data['content']
+            )
+            ExampleRecord.objects.create(
+                example=example
             )
             for cate in self.category.get_ancestors():
                 example.categories.add(cate)

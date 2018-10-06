@@ -141,6 +141,16 @@ body {
     border-bottom: 1px solid;
     cursor: pointer;
 }
+.example .msg .num-assemble{
+    display: inline-block;
+    float: left;
+    height: 20px;
+    margin-top: 15px;
+    line-height: 20px;
+    margin-right: 25px;
+    font-size: 10px;
+    color: #52c684;
+}
 .example .msg .example_assemble_cancel{
     background: #e72b2b;
 }

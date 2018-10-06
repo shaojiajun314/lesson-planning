@@ -105,6 +105,10 @@
         </div> -->
 
         <div class="msg">
+            <div class="num-assemble">
+                组卷次数:{{example_item.analytics.num_assemble}}
+            </div>
+
 
             <div class="button" v-if="is_assembly && assembled_example.indexOf(example_item.id) == -1" v-on:click="change_assembly_checked(example_item.id)">
                 选题

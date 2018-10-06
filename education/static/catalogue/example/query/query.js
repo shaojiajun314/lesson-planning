@@ -119,11 +119,9 @@ var examples_list = new Vue({
             }
             this.$http.get(this.next_link).then(function(res){
                     var result = res.body
-                    console.log(result);
                     if(result.code === 0){
                         this.next_link = result.data.next_link;
                         this.examples = this.examples.concat(result.data.examples)
-                        console.log(this.examples);
                     }else {
                         alert(result.desc)
                     }

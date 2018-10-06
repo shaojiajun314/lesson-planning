@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from education.catalogue.models import (Category, Example, Answer,
     ExampleImage, AnswerImage)
+from education.analytics.serializers import ExampleRecordSerializer as ExampleAnalyticsRecordSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,7 +45,7 @@ class ExampleImageSerializer(serializers.ModelSerializer):
         model = ExampleImage
         fields = ('image',
             'image_name',
-            'id')
+            'id',)
 
 class AnswerSerializer(serializers.ModelSerializer):
     images = AnswerImageSerializer(many=True, read_only=True)
@@ -56,7 +57,9 @@ class AnswerSerializer(serializers.ModelSerializer):
             'images')
 
 class ExampleSerializer(serializers.ModelSerializer):
-    images = ExampleImageSerializer (many=True, read_only=True)
+    images = ExampleImageSerializer(many=True, read_only=True)
+    analytics = ExampleAnalyticsRecordSerializer(many=False, read_only=True)
+
     # answers = AnswerSerializer (many=True, read_only=True)
 
     class Meta:
@@ -64,7 +67,8 @@ class ExampleSerializer(serializers.ModelSerializer):
         fields = ('id',
             'content',
             # 'answers',
-            'images')
+            'images',
+            'analytics',)
 
 class ExampleDetailSerializer(serializers.ModelSerializer):
     images = ExampleImageSerializer(many=True, read_only=True)
