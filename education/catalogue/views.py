@@ -148,6 +148,13 @@ class ExampleView(BaseApiView):
 
         # 用于之后过滤数据 暂时没用
         example_qs = manager.all()
+
+        # 排序
+        order_field = request.GET.get('order_by', '-date_created')
+        # example_qs = example_qs.order_by('-analytics__num_assemble')
+        if order_field:
+            example_qs = example_qs.order_by(order_field)
+
         page = Page()
         page_data = page.paginate_queryset( \
             queryset=example_qs, request=request, view=self)

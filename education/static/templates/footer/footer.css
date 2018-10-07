@@ -1,0 +1,61 @@
+#footer {
+    width: 100%;
+    height: 126px;
+    background-color: #CC9933;
+    position: relative;
+    margin-top: 10px;
+}
+#footer .copyright .img {
+    width: 100%;
+    height: 24px;
+    position: relative;
+}
+.copyright {
+    font-family: "宋体";
+    color: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  /* 使用css3的transform来实现 */
+    height: 60px;
+    width: 40%;
+    text-align:center;
+}
+.copyright .img .icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 22px;
+    vertical-align: middle;
+    /* background-image: url(%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6.png); */
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.copyright .img .icon1 {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 22px;
+    vertical-align: middle;
+    /* background-image: url(%E5%9C%B0%E5%9D%80.png); */
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.copyright .img .icon2 {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 22px;
+    vertical-align: middle;
+    /* background-image: url(%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F.png); */
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+#footer .copyright p {
+    height: 24px;
+    width: 100%;
+}

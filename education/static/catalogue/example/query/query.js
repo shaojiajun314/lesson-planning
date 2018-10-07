@@ -70,7 +70,11 @@ var examples_list = new Vue({
         // answer_key_list: [],
         is_assembly: false,
         assembled_example: [],
-        current_category_path: []
+        current_category_path: [],
+        category_id: '',
+
+        order_by: '',
+        order: '',
     },
     created: function () {
         if(category_id){
@@ -88,6 +92,7 @@ var examples_list = new Vue({
                 this.current_category_path = [];
                 return ;
             }
+            this.category_id = category_id
             this.$http.get(api.AncestorsCategory.replace(/{category_pk}/, category_id))
                 .then(function(res){
                     var result = res.body
@@ -106,6 +111,7 @@ var examples_list = new Vue({
             }else {
                 category_pk = '';
             }
+            this.category_id = category_id ? category_id : '';
             this.examples = []
             // this.answer_key_list = []
             this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
@@ -117,7 +123,8 @@ var examples_list = new Vue({
                 alert('没有更多了')
                 return;
             }
-            this.$http.get(this.next_link).then(function(res){
+            console.log(this.order + this.order_by,1231313);
+            this.$http.get(this.next_link, {params: { 'order_by': (this.order + this.order_by)}}).then(function(res){
                     var result = res.body
                     if(result.code === 0){
                         this.next_link = result.data.next_link;
@@ -165,6 +172,24 @@ var examples_list = new Vue({
             window.open(url, '_blank'); // 新开窗口下载
             alert('下载完成')
             this.change_assembly()
+        },
+        change_order: function(field){
+            if(this.order_by == field){
+                this.order = this.order ? '' : '-';
+                console.log(this.order);
+            }else {
+                this.order_by = field;
+                this.order = '';
+            };
+            if(this.category_id){
+                category_pk = this.category_id + '/' // url 请求拼接
+            }else {
+                category_pk = '';
+            }
+            this.examples = []
+            this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
+            // examples_list.answer_key_list = []
+            this.get_examples()
         }
     },
 })

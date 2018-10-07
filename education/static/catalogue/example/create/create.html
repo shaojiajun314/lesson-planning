@@ -99,15 +99,21 @@
                 </div>
             </div>
 
-            <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
-                确定
-            </dv>
+            <div class="div-button">
+                <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
+                    确定
+                </div>
+            </div>
 
         </form>
     </div>
 </div>
 
-<link rel="stylesheet" href="/static/templates/nav/nav.css"></link>
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
 <script src="/static/templates/nav/nav.js"></script>
 
 <link rel="stylesheet" href="/static/templates/modal/modal.css"></link>

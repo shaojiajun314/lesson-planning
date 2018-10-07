@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
 <div id="nav">
     <edunav v-bind:index="index">
     </edunav>
@@ -64,6 +63,34 @@
         </div>
     </div>
     <div class="extra">
+    </div>
+    <div class="title order_by">
+        <span>
+            按创建日期排序
+            <div class="div-icon" v-on:click="change_order('date_created')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'up-icon': order_by=='date_created' && order=='' || order_by!='date_created'}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'dn-icon': order_by=='date_created' && order=='-' || order_by!='date_created'}">
+                    </i>
+                </div>
+            </div>
+        </span>
+        <span>
+            按组卷次数排序
+            <div class="div-icon" v-on:click="change_order('analytics__num_assemble')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{ 'up-icon' : (order_by=='analytics__num_assemble' && order=='' || order_by!='analytics__num_assemble')}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon"  v-bind:class="{'dn-icon' : order_by=='analytics__num_assemble' && order=='-' || order_by!='analytics__num_assemble'}">
+                    </i>
+                </div>
+            </div>
+        </span>
     </div>
 
     <div class="example" v-for="(example_item, example_index) in examples">
@@ -123,16 +150,21 @@
         </div>
 
     </div>
-
-    <div class="next-link" v-on:click="get_examples()">
-        下一页
+    <div class="div-next-link">
+        <div class="next-link" v-on:click="get_examples()">
+            下一页
+        </div>
     </div>
 
 </div>
 
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
 <script src="/static/lib/GetArgs.js"></script>
 
-<link rel="stylesheet" href="/static/templates/nav/nav.css"></link>
 <script src="/static/templates/nav/nav.js"></script>
 
 <link rel="stylesheet" href="/static/catalogue/example/query/query.css"></link>

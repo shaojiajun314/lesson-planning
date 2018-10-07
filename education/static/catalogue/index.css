@@ -6,7 +6,8 @@ body {
 
 /* category */
 #category{
-    width: 100%
+    width: 100%;
+    min-height: 449px;
 }
 .category-list{
     width: 200px;

@@ -63,8 +63,49 @@ body {
     background: #fffee9;
     height: 35px;
     position: fixed;
+    /* text-align: center; */
+    width: calc(100% - 280px);
+}
+#example-list .order_by{
+    position: unset;
+    width: 100%;
+    margin-bottom: 10px;
+    background: #dfeae4;
+    display: table;
+}
+#example-list .order_by span{
+    display: table-cell;
     text-align: center;
-    width: calc(100% - 300px);
+    line-height: 35px;
+    color: #5d66a6
+}
+#example-list .order_by .div-icon{
+    display: inline-block;
+    height: 35px;
+    vertical-align: top;
+    cursor: pointer;
+}
+#example-list .order_by .div-i{
+    height: 17px;
+}
+#example-list .order_by .order_by-icon{
+    line-height: 17px;
+}
+.up-icon{
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    border-style: solid;
+    border-width: 0px 7px 7px 7px;
+    border-color: #634949 #dfeae4;
+}
+.dn-icon{
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    border-style: solid;
+    border-width: 7px 7px 0px 7px;
+    border-color: #634949 #dfeae4;
 }
 #example-list .title .category-path{
     color:#2bbb61;
@@ -86,9 +127,10 @@ body {
     background: #e72b2b;
 }
 #example-list .title .download{
-    float: left;
-    background: #e72b2b;
+    float: right;
+    background: #52c684;
     width: unset;
+    margin-left: 10px;
 }
 .example{
     background: #fff;
@@ -170,9 +212,10 @@ body {
     margin-top: 10px
 }
 
-
-
-.next-link{
+.div-next-link{
+    height: 50px
+}
+.div-next-link .next-link{
     float: right;
     height: 20px;
     margin-top: 15px;

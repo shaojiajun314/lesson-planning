@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from treebeard.mp_tree import MP_Node
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from education.db.models.fields import EDUImageField
@@ -20,6 +21,7 @@ class Category(MP_Node):
         max_length=64,
         blank=True,
         null=True,)
+    date_created = models.DateTimeField(default=timezone.now)
 
 
 class Example(models.Model):
@@ -27,6 +29,8 @@ class Example(models.Model):
         Category,
         related_name='examples')
     content = models.TextField()
+    date_created = models.DateTimeField(default=timezone.now)
+
 
     # def get_analytics(self):
     #     try:
@@ -52,6 +56,8 @@ class ExampleImage(models.Model):
         max_length=64,
         blank=True,
         null=True,)
+    date_created = models.DateTimeField(default=timezone.now)
+
 
 class Answer(models.Model):
     example = models.ForeignKey(
@@ -59,6 +65,7 @@ class Answer(models.Model):
         on_delete=models.CASCADE,
         related_name='answers',)
     answer = models.TextField()
+    date_created = models.DateTimeField(default=timezone.now)
 
     # image = EDUImageField(_('Image'),
     #     upload_to='categories',
@@ -82,3 +89,4 @@ class AnswerImage(models.Model):
         max_length=64,
         blank=True,
         null=True,)
+    date_created = models.DateTimeField(default=timezone.now)

@@ -23,6 +23,7 @@ Vue.component('edunav', {
                             <li :class="{menuAction: index==5}">test</li> \
                         </a> \
                     </ul> \
+                    <link rel="stylesheet" href="/static/templates/nav/nav.css"></link> \
                 </div>'
 })
 

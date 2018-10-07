@@ -40,7 +40,9 @@ body {
     position: absolute;
 }
 
-
+.div-button{
+    height: 70px
+}
 
 .button{
     width: 80px;
@@ -51,7 +53,6 @@ body {
     text-align: center;
     background: #52c684;
     border-radius: 5px;
-    margin-top: 30px;
     margin-bottom: 35px;
     border: none;
     float: right;
