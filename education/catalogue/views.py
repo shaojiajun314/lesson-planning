@@ -11,6 +11,7 @@ from django.utils.six import StringIO
 
 #rest
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 #lib
@@ -42,6 +43,8 @@ class Page(PageNumberPagination):
 
 # 分类创建及更新
 class UpdateCategoryView(BaseApiView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, *args, **kw):
         if kw.get('pk'):
             form = CategoryUpdateForm(request.data,
@@ -110,6 +113,8 @@ class AncestorsCategoryView(APIView):
 
 # 题目创建及更新
 class UpdateExampleView(BaseApiView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, *args, **kw):
         print request.data
         if kw.get('pk'):
@@ -164,6 +169,8 @@ class ExampleView(BaseApiView):
         return JsonResponse(res, safe=False)
 
 class ExampleDetaiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kw):
         res = {
             'msg': 'success',
@@ -180,6 +187,8 @@ class ExampleDetaiView(APIView):
 
 
 class DocxView(BaseApiView):
+    permission_classes = [IsAuthenticated]
+
     file_word = docx.Document()
     IObuf = StringIO()
     def get(self, request, *args, **kw):

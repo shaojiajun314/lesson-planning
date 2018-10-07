@@ -45,8 +45,13 @@ new Vue({
                     }else {
                         alert(result.desc)
                     }
-                },function(){
-                    alert('请求错误');
+                },function(e){
+                    if(e.status === 403){
+                        alert('请先登入');
+                        window.location.href = '/static/user/login/login.html'
+                    }else {
+                        alert('请求错误');
+                    }
                 });
         },
         handle_categories: function(categories){
@@ -208,8 +213,13 @@ new Vue({
                     }else {
                         alert(result.desc)
                     }
-                },function(){
-                    alert('请求错误');
+                },function(e){
+                    if(e.status === 403){
+                        alert('请先登入');
+                        window.location.href = '/static/user/login/login.html'
+                    }else {
+                        alert('请求错误');
+                    }
                 });
         },
         // 编辑模式 end

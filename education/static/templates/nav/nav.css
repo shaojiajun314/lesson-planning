@@ -102,6 +102,19 @@ a {
     text-align: center;
     margin-top: 18px;
 }
+.navInner .user{
+    display: block;
+    font-size: 16px;
+    float: right;
+    line-height: 40px;
+    text-align: center;
+    margin-top: 18px;
+    border-bottom: 1px solid;
+    margin-right: 10px;
+}
+.navInner .user.logout{
+    cursor: pointer;
+}
 .navMenu li:last-child{
     padding: 0;    text-decoration: none;
 }

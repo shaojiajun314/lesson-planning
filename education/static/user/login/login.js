@@ -25,6 +25,9 @@ new Vue({
                 form, {emulateJSON:true}).then(function(res){
                     var result = res.body
                     if(result.code === 0){
+                        console.log(result.data);
+                        var user_json = JSON.stringify(result.data)
+                        localStorage.setItem("user", user_json);
                         window.location.href = '/'
                     }else {
                         alert(result.desc)

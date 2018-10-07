@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+#django
 from django.http import JsonResponse
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import (login as auth_login, logout as auth_logout)
+
+# rest
+from rest_framework.views import APIView
 
 #lib
 from education.lib.baseviews import BaseApiView
@@ -52,3 +56,12 @@ class APIRegisterView(BaseApiView):
         else:
             res = self.err_response(form)
         return JsonResponse(res)
+
+class APILogoutView(APIView):
+    def get(self, request, *args, **kw):
+        auth_logout(request)
+        return JsonResponse({
+            "desc":"已退出",
+            'msg': 'Logout success',
+            'code': 0,
+        })

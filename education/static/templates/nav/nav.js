@@ -1,8 +1,11 @@
 Vue.component('edunav', {
-    props: ['index'],
+    props: ['index', 'user'],
     template:   '<div class="navInner"> \
                     <span class="navLogo"><a href=""><img src="/static/images/catalogue/kedaya.jpg"/></a></span> \
-                    <a href="business-login.html"><span class="BusinessLogin">登录</span></a> \
+                    <a v-if="user"><span class="user logout" v-on:click="logout">退出</span><span class="user">{{user.nickname || user.username}}</span></a>\
+                    <a href="/static/user/login/login.html" v-else="user"> \
+                        <span class="BusinessLogin">登录</span>\
+                    </a> \
                     <ul class="navMenu"> \
                         <a href="/static/catalogue/index.html"> \
                             <li :class="{menuAction: index==0}" >首页</li> \
@@ -24,7 +27,22 @@ Vue.component('edunav', {
                         </a> \
                     </ul> \
                     <link rel="stylesheet" href="/static/templates/nav/nav.css"></link> \
-                </div>'
+                </div>',
+    methods:{
+        logout: function(){
+            this.$http.get(api.Logout).then(function(res){
+                    var result = res.body
+                    if(result.code === 0){
+                        localStorage.removeItem('user');
+                        window.location.href = '/'
+                    }else {
+                        alert(result.desc)
+                    }
+                },function(){
+                    alert('请求错误');
+                });
+        }
+    }
 })
 
 // html
@@ -36,5 +54,11 @@ var Nav = new Vue({
     el: '#nav',
     data: {
         index: null,
+        user: null
+    },
+    created: function(){
+        if(localStorage.user){
+            this.user = JSON.parse(localStorage.getItem('user'));
+        }
     }
 })

@@ -20,4 +20,5 @@ const api = {
 
     Register: ApiRootUrl + 'user/register/',
     Login: ApiRootUrl + 'user/login/',
+    Logout: ApiRootUrl + 'user/logout/',
 }
