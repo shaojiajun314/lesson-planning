@@ -183,7 +183,7 @@ body {
     border-bottom: 1px solid;
     cursor: pointer;
 }
-.example .msg .num-assemble{
+.example .msg .item{
     display: inline-block;
     float: left;
     height: 20px;

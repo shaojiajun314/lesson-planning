@@ -4,6 +4,7 @@ new Vue({
     el: '#example-update',
     data: {
         content: '',　//题目
+        difficulty: 0,
 
         content_imgs: [],
         content_img_ctr: [true,], //题目图片数量控制
@@ -20,6 +21,7 @@ new Vue({
         delete_example_imgs: [], //删除图片id
         delete_answer: [], //删除答案id
         edit_current_category: {name:'', id: null},
+        edit_difficulty: null
 
 
     },
@@ -38,6 +40,8 @@ new Vue({
                         this.handle_categories(data.categories)
                         this.content_imgs = data.images
                         this.answer = data.answers
+                        this.difficulty = data.difficulty
+                        this.edit_difficulty = data.difficulty
                     }else {
                         alert(result.desc)
                     }
@@ -152,10 +156,10 @@ new Vue({
                 alert('请输入提干')
                 return
             };
-            // if(!this.add_answer){
-            //     alert('请输入答案')
-            //     return
-            // };
+            if(this.edit_difficulty > 1 || this.edit_difficulty < 0){
+                alert('请输入合法的难度系数')
+                return
+            }
             if(!this.edit_current_category.id){
                 alert('请输入分类')
                 return
@@ -164,6 +168,7 @@ new Vue({
             form.append('category_id', this.edit_current_category.id)
             form.append('content', this.edit_content)
             form.append('answer', this.add_answer)
+            form.append('difficulty', this.edit_difficulty)
 
             form.append('example_imgs_delete', JSON.stringify(this.delete_example_imgs))
             form.append('answer_delete', JSON.stringify(this.delete_answer))

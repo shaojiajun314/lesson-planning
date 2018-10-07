@@ -3,6 +3,7 @@ Nav.index = 3
 new Vue({
     el: '#example-create',
     data: {
+        difficulty: null, // 难度系数
         content: '',　//题目
         content_img_ctr: [true,], //题目图片数量控制
 
@@ -85,6 +86,10 @@ new Vue({
         },
 
         submit_input: function(){
+            if(this.difficulty > 1 || this.difficulty < 0){
+                alert('请输入合法的难度系数')
+                return
+            }
             if(!this.content){
                 alert('请输入提干')
                 return
@@ -97,10 +102,12 @@ new Vue({
                 alert('请输入分类')
                 return
             }
+
             var form = new FormData()
             form.append('category_id', this.current_category.id)
             form.append('content', this.content)
             form.append('answer', this.answer)
+            form.append('difficulty', this.difficulty)
 
             // 图片添加
             var content_img = this.$refs.contentImg

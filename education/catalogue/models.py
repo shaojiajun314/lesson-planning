@@ -30,6 +30,7 @@ class Example(models.Model):
         related_name='examples')
     content = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
+    difficulty = models.FloatField(default=0)
 
 
     # def get_analytics(self):

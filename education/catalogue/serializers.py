@@ -68,6 +68,7 @@ class ExampleSerializer(serializers.ModelSerializer):
             'content',
             # 'answers',
             'images',
+            'difficulty',
             'analytics',)
 
 class ExampleDetailSerializer(serializers.ModelSerializer):
@@ -81,4 +82,5 @@ class ExampleDetailSerializer(serializers.ModelSerializer):
             'content',
             'answers',
             'images',
-            'categories')
+            'categories',
+            'difficulty')

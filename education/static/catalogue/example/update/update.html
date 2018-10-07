@@ -37,6 +37,8 @@
                     编辑/查看
                 </div>
             </div>
+
+
             <div class="input-div">
                 <label class="disabale-input-label input-label">
                     分类
@@ -53,6 +55,24 @@
                 </div>
 
             </div>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    难度
+                </label>
+
+                <!-- 编辑模式 -->
+                <input name="difficulty" v-model="edit_difficulty" v-if="is_edit" class="input" type="number">
+                </input>
+
+                <!-- 查看模式 -->
+                <div class="input disabale-input" v-if="!is_edit">
+                    {{difficulty}}
+                </div>
+
+            </div>
+
+
             <div class="category-list-content" v-if="category.length > 0" :style="'height:' + ((category.length && category[0].length) * 36 + 70) + 'px'">
                 <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
                     <div class="category_root_list" v-if="category_item.length > 0">

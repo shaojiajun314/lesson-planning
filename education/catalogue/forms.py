@@ -89,6 +89,7 @@ class ExampleCreateForm(EDUBaseForm):
     category_id = fields.IntegerField(required=True)
     content = fields.CharField(required=True, max_length=512)
     answer = fields.CharField(required=True, max_length=512)
+    difficulty = fields.FloatField(required=True)
 
     def __init__(self, data, files):
         super(ExampleCreateForm, self).__init__(data, files=files)
@@ -102,10 +103,17 @@ class ExampleCreateForm(EDUBaseForm):
             raise forms.ValidationError('该分类不存在', 1011)
         return self.cleaned_data['category_id']
 
+    def clean_difficulty(self):
+        if self.cleaned_data['difficulty'] < 0 or \
+            self.cleaned_data['difficulty'] > 1:
+            raise forms.ValidationError('难度系数不合法', 1012)
+        return self.cleaned_data['difficulty']
+
     def save(self):
         with transaction.atomic():
             example = self.category.examples.create(
-                content=self.cleaned_data['content']
+                content=self.cleaned_data['content'],
+                difficulty=self.cleaned_data['difficulty'],
             )
             ExampleRecord.objects.create(
                 example=example
@@ -137,6 +145,7 @@ class ExampleUpdateForm(EDUBaseForm):
     answer = fields.CharField(required=False, max_length=512)
     example_imgs_delete = fields.CharField(required=False, max_length=512) #json
     answer_delete = fields.CharField(required=False, max_length=512) #json
+    difficulty = fields.FloatField(required=True)
 
     answer_delete_list = []
     example_imgs_delete_list = []
@@ -153,6 +162,12 @@ class ExampleUpdateForm(EDUBaseForm):
         except Category.DoesNotExist:
             raise forms.ValidationError('该分类不存在', 1011)
         return self.cleaned_data['category_id']
+
+    def clean_difficulty(self):
+        if self.cleaned_data['difficulty'] < 0 or \
+            self.cleaned_data['difficulty'] > 1:
+            raise forms.ValidationError('难度系数不合法', 1012)
+        return self.cleaned_data['difficulty']
 
 
     def clean(self):
@@ -192,6 +207,7 @@ class ExampleUpdateForm(EDUBaseForm):
             self.answer_delete_list.delete()
             self.example_imgs_delete_list.delete()
             self.this_example.content = self.cleaned_data['content']
+            self.this_example.difficulty = self.cleaned_data['difficulty']
             for k, v in self.cleaned_data.items():
                 if k.startswith('content_img'):
                     self.this_example.images.create(

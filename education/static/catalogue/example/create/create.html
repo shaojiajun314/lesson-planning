@@ -59,6 +59,15 @@
                 </div>
             </div>
 
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    难度
+                </label>
+                <input class="input" name="difficulty" v-model="difficulty" placeholder="输入难度系数(0～１)" type="number">
+                    {{current_category.name || "选择分类"}}
+                </input>
+            </div>
+
             <div class="text-div">
                 <label class="text-label">
                     题干
