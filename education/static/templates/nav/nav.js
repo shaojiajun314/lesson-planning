@@ -1,7 +1,7 @@
 Vue.component('edunav', {
     props: ['index', 'user'],
     template:   '<div class="navInner"> \
-                    <span class="navLogo"><a href=""><img src="/static/images/catalogue/kedaya.jpg"/></a></span> \
+                    <span class="navLogo"><a href="/"><img src="/static/images/catalogue/kedaya.jpg"/></a></span> \
                     <a v-if="user"><span class="user logout" v-on:click="logout">退出</span><span class="user">{{user.nickname || user.username}}</span></a>\
                     <a href="/static/user/login/login.html" v-else="user"> \
                         <span class="BusinessLogin">登录</span>\
@@ -57,9 +57,26 @@ var Nav = new Vue({
         user: null
     },
     created: function(){
-        if(localStorage.user){
-            this.user = JSON.parse(localStorage.getItem('user'));
-            console.log(this.user);
+        if(sessionStorage.user){
+            this.user = JSON.parse(sessionStorage.getItem('user'));
+        }
+    },
+    methods: {
+        get_user_info: function(){
+            if(this.user){
+                return ;
+            }
+            this.$http.post(api.Login,
+                {}, {emulateJSON:true}).then(function(res){
+                    var result = res.body
+                    if(result.code === 0){
+                        this.user = result.data
+                        var user_json = JSON.stringify(result.data)
+                        sessionStorage.setItem("user", user_json);
+                    }else {
+                    }
+                },function(){
+                });
         }
     }
 })

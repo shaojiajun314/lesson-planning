@@ -27,7 +27,7 @@ new Vue({
                     if(result.code === 0){
                         console.log(result.data);
                         var user_json = JSON.stringify(result.data)
-                        localStorage.setItem("user", user_json);
+                        sessionStorage.setItem("user", user_json);
                         window.location.href = '/'
                     }else {
                         alert(result.desc)

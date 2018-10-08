@@ -1,4 +1,5 @@
 Nav.index = 0
+Nav.get_user_info()
 
 new Vue({
     el: '#category',
@@ -10,7 +11,7 @@ new Vue({
     },
     created: function () {
       this.get_category_root();
-      this.permissions_modify = Nav.user.permissions.modify_category
+      this.permissions_modify = Nav.user && Nav.user.permissions.modify_category
     },
     methods: {
         get_category_root: function(){
