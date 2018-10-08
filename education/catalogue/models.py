@@ -23,6 +23,12 @@ class Category(MP_Node):
         null=True,)
     date_created = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        permissions = (
+            ("modify_category", "Can modify a category"),
+        )
+
+
 
 class Example(models.Model):
     categories = models.ManyToManyField(
@@ -32,6 +38,10 @@ class Example(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     difficulty = models.FloatField(default=0)
 
+    class Meta:
+        permissions = (
+            ("modify_example", "Can modify a example"),
+        )
 
     # def get_analytics(self):
     #     try:

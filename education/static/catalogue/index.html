@@ -31,7 +31,7 @@
                             {{item.name}}
                         </span>
                     </span>
-                    <a :href="'/static/catalogue/category/update/update.html?category_id='+item.id">
+                    <a :href="'/static/catalogue/category/update/update.html?category_id='+item.id" v-if="permissions_modify">
                         <img class="edit" src="/static/images/catalogue/edit.png">
                         </img>
                     </a>

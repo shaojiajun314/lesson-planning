@@ -16,6 +16,8 @@ from rest_framework.pagination import PageNumberPagination
 
 #lib
 from education.lib.baseviews import BaseApiView
+from education.lib.permissions import (UpdateCategoryPermission,
+    UpdateExamplePermission)
 
 #apps
 from education.analytics.models import ExampleRecord
@@ -43,7 +45,7 @@ class Page(PageNumberPagination):
 
 # 分类创建及更新
 class UpdateCategoryView(BaseApiView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UpdateCategoryPermission]
 
     def post(self, request, *args, **kw):
         if kw.get('pk'):
@@ -113,7 +115,7 @@ class AncestorsCategoryView(APIView):
 
 # 题目创建及更新
 class UpdateExampleView(BaseApiView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UpdateExamplePermission]
 
     def post(self, request, *args, **kw):
         print request.data

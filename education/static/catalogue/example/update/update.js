@@ -21,12 +21,13 @@ new Vue({
         delete_example_imgs: [], //删除图片id
         delete_answer: [], //删除答案id
         edit_current_category: {name:'', id: null},
-        edit_difficulty: null
+        edit_difficulty: null,
 
-
+        permissions_modify: false
     },
     created: function () {
       this.get_example_detail(example_id);
+      this.permissions_modify = Nav.user.permissions.modify_example
     },
     methods: {
         // 查询模式 start

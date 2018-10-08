@@ -13,7 +13,7 @@ Vue.component('edunav', {
                         <a href="/static/catalogue/example/query/query.html"> \
                             <li :class="{menuAction: index==1}">查题</li> \
                         </a> \
-                        <a href="/static/catalogue/category/create/create.html"> \
+                        <a href="/static/catalogue/category/create/create.html" v-if="user && user.permissions.modify_category"> \
                             <li :class="{menuAction: index==2}">创建分类</li> \
                         </a> \
                         <a href="/static/catalogue/example/create/create.html"> \
@@ -59,6 +59,7 @@ var Nav = new Vue({
     created: function(){
         if(localStorage.user){
             this.user = JSON.parse(localStorage.getItem('user'));
+            console.log(this.user);
         }
     }
 })

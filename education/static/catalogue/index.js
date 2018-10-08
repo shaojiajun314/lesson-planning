@@ -4,10 +4,13 @@ new Vue({
     el: '#category',
     data: {
         category: [],
-        clean_key: true
+        clean_key: true,
+
+        permissions_modify: false,
     },
     created: function () {
       this.get_category_root();
+      this.permissions_modify = Nav.user.permissions.modify_category
     },
     methods: {
         get_category_root: function(){

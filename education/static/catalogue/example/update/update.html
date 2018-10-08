@@ -27,7 +27,7 @@
 <div id="example-update">
     <div class="form">
         <form>
-            <div class="nav fixed input-div">
+            <div class="nav fixed input-div" v-if="permissions_modify">
                 <!-- 编辑模式 -->
                 <div class="button nav-button submit"　v-on:click="submit_input" v-if="is_edit" v-if="category.length == 0">
                     提交
