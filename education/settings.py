@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'education.education_user',
     'education.catalogue',
     'education.analytics',
+    'education.dashboard',
+    'education.dashboard.permissions',
 
 ]
 

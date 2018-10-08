@@ -21,4 +21,8 @@ const api = {
     Register: ApiRootUrl + 'user/register/',
     Login: ApiRootUrl + 'user/login/',
     Logout: ApiRootUrl + 'user/logout/',
+
+    DashboardUsersPermissions: ApiRootUrl + 'dashboard/permission/users/query/',
+    DashboardUsersPermissionsCreate: ApiRootUrl + 'dashboard/permission/users/create/',
+    DashboardUsersPermissionsDelete: ApiRootUrl + 'dashboard/permission/users/{username}/delete/'
 }

@@ -21,6 +21,7 @@ from django.conf.urls import url, include
 from education.index_views import IndexRedirctView
 from education.catalogue.apps import get_urls as catalogue_urls
 from education.education_user.apps import get_urls as user_urls
+from education.dashboard.apps import get_urls as dashboard_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,5 +29,7 @@ urlpatterns = [
     url(r'^$', IndexRedirctView.as_view()),
     url(r'^api/catalogue/', include(catalogue_urls())),
     url(r'^api/user/', include(user_urls())),
+    url(r'^api/dashboard/', include(dashboard_urls())),
+
     url(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ]

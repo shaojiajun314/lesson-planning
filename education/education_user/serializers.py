@@ -3,6 +3,14 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class UserBaseInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',
+            'nickname',
+            'mobile',
+            'email')
+
 class UserInfoSerializer(serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
 
