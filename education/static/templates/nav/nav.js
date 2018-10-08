@@ -33,7 +33,7 @@ Vue.component('edunav', {
             this.$http.get(api.Logout).then(function(res){
                     var result = res.body
                     if(result.code === 0){
-                        localStorage.removeItem('user');
+                        sessionStorage.removeItem('user');
                         window.location.href = '/'
                     }else {
                         alert(result.desc)
