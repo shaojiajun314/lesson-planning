@@ -11,6 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 
 #lib
 from education.lib.baseviews import BaseApiView
+from education.lib.permissions import IsStaff
 
 #apps
 from education.education_user.models import User
@@ -38,6 +39,8 @@ class UserPermissonListView(APIView):
             'modify_example')
     }
 
+    permission_classes = [IsStaff]
+
     def get(self, request, *arg, **kw):
         res = {
             'msg': 'success',
@@ -62,6 +65,8 @@ class UserPermissonListView(APIView):
         return JsonResponse(res, safe=False)
 
 class UserPermissonUpdateView(BaseApiView):
+    permission_classes = [IsStaff]
+
     def post(self, request, *args, **kw):
         if kw.get('username'):
             form = UserPermissonDeleteForm(request.data,

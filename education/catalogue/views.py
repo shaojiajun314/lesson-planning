@@ -23,9 +23,10 @@ from education.lib.permissions import (UpdateCategoryPermission,
 from education.analytics.models import ExampleRecord
 from education.catalogue.models import Category, Example
 from education.catalogue.serializers import (CategorySerializer,
-    ExampleSerializer, ExampleDetailSerializer)
+    ExampleSerializer, ExampleDetailSerializer, CourseWareSerializer,
+    ExaminationOutlineSerializer)
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
-    ExampleCreateForm, ExampleUpdateForm)
+    ExampleCreateForm, ExampleUpdateForm, FileCreateForm)
 # Create your views here.
 ################################################################################
 #                              分页                                            #
@@ -277,3 +278,76 @@ class DocxView(BaseApiView):
         for record in records:
             record.num_assemble = record.num_assemble + 1
             record.save()
+
+################################################################################
+#                              文件                                            #
+################################################################################
+from education.catalogue.models import CourseWare, ExaminationOutline
+class UpdateFilesView(BaseApiView):
+    model_maps = {
+        'courseware': 'courseware',
+        'examination_outline': 'examination_outline'
+    }
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kw):
+        manager = self.model_maps[kw['type']]
+        if kw.get('pk'):
+            form = FileDeleteForm(request.data,
+                kw.get('pk'), request.FILES,)
+        else:
+            form = FileCreateForm(request.data,
+                request.FILES,)
+        if form.is_valid():
+            res = {
+                'msg': 'success',
+                'desc': 'success',
+                'code': 0,
+            }
+            example = form.save(request.user, manager)
+        else:
+            res = self.err_response(form)
+        return JsonResponse(res)
+
+
+class FileView(APIView):
+    model_maps = {
+        'courseware': ('courseware',
+            CourseWare,
+            CourseWareSerializer),
+
+        'examination_outline': ('examination_outline',
+            ExaminationOutline,
+            ExaminationOutlineSerializer)
+    }
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kw):
+        res = {
+            'msg': 'success',
+            'desc': 'success',
+            'code': 0,
+        }
+        category_pk = kw.get('category_pk')
+        attr_list =self.model_maps[kw['type']]
+        if category_pk:
+            manager = getattr(Category.objects.get(id=category_pk),
+                attr_list[0])
+        else:
+            manager = attr_list[1].objects
+
+        # 用于之后过滤数据 暂时没用
+        qs = manager.all()
+
+        # 排序
+        order_field = request.GET.get('order_by', '-date_created')
+        if order_field:
+            qs = qs.order_by(order_field)
+
+        page = Page()
+        page_data = page.paginate_queryset( \
+            queryset=qs, request=request, view=self)
+        data = attr_list[2](page_data, many=True)
+        res['data'] = {'files': data.data,
+            'next_link': page.get_next_link()}
+        return JsonResponse(res, safe=False)

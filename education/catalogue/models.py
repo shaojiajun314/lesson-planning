@@ -6,7 +6,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from education.db.models.fields import EDUImageField
+from education.education_user.models import User
+from education.db.models.fields import EDUImageField, EDUFileField
 # Create your models here.
 
 class Category(MP_Node):
@@ -101,3 +102,41 @@ class AnswerImage(models.Model):
         blank=True,
         null=True,)
     date_created = models.DateTimeField(default=timezone.now)
+
+
+
+class CourseWare(models.Model):
+    categories = models.ManyToManyField(
+        Category,
+        related_name='courseware')
+    date_created = models.DateTimeField(default=timezone.now)
+    title = models.CharField(max_length=64, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    file = EDUFileField(
+        upload_to='files/courseware',
+        blank=True,
+        null=True,
+        max_length=255)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='courseware',)
+
+class ExaminationOutline(models.Model):
+    categories = models.ManyToManyField(
+        Category,
+        related_name='examination_outline')
+    date_created = models.DateTimeField(default=timezone.now)
+    title = models.CharField(max_length=64, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    file = EDUFileField(
+        upload_to='files/examination_outline',
+        blank=True,
+        null=True,
+        max_length=255)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='examination_outline',)

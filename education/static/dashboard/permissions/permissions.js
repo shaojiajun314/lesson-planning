@@ -1,3 +1,5 @@
+Nav.index = 4
+
 new Vue({
     el: '#permissions',
     data: {

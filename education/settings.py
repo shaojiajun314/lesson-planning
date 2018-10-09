@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #extra
     'django_extensions',
     'rest_framework',
+    'sorl.thumbnail',
 
     'education.tools',
     # education

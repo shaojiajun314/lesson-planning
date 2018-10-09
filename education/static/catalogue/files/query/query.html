@@ -1,0 +1,177 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+<div id="category">
+    <div class="title">
+        选择分类
+    </div>
+    <!-- <div class="category-list-content" :style="'height:' + (category.length && ((category.length && category[0].length) * 36 + 70)) + 'px'"> -->
+        <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+            <div class="category_root_list" v-if="category_item.length > 0">
+                <div v-for="(item, index) in category_item" class="item"
+                    v-on:mouseenter="get_category(item.id, category_index)"
+                    v-on:mouseleave="clean_category"
+                    v-on:click="query_example(item.id)">
+                    <img :src="item.image" />
+                    <span class="name">
+                        {{item.name}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div id="file-list">
+    <div class="title">
+        <div v-on:click="download_docx" class="assembly button download" v-if="is_assembly">
+            下载(已选择{{assembled_example.length}}题)
+        </div>
+
+        <span>
+            <a class="category-path" v-on:click="change_category()">
+                全部
+            </a>
+            /
+        </span>
+        <span v-for="(path, index) in current_category_path" >
+            <a class="category-path" v-on:click="change_category(path.id)">
+                {{path.name}}
+            </a>
+            /
+        </span>
+
+        <div class="start-assembly assembly button" v-if="!is_assembly" v-on:click="change_assembly()">
+            开始组卷
+        </div>
+        <div class="cancel-assembly assembly button" v-if="is_assembly" v-on:click="change_assembly()">
+            取消组卷
+        </div>
+    </div>
+    <div class="extra">
+    </div>
+    <div class="title order_by">
+        <span>
+            按创建日期排序
+            <div class="div-icon" v-on:click="change_order('date_created')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'up-icon': order_by=='date_created' && order=='' || order_by!='date_created'}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'dn-icon': order_by=='date_created' && order=='-' || order_by!='date_created'}">
+                    </i>
+                </div>
+            </div>
+        </span>
+        <span>
+            按组卷次数排序
+            <div class="div-icon" v-on:click="change_order('analytics__num_assemble')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{ 'up-icon' : (order_by=='analytics__num_assemble' && order=='' || order_by!='analytics__num_assemble')}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon"  v-bind:class="{'dn-icon' : order_by=='analytics__num_assemble' && order=='-' || order_by!='analytics__num_assemble'}">
+                    </i>
+                </div>
+            </div>
+        </span>
+    </div>
+
+    <div class="example" v-for="(example_item, example_index) in examples">
+
+        <div class="example-container">
+            <div class="content">
+                {{example_index + 1}}: {{example_item.content}}
+            </div>
+            <div class="imgs">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td valign="top" width="189"
+                                v-for="(content_img, content_img_index) in example_item.images">
+                                <img height="80" width="88" :src="content_img.image">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <hr v-if="answer_key_list.indexOf(example_index) != -1">
+        </hr>
+        <div class="answer-container" v-for="(answer_item, answer_index) in example_item.answers"
+            v-if="answer_key_list.indexOf(example_index) != -1">
+            答案{{answer_index + 1}}:
+            <div class="content">
+                {{answer_item.answer}}
+            </div>
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td valign="top" width="189" v-for="(answer_img, answer_img_index) in answer_item.images">
+                            <img height="80" width="88" :src="answer_img.image">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+
+        <div class="msg">
+            <div class="item">
+                组卷次数:{{example_item.analytics.num_assemble}}
+            </div>
+            <div class="item">
+                难度系数:{{example_item.difficulty}}
+            </div>
+
+
+            <div class="button" v-if="is_assembly && assembled_example.indexOf(example_item.id) == -1" v-on:click="change_assembly_checked(example_item.id)">
+                选题
+            </div>
+            <div class="button example_assemble_cancel" v-if="is_assembly && assembled_example.indexOf(example_item.id) != -1" v-on:click="change_assembly_checked(example_item.id)">
+                取消
+            </div>
+
+            <div class="answer-visible" v-on:click="get_example_detail(example_item.id)">
+                查看答案
+            </div>
+        </div>
+
+    </div>
+    <div class="div-next-link">
+        <div class="next-link" v-on:click="get_examples()">
+            下一页
+        </div>
+    </div>
+
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/lib/GetArgs.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/files/query/query.css"></link>
+<script src="/static/catalogue/files/query/query.js"></script>
+
+</body>
+</html>

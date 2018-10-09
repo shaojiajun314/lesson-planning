@@ -19,8 +19,8 @@ Vue.component('edunav', {
                         <a href="/static/catalogue/example/create/create.html"> \
                             <li :class="{menuAction: index==3}">创建题目</li> \
                         </a> \
-                        <a> \
-                            <li :class="{menuAction: index==4}">test</li> \
+                        <a href="/static/dashboard/permissions/permissions.html" v-if="user && user.permissions.is_staff"> \
+                            <li :class="{menuAction: index==4}">权限管理</li> \
                         </a> \
                         <a> \
                             <li :class="{menuAction: index==5}">test</li> \

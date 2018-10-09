@@ -23,4 +23,5 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
     def get_permissions(self, obj):
         return {'modify_category': obj.has_perm('catalogue.modify_category'),
-        'modify_example': obj.has_perm('catalogue.modify_example')}
+        'modify_example': obj.has_perm('catalogue.modify_example'),
+        'is_staff': obj.is_staff}

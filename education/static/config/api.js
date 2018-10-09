@@ -24,5 +24,10 @@ const api = {
 
     DashboardUsersPermissions: ApiRootUrl + 'dashboard/permission/users/query/',
     DashboardUsersPermissionsCreate: ApiRootUrl + 'dashboard/permission/users/create/',
-    DashboardUsersPermissionsDelete: ApiRootUrl + 'dashboard/permission/users/{username}/delete/'
+    DashboardUsersPermissionsDelete: ApiRootUrl + 'dashboard/permission/users/{username}/delete/',
+
+
+    CreateFile: ApiRootUrl + 'catalogue/file/{type}/create/',
+    DeleteFile: ApiRootUrl + 'catalogue/file/{pk}/{type}/create/',
+
 }

@@ -227,3 +227,34 @@ class ExampleUpdateForm(EDUBaseForm):
                         )
             self.this_example.save()
             return self.this_example
+
+class FileCreateForm(forms.Form):
+    category_id = fields.IntegerField(required=True)
+    title = fields.CharField(required=True, max_length=64)
+    description = fields.CharField(required=True, max_length=512)
+    file = fields.FileField(required=False)
+
+    def clean_category_id(self):
+        try:
+            self.category = Category.objects.get(id=self.cleaned_data['category_id'])
+        except Category.DoesNotExist:
+            raise forms.ValidationError('该分类不存在', 1011)
+        return self.cleaned_data['category_id']
+
+    def save(self, user, manager_str):
+        f_c = getattr(self.category, manager_str).create(
+            title=self.cleaned_data['title'],
+            description=self.cleaned_data['description'],
+            file=self.cleaned_data['file'],
+            user=user,
+        )
+
+        for cate in self.category.get_ancestors():
+            f_c.categories.add(cate)
+
+        return f_c
+
+
+
+# FileDeleteForm
+# FileCreateForm

@@ -1,23 +1,20 @@
-# from sorl import thumbnail
+from sorl import thumbnail
 from rest_framework import serializers
 
 from education.catalogue.models import (Category, Example, Answer,
-    ExampleImage, AnswerImage)
+    ExampleImage, AnswerImage, CourseWare, ExaminationOutline)
 from education.analytics.serializers import ExampleRecordSerializer as ExampleAnalyticsRecordSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('id',
-                'path',
-                'depth',
-                'numchild',
-                'name',
-                'image',
-                'image_name')
+    image = serializers.SerializerMethodField()
 
-class CategoryDetailSerializer(serializers.ModelSerializer):
-    # ancestors = serializers.SerializerMethodField()
+    def get_image(self, obj):
+        im = thumbnail.get_thumbnail(obj.image,
+            '256x256', crop='bottom', upscale=False)
+        try:
+            return im.url
+        except:
+            return ''
 
     class Meta:
         model = Category
@@ -29,11 +26,34 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
                 'image',
                 'image_name')
 
-    # def get_ancestors(self, obj):
-    #     qs = obj.get_ancestors()
-    #     return CategorySerializer(qs, many=True).data
+# class CategoryDetailSerializer(serializers.ModelSerializer):
+#     # ancestors = serializers.SerializerMethodField()
+#
+#     class Meta:
+#         model = Category
+#         fields = ('id',
+#                 'path',
+#                 'depth',
+#                 'numchild',
+#                 'name',
+#                 'image',
+#                 'image_name')
+#
+#     # def get_ancestors(self, obj):
+#     #     qs = obj.get_ancestors()
+#     #     return CategorySerializer(qs, many=True).data
 
 class AnswerImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        im = thumbnail.get_thumbnail(obj.image,
+            '375x375', crop='bottom', upscale=False)
+        try:
+            return im.url
+        except:
+            return ''
+
     class Meta:
         model = AnswerImage
         fields = ('image',
@@ -41,6 +61,16 @@ class AnswerImageSerializer(serializers.ModelSerializer):
             'id')
 
 class ExampleImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        im = thumbnail.get_thumbnail(obj.image,
+            '375x375', crop='bottom', upscale=False)
+        try:
+            return im.url
+        except:
+            return ''
+
     class Meta:
         model = ExampleImage
         fields = ('image',
@@ -74,7 +104,7 @@ class ExampleSerializer(serializers.ModelSerializer):
 class ExampleDetailSerializer(serializers.ModelSerializer):
     images = ExampleImageSerializer(many=True, read_only=True)
     answers = AnswerSerializer(many=True, read_only=True)
-    categories = CategoryDetailSerializer(many=True, read_only=True)
+    categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Example
@@ -84,3 +114,13 @@ class ExampleDetailSerializer(serializers.ModelSerializer):
             'images',
             'categories',
             'difficulty')
+
+class CourseWareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseWare
+        fields = '__all__'
+
+class ExaminationOutlineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExaminationOutline
+        fields = '__all__'

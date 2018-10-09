@@ -6,7 +6,7 @@ from django.apps import AppConfig
 
 from education.catalogue.views import (UpdateCategoryView, CategoryView,
     UpdateExampleView, ExampleView, DocxView, AncestorsCategoryView,
-    ExampleDetaiView)
+    ExampleDetaiView, UpdateFilesView, FileView)
 
 class CatalogueConfig(AppConfig):
     name = 'catalogue'
@@ -45,6 +45,13 @@ def get_urls():
             DocxView.as_view(),
         ),
 
+        # 课件　提纲
+        url(r'file/(?:(?P<pk>\d+)/)?(?P<type>[\w-]{1,20})/create/$',
+            UpdateFilesView.as_view(),
+        ),
+        url(r'category/(?:(?P<category_pk>\d+)/)?(?P<type>[\w-]{1,20})/files/query/$',
+            FileView.as_view(),
+        ),
 
 
 

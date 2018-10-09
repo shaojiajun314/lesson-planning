@@ -1,0 +1,118 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+
+<div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
+    <modal v-bind:title="title" v-bind:body="body"
+        v-bind:cancel="cancel" v-bind:sure="sure"
+        v-bind:cancel_func="cancel_func"
+        v-bind:sure_func="sure_func">
+    </modal>
+</div>
+
+
+<div id="example-create">
+    <div class="form">
+        <form>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    分类
+                </label>
+                <div name="parent" tabindex="0" v-on:focus="get_category_root" class="input disabale-input">
+                    {{current_category.name || "选择分类"}}
+                </div>
+            </div>
+            <div class="category-list-content" v-if="category.length > 0" :style="'height:' + ((category.length && category[0].length) * 36 + 70) + 'px'">
+                <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+                    <div class="category_root_list" v-if="category_item.length > 0">
+                        <div v-for="(item, index) in category_item" class="item"
+                            v-on:mouseenter="get_category(item.id, category_index)"
+                            v-on:click="input_category(item.id, category_index, index)">
+                            <img :src="item.image" />
+                            <span class="name">
+                                {{item.name}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cancel_category_button button"
+                    v-if="category.length > 0 || current_category.id"
+                    :style="'top:' + ((category.length && category[0].length) * 36) + 'px'"
+                    v-on:click="cancel_input_category">
+                    取消分类
+                </div>
+            </div>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    标题
+                </label>
+                <input class="input" name="title" v-model="title" placeholder="输入标题" type="text">
+                    {{current_category.name || "选择分类"}}
+                </input>
+            </div>
+
+            <div class="text-div">
+                <label class="text-label">
+                    描述
+                </label>
+                <textarea name="description" v-model="description" placeholder="输入描述" type="text">
+                </textarea>
+            </div>
+
+            <div class="file-extra">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        文件
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="file"
+                        accept=".doc,.docx"
+                        ref="contentFile">
+                </div>
+            </div>
+
+
+
+            <div class="div-button">
+                <div class="button"　v-on:click="submit_input" v-if="category.length == 0">
+                    确定
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+<script src="/static/lib/GetArgs.js"></script>
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/templates/modal/modal.css"></link>
+<script src="/static/templates/modal/modal.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/files/create/create.css"></link>
+<script src="/static/catalogue/files/create/create.js"></script>
+
+</body>
+</html>
