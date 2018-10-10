@@ -28,6 +28,8 @@ const api = {
 
 
     CreateFile: ApiRootUrl + 'catalogue/file/{type}/create/',
-    DeleteFile: ApiRootUrl + 'catalogue/file/{pk}/{type}/create/',
+    DeleteFile: ApiRootUrl + 'catalogue/file/{pk}/{type}/delete/',
+    Files: ApiRootUrl + 'catalogue/category/{category_pk}{type}/files/query/',
+    FileDetail: ApiRootUrl + 'catalogue/file/{type}/{pk}/query/',
 
 }

@@ -25,7 +25,7 @@
                 <div v-for="(item, index) in category_item" class="item"
                     v-on:mouseenter="get_category(item.id, category_index)"
                     v-on:mouseleave="clean_category"
-                    v-on:click="query_example(item.id)">
+                    v-on:click="query_file(item.id)">
                     <img :src="item.image" />
                     <span class="name">
                         {{item.name}}
@@ -38,33 +38,20 @@
 
 <div id="file-list">
     <div class="title">
-        <div v-on:click="download_docx" class="assembly button download" v-if="is_assembly">
-            下载(已选择{{assembled_example.length}}题)
-        </div>
-
         <span>
             <a class="category-path" v-on:click="change_category()">
                 全部
             </a>
             /
+            <span v-for="(path, index) in current_category_path" >
+                <a class="category-path" v-on:click="change_category(path.id)">
+                    {{path.name}}
+                </a>
+                /
+            </span>
         </span>
-        <span v-for="(path, index) in current_category_path" >
-            <a class="category-path" v-on:click="change_category(path.id)">
-                {{path.name}}
-            </a>
-            /
-        </span>
-
-        <div class="start-assembly assembly button" v-if="!is_assembly" v-on:click="change_assembly()">
-            开始组卷
-        </div>
-        <div class="cancel-assembly assembly button" v-if="is_assembly" v-on:click="change_assembly()">
-            取消组卷
-        </div>
     </div>
-    <div class="extra">
-    </div>
-    <div class="title order_by">
+    <!-- <div class="title order_by">
         <span>
             按创建日期排序
             <div class="div-icon" v-on:click="change_order('date_created')">
@@ -91,70 +78,32 @@
                 </div>
             </div>
         </span>
-    </div>
+    </div> -->
 
-    <div class="example" v-for="(example_item, example_index) in examples">
+    <div class="file" v-for="(file_item, file_index) in files">
 
-        <div class="example-container">
+        <div class="file-container">
             <div class="content">
-                {{example_index + 1}}: {{example_item.content}}
+                {{file_index + 1}}: {{file_item.title}}
             </div>
             <div class="imgs">
-                <table cellspacing="0" cellpadding="0" border="0">
-                    <tbody>
-                        <tr>
-                            <td valign="top" width="189"
-                                v-for="(content_img, content_img_index) in example_item.images">
-                                <img height="80" width="88" :src="content_img.image">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                {{file_item.description}}
             </div>
         </div>
-        <!-- <hr v-if="answer_key_list.indexOf(example_index) != -1">
-        </hr>
-        <div class="answer-container" v-for="(answer_item, answer_index) in example_item.answers"
-            v-if="answer_key_list.indexOf(example_index) != -1">
-            答案{{answer_index + 1}}:
-            <div class="content">
-                {{answer_item.answer}}
-            </div>
-            <table cellspacing="0" cellpadding="0" border="0">
-                <tbody>
-                    <tr>
-                        <td valign="top" width="189" v-for="(answer_img, answer_img_index) in answer_item.images">
-                            <img height="80" width="88" :src="answer_img.image">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
 
         <div class="msg">
             <div class="item">
-                组卷次数:{{example_item.analytics.num_assemble}}
-            </div>
-            <div class="item">
-                难度系数:{{example_item.difficulty}}
+                下载次数:
             </div>
 
-
-            <div class="button" v-if="is_assembly && assembled_example.indexOf(example_item.id) == -1" v-on:click="change_assembly_checked(example_item.id)">
-                选题
-            </div>
-            <div class="button example_assemble_cancel" v-if="is_assembly && assembled_example.indexOf(example_item.id) != -1" v-on:click="change_assembly_checked(example_item.id)">
-                取消
-            </div>
-
-            <div class="answer-visible" v-on:click="get_example_detail(example_item.id)">
-                查看答案
+            <div class="button"  v-on:click="get_file_detail(file_item.id)">
+                查看详情
             </div>
         </div>
 
     </div>
     <div class="div-next-link">
-        <div class="next-link" v-on:click="get_examples()">
+        <div class="next-link" v-on:click="get_files()">
             下一页
         </div>
     </div>

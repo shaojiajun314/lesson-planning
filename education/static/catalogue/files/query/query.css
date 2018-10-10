@@ -62,9 +62,9 @@ body {
 #file-list .title{
     background: #fffee9;
     height: 35px;
-    position: fixed;
     /* text-align: center; */
-    width: calc(100% - 280px);
+    width: 100%;
+    margin-bottom: 10px
 }
 #file-list .order_by{
     position: unset;
@@ -112,78 +112,46 @@ body {
     cursor:pointer;
     line-height: 35px;
 }
-#file-list .extra{
-    height:35px;
-    margin-bottom: 15px
-}
-#file-list .title .assembly{
-    display: inline-block;
-    height: 29px;
-    line-height: 29px;
-    margin-top: 3px;
-    border-radius: unset
-}
-#file-list .title .cancel-assembly{
-    background: #e72b2b;
-}
-#file-list .title .download{
-    float: right;
-    background: #52c684;
-    width: unset;
-    margin-left: 10px;
-}
-.example{
+.file{
     background: #fff;
     margin-bottom: 10px;
 }
-.example .example-container{
+.file .file-container{
     padding: 20px 20px 0 20px;
     line-height: 24px;
     color: #333;
     font-size: 14px;
 }
-.example .example-container .content{
+.file .file-container .content{
     margin-bottom: 10px;
 }
-.example .example-container .imgs{
+.file .file-container .imgs{
     overflow-x: auto;
 }
-.example .example-container table{
+.file .file-container table{
     margin-bottom: 10px;
 }
 
-.example .answer-container{
+.file .answer-container{
     padding: 5px 20px 0 20px;
     line-height: 24px;
     color: #333;
     font-size: 14px;
 }
-.example .answer-container  .content{
+.file .answer-container  .content{
     margin-bottom: 10px;
 }
-.example .answer-container table{
+.file .answer-container table{
     margin-bottom: 10px;
 }
 
-.example .msg{
+.file .msg{
     padding: 0 20px;
     height: 50px;
     font-size: 12px;
     border-top: 1px solid #f5f5f5;
 }
-.example .msg .answer-visible{
-    display: inline-block;
-    float: right;
-    height: 20px;
-    margin-top: 15px;
-    line-height: 20px;
-    margin-right: 25px;
-    font-size: 10px;
-    color: #52c684;
-    border-bottom: 1px solid;
-    cursor: pointer;
-}
-.example .msg .item{
+.file .msg .item{
     display: inline-block;
     float: left;
     height: 20px;
@@ -192,9 +160,6 @@ body {
     margin-right: 25px;
     font-size: 10px;
     color: #52c684;
-}
-.example .msg .example_assemble_cancel{
-    background: #e72b2b;
 }
 
 .button{

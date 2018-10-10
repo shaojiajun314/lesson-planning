@@ -5,9 +5,11 @@ import docx
 from docx.shared import Inches
 
 #django
+from django.db import transaction
 from django.utils import timezone
-from django.http import JsonResponse, StreamingHttpResponse, HttpResponse, FileResponse
 from django.utils.six import StringIO
+from django.http import JsonResponse, StreamingHttpResponse, HttpResponse, FileResponse
+
 
 #rest
 from rest_framework.views import APIView
@@ -24,7 +26,8 @@ from education.analytics.models import ExampleRecord
 from education.catalogue.models import Category, Example
 from education.catalogue.serializers import (CategorySerializer,
     ExampleSerializer, ExampleDetailSerializer, CourseWareSerializer,
-    ExaminationOutlineSerializer)
+    ExaminationOutlineSerializer, CourseWareDeailSerializer,
+    ExaminationOutlineDetailSerializer)
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
     ExampleCreateForm, ExampleUpdateForm, FileCreateForm)
 # Create your views here.
@@ -293,8 +296,9 @@ class UpdateFilesView(BaseApiView):
     def post(self, request, *args, **kw):
         manager = self.model_maps[kw['type']]
         if kw.get('pk'):
-            form = FileDeleteForm(request.data,
-                kw.get('pk'), request.FILES,)
+            # # XXX:  未写
+            form = FileUpdateForm(request.data,
+                kw.get('pk'))
         else:
             form = FileCreateForm(request.data,
                 request.FILES,)
@@ -309,6 +313,25 @@ class UpdateFilesView(BaseApiView):
             res = self.err_response(form)
         return JsonResponse(res)
 
+class DeleteFilesView(APIView):
+    model_maps = {
+        'courseware': CourseWare,
+        'examination_outline': ExaminationOutline
+    }
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kw):
+        model = self.model_maps[kw['type']]
+        file_model = model.objects.get(id=kw['pk'])
+        with transaction.atomic():
+            file_model.categories.clear()
+            file_model.delete()
+            res = {
+                'msg': 'success',
+                'desc': 'success',
+                'code': 0,
+            }
+            return JsonResponse(res)
 
 class FileView(APIView):
     model_maps = {
@@ -350,4 +373,28 @@ class FileView(APIView):
         data = attr_list[2](page_data, many=True)
         res['data'] = {'files': data.data,
             'next_link': page.get_next_link()}
+        return JsonResponse(res, safe=False)
+
+
+class FileDetaiView(APIView):
+    model_maps = {
+        'courseware': (CourseWare,
+            CourseWareDeailSerializer),
+
+        'examination_outline': (ExaminationOutline,
+            ExaminationOutlineDetailSerializer)
+    }
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kw):
+        res = {
+            'msg': 'success',
+            'desc': 'success',
+            'code': 0,
+        }
+        pk = kw['pk']
+        attr_list =self.model_maps[kw['type']]
+        model = attr_list[0].objects.get(id=pk)
+        data = attr_list[1](model)
+        res['data'] = data.data
         return JsonResponse(res, safe=False)

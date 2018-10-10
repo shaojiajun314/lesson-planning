@@ -22,6 +22,18 @@ Vue.component('edunav', {
                         <a href="/static/dashboard/permissions/permissions.html" v-if="user && user.permissions.is_staff"> \
                             <li :class="{menuAction: index==4}">权限管理</li> \
                         </a> \
+                        <a　href="/static/catalogue/files/query/query.html?type=courseware"> \
+                            <li :class="{menuAction: index==5}">查课件</li> \
+                        </a> \
+                        <a　href="/static/catalogue/files/query/query.html?type=examination_outline"> \
+                            <li :class="{menuAction: index==5}">查提纲</li> \
+                        </a> \
+                        <a　href="/static/catalogue/files/create/create.html?type=courseware"> \
+                            <li :class="{menuAction: index==5}">上传新课件</li> \
+                        </a> \
+                        <a　href="/static/catalogue/files/create/create.html?type=examination_outline"> \
+                            <li :class="{menuAction: index==5}">上传新提纲</li> \
+                        </a> \
                         <a> \
                             <li :class="{menuAction: index==5}">test</li> \
                         </a> \

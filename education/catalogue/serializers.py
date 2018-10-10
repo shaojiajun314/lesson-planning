@@ -120,7 +120,29 @@ class CourseWareSerializer(serializers.ModelSerializer):
         model = CourseWare
         fields = '__all__'
 
+class CourseWareDeailSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = CourseWare
+        fields = ('categories',
+            'date_created',
+            'title',
+            'description',
+            'file',)
+
 class ExaminationOutlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExaminationOutline
         fields = '__all__'
+
+class ExaminationOutlineDetailSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ExaminationOutline
+        fields = ('categories',
+            'date_created',
+            'title',
+            'description',
+            'file',)
