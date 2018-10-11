@@ -123,6 +123,11 @@ class CourseWare(models.Model):
         null=True,
         related_name='courseware',)
 
+    class Meta:
+        permissions = (
+            ("modify_courseware", "Can modify a modify_courseware"),
+        )
+
 class ExaminationOutline(models.Model):
     categories = models.ManyToManyField(
         Category,
@@ -140,3 +145,8 @@ class ExaminationOutline(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='examination_outline',)
+
+    class Meta:
+        permissions = (
+            ("modify_examinationoutline", "Can modify a examinationoutline"),
+        )

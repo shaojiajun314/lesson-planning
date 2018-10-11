@@ -15,3 +15,17 @@ class UpdateExamplePermission(BasePermission):
         if not view.kwargs.get('pk'):
             return True
         return request.user.has_perm('catalogue.modify_example')
+
+class UpdateExaminationOutline(BasePermission):
+    def has_permission(self, request, view):
+        # 允许创建　验证修改权限
+        if not view.kwargs.get('pk'):
+            return True
+        return request.user.has_perm('catalogue.modify_examinationoutline')
+
+class UpdateCourseWare(BasePermission):
+    def has_permission(self, request, view):
+        # 允许创建　验证修改权限
+        if not view.kwargs.get('pk'):
+            return True
+        return request.user.has_perm('catalogue.modify_courseware')

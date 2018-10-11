@@ -53,7 +53,7 @@
                 </div>
                 <div class="cancel_category_button button"
                     v-if="category.length > 0 || current_category.id"
-                    :style="'top:' + ((category.length && category[0].length) * 36) + 'px'"
+                    :style="'top:' + ((category.length && category[0].length) * 36 + 20) + 'px'"
                     v-on:click="cancel_input_category">
                     取消分类
                 </div>

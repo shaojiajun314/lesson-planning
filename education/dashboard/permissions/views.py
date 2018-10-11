@@ -27,7 +27,8 @@ class Page(PageNumberPagination):
     # 页码
     page_query_param = 'page'
 
-from education.catalogue.models import Category, Example
+from education.catalogue.models import (Category, Example, CourseWare,
+    ExaminationOutline)
 from django.contrib.contenttypes.models import ContentType
 from education.education_user.serializers import UserBaseInfoSerializer
 
@@ -36,7 +37,11 @@ class UserPermissonListView(APIView):
         'modify_category': (ContentType.objects.get_for_model(Category),
             'modify_category'),
         'modify_example': (ContentType.objects.get_for_model(Example),
-            'modify_example')
+            'modify_example'),
+        'modify_examinationoutline': (ContentType.objects.get_for_model(ExaminationOutline),
+            'modify_examinationoutline'),
+        'modify_courseware': (ContentType.objects.get_for_model(CourseWare),
+            'modify_courseware'),
     }
 
     permission_classes = [IsStaff]

@@ -1,11 +1,13 @@
-Nav.index = 3
 
 var type = GetRequest().type;
 var ApiUrl = {
     'courseware': api.CreateFile.replace(/{type}/, 'courseware'),
     'examination_outline': api.CreateFile.replace(/{type}/, 'examination_outline'),
 }[type]
-
+Nav.index = index = {
+    courseware: 6,
+    examination_outline: 7
+}[type]
 new Vue({
     el: '#example-create',
     data: {
@@ -107,11 +109,8 @@ new Vue({
                 .then(function(res){
                     var result = res.body
                     if(result.code === 0){
-                        console.log(result);
-                        return ;
-                        // 模态框
                         Modal.is_hidden = false
-                        Modal.title = '创建成功'
+                        Modal.title = '上传成功'
                         Modal.body = '跳转详情页面'
                         Modal.cancel = '取消'
                         Modal.cancel_func = function(){
@@ -120,7 +119,9 @@ new Vue({
                         Modal.sure = '确定'
                         Modal.sure_func = function(){
                             window.location.href =
-                                '/static/catalogue/example/update/update.html?example_id='+result.data.id
+                                '/static/catalogue/files/update/update.html?file_id='
+                                +result.data.id +'&type=' + type
+
                         }
 
                     }else {

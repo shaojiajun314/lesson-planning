@@ -1,9 +1,11 @@
-Nav.index = 1
-
 var args = GetRequest()
 var category_id = args.category_id;
 var type = args.type;
 var Files_url = api.Files.replace(/{type}/, type)
+Nav.index = index = {
+    courseware: 4,
+    examination_outline: 5
+}[type]
 
 var category = new Vue({
     el: '#category',

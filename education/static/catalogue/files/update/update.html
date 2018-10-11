@@ -29,7 +29,7 @@
         <form>
             <div class="nav input-div">
                 <!-- 编辑模式 -->
-                <div class="button nav-button submit"　v-on:click="delete_file()">
+                <div class="button nav-button submit"　v-on:click="delete_file()" v-if="permissions_modify">
                     删除
                 </div>
 

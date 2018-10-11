@@ -19,7 +19,7 @@ from rest_framework.pagination import PageNumberPagination
 #lib
 from education.lib.baseviews import BaseApiView
 from education.lib.permissions import (UpdateCategoryPermission,
-    UpdateExamplePermission)
+    UpdateExamplePermission, UpdateExaminationOutline, UpdateCourseWare)
 
 #apps
 from education.analytics.models import ExampleRecord
@@ -288,15 +288,17 @@ class DocxView(BaseApiView):
 from education.catalogue.models import CourseWare, ExaminationOutline
 class UpdateFilesView(BaseApiView):
     model_maps = {
-        'courseware': 'courseware',
-        'examination_outline': 'examination_outline'
+        'courseware': ('courseware', CourseWareSerializer),
+        'examination_outline': ('examination_outline', ExaminationOutlineSerializer)
     }
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kw):
-        manager = self.model_maps[kw['type']]
+        attr_list = self.model_maps[kw['type']]
+        manager = attr_list[0]
+        qs_serializers = attr_list[1]
         if kw.get('pk'):
-            # # XXX:  未写
+            # # XXX:  未写 # XXX: 权限两个分开的
             form = FileUpdateForm(request.data,
                 kw.get('pk'))
         else:
@@ -308,20 +310,31 @@ class UpdateFilesView(BaseApiView):
                 'desc': 'success',
                 'code': 0,
             }
-            example = form.save(request.user, manager)
+            file = form.save(request.user, manager)
+            print file
+            res['data'] = qs_serializers(file).data
         else:
             res = self.err_response(form)
         return JsonResponse(res)
 
 class DeleteFilesView(APIView):
     model_maps = {
-        'courseware': CourseWare,
-        'examination_outline': ExaminationOutline
+        'courseware': (CourseWare, 'catalogue.modify_courseware'),
+        'examination_outline': (ExaminationOutline, 'catalogue.modify_examinationoutline')
     }
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kw):
-        model = self.model_maps[kw['type']]
+        attr_list = self.model_maps[kw['type']]
+        model = attr_list[0]
+        permissions = attr_list[1]
+        if not request.user.has_perm(permissions):
+            res = {
+                'msg': 'failed',
+                'desc': '您没有权限',
+                'code': 10,
+            }
+            return JsonResponse(res)
         file_model = model.objects.get(id=kw['pk'])
         with transaction.atomic():
             file_model.categories.clear()

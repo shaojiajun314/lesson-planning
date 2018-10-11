@@ -13,30 +13,51 @@ Vue.component('edunav', {
                         <a href="/static/catalogue/example/query/query.html"> \
                             <li :class="{menuAction: index==1}">查题</li> \
                         </a> \
-                        <a href="/static/catalogue/category/create/create.html" v-if="user && user.permissions.modify_category"> \
-                            <li :class="{menuAction: index==2}">创建分类</li> \
-                        </a> \
-                        <a href="/static/catalogue/example/create/create.html"> \
-                            <li :class="{menuAction: index==3}">创建题目</li> \
-                        </a> \
-                        <a href="/static/dashboard/permissions/permissions.html" v-if="user && user.permissions.is_staff"> \
-                            <li :class="{menuAction: index==4}">权限管理</li> \
-                        </a> \
-                        <a　href="/static/catalogue/files/query/query.html?type=courseware"> \
-                            <li :class="{menuAction: index==5}">查课件</li> \
-                        </a> \
-                        <a　href="/static/catalogue/files/query/query.html?type=examination_outline"> \
-                            <li :class="{menuAction: index==5}">查提纲</li> \
-                        </a> \
-                        <a　href="/static/catalogue/files/create/create.html?type=courseware"> \
-                            <li :class="{menuAction: index==5}">上传新课件</li> \
-                        </a> \
-                        <a　href="/static/catalogue/files/create/create.html?type=examination_outline"> \
-                            <li :class="{menuAction: index==5}">上传新提纲</li> \
-                        </a> \
-                        <a> \
-                            <li :class="{menuAction: index==5}">test</li> \
-                        </a> \
+<li :class="{menuAction: index==2 || index==3}"> \
+<div class="dropdown"> \
+<span>新建</span> \
+<div class="dropdown-content"> \
+<a href="/static/catalogue/category/create/create.html" v-if="user && user.permissions.modify_category"> \
+    <li :class="{menuAction: index==2}">创建分类</li> \
+</a> \
+<a href="/static/catalogue/example/create/create.html"> \
+    <li :class="{menuAction: index==3}">创建题目</li> \
+</a> \
+</div> \
+</div> \
+</li> \
+\
+<li :class="{menuAction: index==4 || index==5}"> \
+<div class="dropdown"> \
+<span>查文件</span> \
+<div class="dropdown-content"> \
+<a　href="/static/catalogue/files/query/query.html?type=courseware"> \
+    <li :class="{menuAction: index==4}">查课件</li> \
+</a> \
+<a　href="/static/catalogue/files/query/query.html?type=examination_outline"> \
+    <li :class="{menuAction: index==5}">查提纲</li> \
+</a> \
+</div> \
+</div> \
+</li> \
+\
+<li :class="{menuAction: index==6 || index==7}"> \
+<div class="dropdown"> \
+  <span>上传文件</span> \
+  <div class="dropdown-content"> \
+  <a　href="/static/catalogue/files/create/create.html?type=courseware"> \
+      <li :class="{menuAction: index==6}">上传新课件</li> \
+  </a> \
+  <a　href="/static/catalogue/files/create/create.html?type=examination_outline"> \
+      <li :class="{menuAction: index==7}">上传新提纲</li> \
+  </a> \
+  </div> \
+</div> \
+</li> \
+\
+<a href="/static/dashboard/permissions/permissions.html" v-if="user && user.permissions.is_staff"> \
+    <li :class="{menuAction: index==8}">权限管理</li> \
+</a> \
                     </ul> \
                     <link rel="stylesheet" href="/static/templates/nav/nav.css"></link> \
                 </div>',
