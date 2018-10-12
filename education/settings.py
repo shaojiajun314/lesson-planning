@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'sorl.thumbnail',
+    'django_celery_results',
+    'djcelery',
+
 
     'education.tools',
     # education
@@ -154,3 +157,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = posixpath.join(BASE_DIR, 'var', 'media')
 
 AUTH_USER_MODEL='education_user.User'
+
+
+# Celery
+###配置Broker
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+BROKER_TRANSPORT = 'redis'
+BACKEND_URL = 'redis://localhost:6379/1'
+# BACKEND_URL = 'redis://:password@localhost:6379/1'
+# result
+CELERY_RESULT_BACKEND = 'django-db'

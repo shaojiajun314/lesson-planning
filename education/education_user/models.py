@@ -85,8 +85,7 @@ class User(auth_models.AbstractBaseUser,
         db_table = 'user'
 
     # def get_full_name(self):
-    #     full_name = '%s %s' % (self.first_name, self.last_name)
-    #     return full_name.strip()
-    #
-    # def get_short_name(self):
-    #     return self.first_name
+    #     return self.nickname.strip()
+
+    def get_short_name(self):
+        return self.nickname or ''
