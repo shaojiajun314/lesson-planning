@@ -33,3 +33,11 @@ urlpatterns = [
 
     url(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ]
+
+
+
+# XXX: test
+from education.test_celery.views import index
+urlpatterns = urlpatterns + [
+    url(r'^test/', index),
+]
