@@ -4,6 +4,7 @@ from json import loads
 #django
 from django import forms
 from django.forms import fields
+from django.conf import settings
 from django.db import transaction
 
 #apps
@@ -234,6 +235,10 @@ class FileCreateForm(forms.Form):
     description = fields.CharField(required=True, max_length=512)
     file = fields.FileField(required=False)
 
+    def __init__(self, data, files, type_):
+        super(FileCreateForm, self).__init__(data, files=files)
+        self.type = type_
+
     def clean_category_id(self):
         try:
             self.category = Category.objects.get(id=self.cleaned_data['category_id'])
@@ -241,12 +246,18 @@ class FileCreateForm(forms.Form):
             raise forms.ValidationError('该分类不存在', 1011)
         return self.cleaned_data['category_id']
 
-    def save(self, user, manager_str):
-        f_c = getattr(self.category, manager_str).create(
+    def clean(self):
+        if self.type not in settings.EDUFILE_TYPE_LIST:
+            raise forms.ValidationError('type-error', 1012)
+        return self.cleaned_data
+
+    def save(self, user):
+        f_c = self.category.files.create(
             title=self.cleaned_data['title'],
             description=self.cleaned_data['description'],
             file=self.cleaned_data['file'],
             user=user,
+            type=self.type
         )
 
         for cate in self.category.get_ancestors():

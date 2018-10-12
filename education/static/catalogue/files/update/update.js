@@ -1,8 +1,8 @@
 var args = GetRequest();
 var file_id = args.file_id
-var type = args.type
-var FileDetailUrl = api.FileDetail.replace(/{type}/, type).replace(/{pk}/, file_id)
-var FileDeleteUrl = api.DeleteFile.replace(/{type}/, type).replace(/{pk}/, file_id)
+var FileDetailUrl = api.FileDetail.replace(/{pk}/, file_id)
+var FileDeleteUrl = api.DeleteFile.replace(/{pk}/, file_id)
+var type
 
 new Vue({
     el: '#file-update',
@@ -13,10 +13,7 @@ new Vue({
     },
     created: function () {
       this.get_file_detail(file_id);
-      this.permissions_modify = Nav.user && Nav.user.permissions[{
-          'courseware': 'modify_courseware',
-          'examination_outline': 'modify_examinationoutline'
-      }[type]]
+      this.permissions_modify = Nav.user && Nav.user.permissions['modify_edufile']
     },
     methods: {
         // 查询模式 start
@@ -26,6 +23,7 @@ new Vue({
                     if(result.code === 0){
                         var data = result.data
                         this.file_data = data
+                        type = data.type
                         this.handle_categories(data.categories)
                     }else {
                         alert(result.desc)

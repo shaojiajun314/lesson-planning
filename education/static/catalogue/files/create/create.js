@@ -120,7 +120,7 @@ new Vue({
                         Modal.sure_func = function(){
                             window.location.href =
                                 '/static/catalogue/files/update/update.html?file_id='
-                                +result.data.id +'&type=' + type
+                                +result.data.id
 
                         }
 

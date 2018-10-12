@@ -7,6 +7,7 @@ from django.contrib.auth import (login as auth_login, logout as auth_logout)
 
 # rest
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 #lib
 from education.lib.baseviews import BaseApiView
@@ -16,7 +17,9 @@ from education.education_user.forms import LoginForm, UserCreateForm
 from education.education_user.serializers import UserInfoSerializer
 # Create your views here.
 
-
+################################################################################
+#                              登入/登出                                        #
+################################################################################
 class APILogInView(BaseApiView):
     def post(self, request, *arg, **kw):
         if request.user.is_authenticated():

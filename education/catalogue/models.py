@@ -104,16 +104,18 @@ class AnswerImage(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
 
 
-
-class CourseWare(models.Model):
+class EDUFile(models.Model):
     categories = models.ManyToManyField(
         Category,
-        related_name='courseware')
+        related_name='files')
     date_created = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=64, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    type = models.CharField(max_length=16, null=True, blank=True)
+    # courseware, examination_outline
+
     file = EDUFileField(
-        upload_to='files/courseware',
+        upload_to='files/EDUFile',
         blank=True,
         null=True,
         max_length=255)
@@ -121,32 +123,55 @@ class CourseWare(models.Model):
         User,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='courseware',)
+        related_name='files',)
 
     class Meta:
         permissions = (
-            ("modify_courseware", "Can modify a modify_courseware"),
+            ("modify_edufile", "Can modify a modify_edufile"),
         )
 
-class ExaminationOutline(models.Model):
-    categories = models.ManyToManyField(
-        Category,
-        related_name='examination_outline')
-    date_created = models.DateTimeField(default=timezone.now)
-    title = models.CharField(max_length=64, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    file = EDUFileField(
-        upload_to='files/examination_outline',
-        blank=True,
-        null=True,
-        max_length=255)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='examination_outline',)
-
-    class Meta:
-        permissions = (
-            ("modify_examinationoutline", "Can modify a examinationoutline"),
-        )
+# class CourseWare(models.Model):
+#     categories = models.ManyToManyField(
+#         Category,
+#         related_name='courseware')
+#     date_created = models.DateTimeField(default=timezone.now)
+#     title = models.CharField(max_length=64, null=True, blank=True)
+#     description = models.TextField(null=True, blank=True)
+#     file = EDUFileField(
+#         upload_to='files/courseware',
+#         blank=True,
+#         null=True,
+#         max_length=255)
+#     user = models.ForeignKey(
+#         User,
+#         on_delete=models.SET_NULL,
+#         null=True,
+#         related_name='courseware',)
+#
+#     class Meta:
+#         permissions = (
+#             ("modify_courseware", "Can modify a modify_courseware"),
+#         )
+#
+# class ExaminationOutline(models.Model):
+#     categories = models.ManyToManyField(
+#         Category,
+#         related_name='examination_outline')
+#     date_created = models.DateTimeField(default=timezone.now)
+#     title = models.CharField(max_length=64, null=True, blank=True)
+#     description = models.TextField(null=True, blank=True)
+#     file = EDUFileField(
+#         upload_to='files/examination_outline',
+#         blank=True,
+#         null=True,
+#         max_length=255)
+#     user = models.ForeignKey(
+#         User,
+#         on_delete=models.SET_NULL,
+#         null=True,
+#         related_name='examination_outline',)
+#
+#     class Meta:
+#         permissions = (
+#             ("modify_examinationoutline", "Can modify a examinationoutline"),
+#         )

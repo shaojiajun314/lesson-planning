@@ -54,7 +54,9 @@ INSTALLED_APPS = [
     'education.education_user',
     'education.catalogue',
     'education.analytics',
+
     'education.dashboard',
+    'education.dashboard.customer',
     'education.dashboard.permissions',
 
 ]
@@ -158,6 +160,8 @@ MEDIA_ROOT = posixpath.join(BASE_DIR, 'var', 'media')
 
 AUTH_USER_MODEL='education_user.User'
 
+
+EDUFILE_TYPE_LIST = 'courseware', 'examination_outline'
 
 # Celery
 ###配置Broker

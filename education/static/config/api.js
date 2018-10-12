@@ -21,6 +21,7 @@ const api = {
     Register: ApiRootUrl + 'user/register/',
     Login: ApiRootUrl + 'user/login/',
     Logout: ApiRootUrl + 'user/logout/',
+    UserLikeSearch: ApiRootUrl + 'dashboard/customer/customer-like/query/',
 
     DashboardUsersPermissions: ApiRootUrl + 'dashboard/permission/users/query/',
     DashboardUsersPermissionsCreate: ApiRootUrl + 'dashboard/permission/users/create/',
@@ -28,8 +29,8 @@ const api = {
 
 
     CreateFile: ApiRootUrl + 'catalogue/file/{type}/create/',
-    DeleteFile: ApiRootUrl + 'catalogue/file/{pk}/{type}/delete/',
+    DeleteFile: ApiRootUrl + 'catalogue/file/{pk}/delete/',
     Files: ApiRootUrl + 'catalogue/category/{category_pk}{type}/files/query/',
-    FileDetail: ApiRootUrl + 'catalogue/file/{type}/{pk}/query/',
+    FileDetail: ApiRootUrl + 'catalogue/file/{pk}/query/',
 
 }

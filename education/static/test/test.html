@@ -1,8 +1,17 @@
 <html>
 <head>
+    <meta charset="utf-8">
     <script src="jquery.min.js">
     </script>
+    <style>
+    .selectInput{position:absolute; margin-left:15px;padding-left:10px;width:130px;height:25px;left:1px;top:2px;border-bottom:0px;border-right:0px;border-left:0px;border-top:0px;}
+    </style>
 </head>
 <body>
+    <select class="form-control" id="spec_num0" name="spec_num" onchange="document.getElementById('input0').value=$('#spec_num0 option:selected').text()">
+    <option>金宇彬</option>
+    <option>TOP</option>
+</select>
+<input id="input" class="form-control selectInput" name="input" placeholder="请选择"/>
 </body>
 </html>

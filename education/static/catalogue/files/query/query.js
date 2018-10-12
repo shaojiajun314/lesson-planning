@@ -137,8 +137,7 @@ var files_list = new Vue({
                 });
         },
         get_file_detail: function(file_id) {
-            window.location.href = '/static/catalogue/files/update/update.html?file_id=' + file_id +
-                '&type=' + type
+            window.location.href = '/static/catalogue/files/update/update.html?file_id=' + file_id
         },
     },
 })

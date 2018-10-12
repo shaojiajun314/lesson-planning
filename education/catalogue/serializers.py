@@ -2,7 +2,7 @@ from sorl import thumbnail
 from rest_framework import serializers
 
 from education.catalogue.models import (Category, Example, Answer,
-    ExampleImage, AnswerImage, CourseWare, ExaminationOutline)
+    ExampleImage, AnswerImage, EDUFile)
 from education.analytics.serializers import ExampleRecordSerializer as ExampleAnalyticsRecordSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -115,34 +115,19 @@ class ExampleDetailSerializer(serializers.ModelSerializer):
             'categories',
             'difficulty')
 
-class CourseWareSerializer(serializers.ModelSerializer):
+class EDUFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CourseWare
+        model = EDUFile
         fields = '__all__'
 
-class CourseWareDeailSerializer(serializers.ModelSerializer):
+class EDUFileDetailSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
-        model = CourseWare
+        model = EDUFile
         fields = ('categories',
             'date_created',
             'title',
             'description',
-            'file',)
-
-class ExaminationOutlineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExaminationOutline
-        fields = '__all__'
-
-class ExaminationOutlineDetailSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer(many=True, read_only=True)
-
-    class Meta:
-        model = ExaminationOutline
-        fields = ('categories',
-            'date_created',
-            'title',
-            'description',
-            'file',)
+            'file',
+            'type',)

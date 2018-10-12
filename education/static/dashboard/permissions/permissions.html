@@ -49,7 +49,7 @@
         <label class="input-label">
             帐号
         </label>
-        <input name="category_username" class="input" v-model="category_username" placeholder="输入用户帐号" type="text" />
+        <input name="category_username" class="input" v-on:input="user_like_search('modify_category')" v-model="category_username" placeholder="输入用户帐号" type="text" />
     </div>
     <div class="div-button">
         <div class="button"　v-on:click="submit_category('modify_category')">
@@ -94,7 +94,7 @@
         <label class="input-label">
             帐号
         </label>
-        <input name="category_username" class="input" v-model="example_username" placeholder="输入用户帐号" type="text" />
+        <input name="category_username" class="input" v-on:input="user_like_search('modify_example')" v-model="example_username" placeholder="输入用户帐号" type="text" />
     </div>
     <div class="div-button">
         <div class="button"　v-on:click="submit_category('modify_example')">
@@ -110,7 +110,7 @@
 
 <table border="1" cellspacing="0">
     <caption>
-        课件修改权限用户列表
+        文件修改权限用户列表
     </caption>
     <thead>
         <tr>
@@ -121,14 +121,14 @@
             <th>操作</th>
         </tr>
     </thead>
-        <tr v-for="(item, index) in courseware_modify">
+        <tr v-for="(item, index) in files_modify">
             <td>{{item.username}}</td>
             <td>{{item.mobile}}</td>
             <td>{{item.nickname}}</td>
             <td>{{item.email}}</td>
             <td>
                 <div class="button clear-botton"
-                    v-on:click="clear_permisson('modify_courseware', item.username)">
+                    v-on:click="clear_permisson('modify_edufile', item.username)">
                     取消权限
                 </div>
             </td>
@@ -141,56 +141,15 @@
         <label class="input-label">
             帐号
         </label>
-        <input name="courseware_username" class="input" v-model="courseware_username" placeholder="输入用户帐号" type="text" />
+        <input name="files_username" class="input" v-on:input="user_like_search('modify_edufile')"v-model="files_username" placeholder="输入用户帐号" type="text" />
     </div>
     <div class="div-button">
-        <div class="button"　v-on:click="submit_category('modify_courseware')">
+        <div class="button"　v-on:click="submit_category('modify_edufile')">
             确定
         </div>
     </div>
 </form>
 
-<table border="1" cellspacing="0">
-    <caption>
-        提纲修改权限用户列表
-    </caption>
-    <thead>
-        <tr>
-            <th>帐号</th>
-            <th>手机</th>
-            <th>昵称</th>
-            <th>邮箱</th>
-            <th>操作</th>
-        </tr>
-    </thead>
-        <tr v-for="(item, index) in examinationoutline_modify">
-            <td>{{item.username}}</td>
-            <td>{{item.mobile}}</td>
-            <td>{{item.nickname}}</td>
-            <td>{{item.email}}</td>
-            <td>
-                <div class="button clear-botton"
-                    v-on:click="clear_permisson('modify_examinationoutline', item.username)">
-                    取消权限
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<form>
-    <h3>新增用户</h3>
-    <div class="input-div">
-        <label class="input-label">
-            帐号
-        </label>
-        <input name="examinationoutline_username" class="input" v-model="examinationoutline_username" placeholder="输入用户帐号" type="text" />
-    </div>
-    <div class="div-button">
-        <div class="button"　v-on:click="submit_category('modify_examinationoutline')">
-            确定
-        </div>
-    </div>
-</form>
 
 </div>
 

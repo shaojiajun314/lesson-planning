@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 
 #rest
@@ -10,14 +11,15 @@ from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
 #lib
-from education.lib.baseviews import BaseApiView
 from education.lib.permissions import IsStaff
+from education.lib.baseviews import BaseApiView
 
 #apps
-from education.education_user.models import User
 from education.dashboard.permissions.forms import (UserPermissonCreateForm,
     UserPermissonDeleteForm)
-# Create your views here.
+
+
+User = get_user_model()
 
 class Page(PageNumberPagination):
     # 每页显示的数据条数
@@ -27,21 +29,17 @@ class Page(PageNumberPagination):
     # 页码
     page_query_param = 'page'
 
-from education.catalogue.models import (Category, Example, CourseWare,
-    ExaminationOutline)
+from education.catalogue.models import (Category, Example, EDUFile)
 from django.contrib.contenttypes.models import ContentType
 from education.education_user.serializers import UserBaseInfoSerializer
 
 class UserPermissonListView(APIView):
     type_maps = {
-        'modify_category': (ContentType.objects.get_for_model(Category),
-            'modify_category'),
-        'modify_example': (ContentType.objects.get_for_model(Example),
-            'modify_example'),
-        'modify_examinationoutline': (ContentType.objects.get_for_model(ExaminationOutline),
-            'modify_examinationoutline'),
-        'modify_courseware': (ContentType.objects.get_for_model(CourseWare),
-            'modify_courseware'),
+        'modify_category': (Category, 'modify_category'),
+        'modify_example': (Example, 'modify_example'),
+        'modify_edufile': (EDUFile, 'modify_edufile'),
+        # 'modify_courseware': (ContentType.objects.get_for_model(CourseWare),
+        #     'modify_courseware'),
     }
 
     permission_classes = [IsStaff]
@@ -56,7 +54,7 @@ class UserPermissonListView(APIView):
         model_type, codename = self.type_maps[type]
         # modify_category, modify_example
         permission = Permission.objects.get(codename=codename,
-            content_type=model_type)
+            content_type=ContentType.objects.get_for_model(model_type))
         user_qs = User.objects.filter(user_permissions=permission)
         # XXX: 分页
         # page = Page()

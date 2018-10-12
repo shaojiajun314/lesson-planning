@@ -5,6 +5,7 @@ import docx
 from docx.shared import Inches
 
 #django
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.six import StringIO
@@ -19,15 +20,14 @@ from rest_framework.pagination import PageNumberPagination
 #lib
 from education.lib.baseviews import BaseApiView
 from education.lib.permissions import (UpdateCategoryPermission,
-    UpdateExamplePermission, UpdateExaminationOutline, UpdateCourseWare)
+    UpdateExamplePermission, UpdateEDUFile)
 
 #apps
 from education.analytics.models import ExampleRecord
 from education.catalogue.models import Category, Example
 from education.catalogue.serializers import (CategorySerializer,
-    ExampleSerializer, ExampleDetailSerializer, CourseWareSerializer,
-    ExaminationOutlineSerializer, CourseWareDeailSerializer,
-    ExaminationOutlineDetailSerializer)
+    ExampleSerializer, ExampleDetailSerializer, EDUFileSerializer,
+    EDUFileDetailSerializer)
 from education.catalogue.forms import (CategoryCreateForm, CategoryUpdateForm,
     ExampleCreateForm, ExampleUpdateForm, FileCreateForm)
 # Create your views here.
@@ -285,57 +285,45 @@ class DocxView(BaseApiView):
 ################################################################################
 #                              文件                                            #
 ################################################################################
-from education.catalogue.models import CourseWare, ExaminationOutline
+from education.catalogue.models import EDUFile
 class UpdateFilesView(BaseApiView):
-    model_maps = {
-        'courseware': ('courseware', CourseWareSerializer),
-        'examination_outline': ('examination_outline', ExaminationOutlineSerializer)
-    }
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UpdateEDUFile]
 
     def post(self, request, *args, **kw):
-        attr_list = self.model_maps[kw['type']]
-        manager = attr_list[0]
-        qs_serializers = attr_list[1]
+        type_ = kw['type']
         if kw.get('pk'):
             # # XXX:  未写 # XXX: 权限两个分开的
             form = FileUpdateForm(request.data,
                 kw.get('pk'))
         else:
             form = FileCreateForm(request.data,
-                request.FILES,)
+                request.FILES, type_)
         if form.is_valid():
             res = {
                 'msg': 'success',
                 'desc': 'success',
                 'code': 0,
             }
-            file = form.save(request.user, manager)
+            file = form.save(request.user)
             print file
-            res['data'] = qs_serializers(file).data
+            res['data'] = EDUFileSerializer(file).data
         else:
             res = self.err_response(form)
         return JsonResponse(res)
 
 class DeleteFilesView(APIView):
-    model_maps = {
-        'courseware': (CourseWare, 'catalogue.modify_courseware'),
-        'examination_outline': (ExaminationOutline, 'catalogue.modify_examinationoutline')
-    }
-    permission_classes = [IsAuthenticated]
+    # XXX: 权限
+    permission_classes = [IsAuthenticated, UpdateEDUFile]
 
     def post(self, request, *args, **kw):
-        attr_list = self.model_maps[kw['type']]
-        model = attr_list[0]
-        permissions = attr_list[1]
-        if not request.user.has_perm(permissions):
-            res = {
-                'msg': 'failed',
-                'desc': '您没有权限',
-                'code': 10,
-            }
-            return JsonResponse(res)
-        file_model = model.objects.get(id=kw['pk'])
+        # if not request.user.has_perm(permissions):
+        #     res = {
+        #         'msg': 'failed',
+        #         'desc': '您没有权限',
+        #         'code': 10,
+        #     }
+        #     return JsonResponse(res)
+        file_model = EDUFile.objects.get(id=kw['pk'])
         with transaction.atomic():
             file_model.categories.clear()
             file_model.delete()
@@ -347,15 +335,6 @@ class DeleteFilesView(APIView):
             return JsonResponse(res)
 
 class FileView(APIView):
-    model_maps = {
-        'courseware': ('courseware',
-            CourseWare,
-            CourseWareSerializer),
-
-        'examination_outline': ('examination_outline',
-            ExaminationOutline,
-            ExaminationOutlineSerializer)
-    }
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kw):
@@ -365,12 +344,12 @@ class FileView(APIView):
             'code': 0,
         }
         category_pk = kw.get('category_pk')
-        attr_list =self.model_maps[kw['type']]
+        type_ = kw['type']
+        assert type_ in settings.EDUFILE_TYPE_LIST
         if category_pk:
-            manager = getattr(Category.objects.get(id=category_pk),
-                attr_list[0])
+            manager = Category.objects.get(id=category_pk).files.filter(type=type_)
         else:
-            manager = attr_list[1].objects
+            manager = EDUFile.objects
 
         # 用于之后过滤数据 暂时没用
         qs = manager.all()
@@ -383,20 +362,13 @@ class FileView(APIView):
         page = Page()
         page_data = page.paginate_queryset( \
             queryset=qs, request=request, view=self)
-        data = attr_list[2](page_data, many=True)
+        data = EDUFileSerializer(page_data, many=True)
         res['data'] = {'files': data.data,
             'next_link': page.get_next_link()}
         return JsonResponse(res, safe=False)
 
 
 class FileDetaiView(APIView):
-    model_maps = {
-        'courseware': (CourseWare,
-            CourseWareDeailSerializer),
-
-        'examination_outline': (ExaminationOutline,
-            ExaminationOutlineDetailSerializer)
-    }
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kw):
@@ -406,8 +378,7 @@ class FileDetaiView(APIView):
             'code': 0,
         }
         pk = kw['pk']
-        attr_list =self.model_maps[kw['type']]
-        model = attr_list[0].objects.get(id=pk)
-        data = attr_list[1](model)
+        model = EDUFile.objects.get(id=pk)
+        data = EDUFileDetailSerializer(model)
         res['data'] = data.data
         return JsonResponse(res, safe=False)
