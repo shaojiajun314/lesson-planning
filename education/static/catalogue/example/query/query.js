@@ -168,7 +168,7 @@ var examples_list = new Vue({
                 return ;
             }
             var args = this.assembled_example.join('-')
-            var url = api.DownloadAssembledExamples + '?example_ids=' + args
+            var url = api.DownloadAssembledExamples + '?example_ids=' + args + '&v=' + Math.random().toString(36).substring(2)
             window.open(url, '_blank'); // 新开窗口下载
             alert('下载完成')
             this.change_assembly()

@@ -47,18 +47,37 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django_celery_results',
     'djcelery',
-
+    'haystack',
 
     'education.tools',
     # education
     'education.education_user',
     'education.catalogue',
     'education.analytics',
-
+    'education.search',
     'education.dashboard',
     'education.dashboard.customer',
     'education.dashboard.permissions',
 
+    # extra pip install
+    # pip install django-extensions
+    # djangorestframework
+    # pip install sorl-thumbnail
+    # pip install sorl
+    # pip install django-celery-results
+    # pip install django-celery
+    # pip install celery
+    # pip install Celery
+    # pip install python_2_unicode_compatible
+    # pip install django-haystack
+    # pip install whoosh
+    # pip install jieba
+    # pip install django-treebeard
+    # pip install Pillow
+    # pip install docx
+    # pip install python-docx
+    # pip install django-environ
+    # pip install environ
 ]
 
 MIDDLEWARE = [
@@ -160,8 +179,16 @@ MEDIA_ROOT = posixpath.join(BASE_DIR, 'var', 'media')
 
 AUTH_USER_MODEL='education_user.User'
 
-
-EDUFILE_TYPE_LIST = 'courseware', 'examination_outline'
+# Haystack settings
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        'PATH': posixpath.join(BASE_DIR, 'var', 'whoosh_index'),
+    },
+}
 
 # Celery
 ###配置Broker
@@ -171,3 +198,9 @@ BACKEND_URL = 'redis://localhost:6379/1'
 # BACKEND_URL = 'redis://:password@localhost:6379/1'
 # result
 CELERY_RESULT_BACKEND = 'django-db'
+
+
+
+
+# EDU
+EDUFILE_TYPE_LIST = 'courseware', 'examination_outline'

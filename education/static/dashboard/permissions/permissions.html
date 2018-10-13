@@ -14,7 +14,6 @@
     <edunav v-bind:index="index" v-bind:user="user">
     </edunav>
 </div>
-
 <div id="permissions">
 <table border="1" cellspacing="0">
     <caption>
@@ -49,7 +48,21 @@
         <label class="input-label">
             帐号
         </label>
-        <input name="category_username" class="input" v-on:input="user_like_search('modify_category')" v-model="category_username" placeholder="输入用户帐号" type="text" />
+        <input name="category_username" class="input"
+            v-on:input="user_like_search('modify_category')"
+            v-model="category_username" placeholder="输入用户帐号"
+            v-on:click="user_like_dropdown('modify_category')"
+            v-on:blur="user_like_dropup('modify_category')" type="text" />
+
+            <div v-if="user_like_list.length" class="permission-dropdown-content" :class="{'permission-hover-block' : dropdown_key=='category'}">
+                <div class="item cursor" v-on:click="select_user(item.username, 'modify_category')"
+                v-for="(item, index) in user_like_list">{{item.username}}</div>
+            </div>
+            <div v-else class="permission-dropdown-content" :class="{'permission-hover-block' : dropdown_key=='category'}">
+                <div class="item">没有对应用户</div>
+            </div>
+
+
     </div>
     <div class="div-button">
         <div class="button"　v-on:click="submit_category('modify_category')">
@@ -94,7 +107,21 @@
         <label class="input-label">
             帐号
         </label>
-        <input name="category_username" class="input" v-on:input="user_like_search('modify_example')" v-model="example_username" placeholder="输入用户帐号" type="text" />
+        <input name="category_username" class="input"
+            v-on:input="user_like_search('modify_example')"
+            v-model="example_username"
+            v-on:click="user_like_dropdown('modify_example')"
+            v-on:blur="user_like_dropup('modify_example')"
+            placeholder="输入用户帐号" type="text" />
+
+        <div v-if="user_like_list.length" class="permission-dropdown-content" :class="{'permission-hover-block' : dropdown_key=='example'}">
+            <div class="item cursor" v-on:click="select_user(item.username, 'modify_example')"
+            v-for="(item, index) in user_like_list">{{item.username}}</div>
+        </div>
+        <div v-else class="permission-dropdown-content" :class="{'permission-hover-block' : dropdown_key=='example'}">
+            <div class="item">没有对应用户</div>
+        </div>
+
     </div>
     <div class="div-button">
         <div class="button"　v-on:click="submit_category('modify_example')">

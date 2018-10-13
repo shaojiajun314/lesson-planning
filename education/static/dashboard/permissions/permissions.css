@@ -59,3 +59,37 @@ table{
 table td{
     text-align: center
 }
+
+
+
+/* .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.navMenu .dropdown li{
+    line-height: 50px
+} */
+.permission-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  /* padding: 12px 16px; */
+  word-break: keep-all;
+  z-index: 999;
+  left: 70px;
+}
+.permission-hover-block {
+    display: block;
+}
+.permission-dropdown-content .item{
+    width: 420px;
+    text-align: left;
+    padding: 6px 10px;
+}
+.cursor{
+    cursor: pointer;
+}
+/* .dropdown:hover .permission-dropdown-content {
+  display: block;
+} */
