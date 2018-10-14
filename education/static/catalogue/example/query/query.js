@@ -2,6 +2,22 @@ Nav.index = 1
 
 var category_id = GetRequest().category_id;
 
+var search = new Vue({
+    el: '#search',
+    data: {
+        seach_value: null,
+    },
+    methods: {
+        do_search: function(){
+            examples_list.examples = []
+            // examples_list.answer_key_list = []
+            examples_list.next_link = api.SearchExamples + '?value=' + this.seach_value
+            examples_list.get_examples()
+            examples_list.get_ancestors_category(null)
+        }
+    }
+})
+
 var category = new Vue({
     el: '#category',
     data: {
@@ -75,6 +91,7 @@ var examples_list = new Vue({
 
         order_by: '',
         order: '',
+        current_url: ''
     },
     created: function () {
         if(category_id){
@@ -123,8 +140,8 @@ var examples_list = new Vue({
                 alert('没有更多了')
                 return;
             }
-            console.log(this.order + this.order_by,1231313);
-            this.$http.get(this.next_link, {params: { 'order_by': (this.order + this.order_by)}}).then(function(res){
+            this.current_url = this.next_link;
+            this.$http.get(this.next_link).then(function(res){
                     var result = res.body
                     if(result.code === 0){
                         this.next_link = result.data.next_link;
@@ -176,7 +193,6 @@ var examples_list = new Vue({
         change_order: function(field){
             if(this.order_by == field){
                 this.order = this.order ? '' : '-';
-                console.log(this.order);
             }else {
                 this.order_by = field;
                 this.order = '';
@@ -187,8 +203,15 @@ var examples_list = new Vue({
                 category_pk = '';
             }
             this.examples = []
-            this.next_link = api.Examples.replace(/{category_pk}/, category_pk)
+            // this.next_link = this.next_link.replace(/page=\d+/, 'page=1').replace(/order_by=/) + '?order_by=' + this.order + this.order_by
             // examples_list.answer_key_list = []
+            var url_list = this.current_url.split('?')
+            var value = GetRequest('?' + url_list[1]).value
+            this.next_link = url_list[0] + '?order_by=' + this.order + this.order_by
+            if(value){
+                this.next_link = this.next_link + '&value=' + value
+            }
+
             this.get_examples()
         }
     },

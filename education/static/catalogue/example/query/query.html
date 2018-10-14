@@ -15,6 +15,13 @@
     </edunav>
 </div>
 
+<div id=search>
+    <div id="box">
+        <input type="text" name="search"  v-model="seach_value" placeholder="请输入关键字">
+        <div id="search-button" v-on:click="do_search()">搜索</div>
+    </div>
+</div>
+
 <div id="category">
     <div class="title">
         选择分类

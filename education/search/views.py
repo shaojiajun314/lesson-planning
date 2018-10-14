@@ -11,8 +11,8 @@ from search_indexes import ExampleIndex
 
 class Page(PageNumberPagination):
     # 每页显示的数据条数
-    max_page_size = 30
-    page_size = 30
+    max_page_size = 2
+    page_size = 2
     page_size_query_param = 'size'
     # 页码
     page_query_param = 'page'

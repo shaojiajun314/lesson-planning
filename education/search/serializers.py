@@ -3,6 +3,7 @@ from rest_framework import serializers
 from drf_haystack.serializers import HaystackSerializer
 from education.catalogue.serializers import CategorySerializer, AnswerSerializer
 from education.search.search_indexes import ExampleIndex
+from education.analytics.serializers import ExampleRecordSerializer as ExampleAnalyticsRecordSerializer
 
 class ExampleIndexSerializer(HaystackSerializer):
 
@@ -12,6 +13,7 @@ class ExampleIndexSerializer(HaystackSerializer):
     categories = serializers.SerializerMethodField()
     answers = serializers.SerializerMethodField()
     content = serializers.SerializerMethodField()
+    analytics = serializers.SerializerMethodField()
 
     def get_id(self, obj):
         id_ = obj.object.id
@@ -24,6 +26,10 @@ class ExampleIndexSerializer(HaystackSerializer):
     def get_answers(self, obj):
         answers = obj.object.answers.all()
         return AnswerSerializer(answers, many=True).data
+
+    def get_analytics(self, obj):
+        analytics = obj.object.analytics
+        return ExampleAnalyticsRecordSerializer(analytics, many=False).data
 
     def get_content(self, obj):
         return obj.object.content

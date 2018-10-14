@@ -6,7 +6,7 @@ body {
 /* category */
 #category{
     position: fixed;
-    margin-top: 15px;
+    margin-top: 55px;
 }
 .category-list{
     width: 200px;
@@ -225,4 +225,50 @@ body {
     color: #52c684;
     border-bottom: 1px solid;
     cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+#search{
+    width: 200px;
+    position: fixed;
+}
+
+#box{
+        width: 200px;
+        margin: 20px auto;
+        font-family: 'Microsoft YaHei';
+        font-size: 14px;
+    }
+#box input{
+    width: 160px;
+    border: 1px solid #e2e2e2;
+    height: 30px;
+    float: left;
+    /* background-image: url(images/search.jpg); */
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position:5px center;
+    /* padding:0 0 0 40px; */
+    padding:0 0 0 10px;
+    border-right: unset;
+}
+#search-button{
+    width: 40px;
+    height: 30px;
+    float: right;
+    background: #52c684;;
+    color: white;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

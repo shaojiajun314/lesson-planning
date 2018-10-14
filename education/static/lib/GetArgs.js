@@ -1,5 +1,5 @@
-var GetRequest = function() {
-   var url = location.search; //获取url中"?"符后的字串
+var GetRequest = function(url) {
+   var url = url || location.search; //获取url中"?"符后的字串
    var theRequest = {}
    if (url.indexOf("?") != -1) {
       var str = url.substr(1);
