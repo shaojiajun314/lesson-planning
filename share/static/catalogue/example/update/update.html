@@ -1,0 +1,230 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+<div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
+    <modal v-bind:title="title" v-bind:body="body"
+        v-bind:cancel="cancel" v-bind:sure="sure"
+        v-bind:cancel_func="cancel_func"
+        v-bind:sure_func="sure_func">
+    </modal>
+</div>
+
+<div id="example-update">
+    <div class="form">
+        <form>
+            <div class="nav fixed input-div" v-if="permissions_modify">
+                <!-- 编辑模式 -->
+                <div class="button nav-button submit"　v-on:click="submit_input" v-if="is_edit" v-if="category.length == 0">
+                    提交
+                </div>
+
+                <div class="button nav-button" v-on:click="change_mode()">
+                    编辑/查看
+                </div>
+            </div>
+
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    分类
+                </label>
+
+                <!-- 编辑模式 -->
+                <div name="parent" tabindex="0" v-if="is_edit" v-on:focus="get_category_root" class="input disabale-input">
+                    {{edit_current_category.name || "选择分类"}}
+                </div>
+
+                <!-- 查看模式 -->
+                <div class="input disabale-input" v-if="!is_edit">
+                    {{current_category.name}}
+                </div>
+
+            </div>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    难度
+                </label>
+
+                <!-- 编辑模式 -->
+                <input name="difficulty" v-model="edit_difficulty" v-if="is_edit" class="input" type="number">
+                </input>
+
+                <!-- 查看模式 -->
+                <div class="input disabale-input" v-if="!is_edit">
+                    {{difficulty}}
+                </div>
+
+            </div>
+
+
+            <div class="category-list-content" v-if="category.length > 0" :style="'height:' + ((category.length && category[0].length) * 36 + 70) + 'px'">
+                <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+                    <div class="category_root_list" v-if="category_item.length > 0">
+                        <div v-for="(item, index) in category_item" class="item"
+                            v-on:mouseenter="get_category(item.id, category_index)"
+                            v-on:click="input_category(item.id, category_index, index)">
+                            <img :src="item.image" />
+                            <span class="name">
+                                {{item.name}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cancel_category_button button"
+                    v-if="category.length > 0 || edit_current_category.id"
+                    :style="'top:' + ((category.length && category[0].length) * 36) + 'px'"
+                    v-on:click="cancel_input_category">
+                    取消分类
+                </div>
+            </div>
+
+            <div class="text-div">
+                <label class="text-label">
+                    题干
+                </label>
+
+                <!-- 编辑模式 -->
+                <textarea name="content" v-if="is_edit" v-model="edit_content" placeholder="输入题目内容" type="text">
+                </textarea>
+
+                <!-- 查看模式 -->
+                <div class="textarea-div" v-if="!is_edit">
+                    {{content}}
+
+                    <table cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td valign="top" width="189" v-for="(content_img, content_img_index) in content_imgs">
+                                    <img height="80" width="88" :src="content_img.image">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!-- 编辑模式 -->
+            <div class="text-div imgs-display-div" v-if="is_edit">
+                <label class="text-label imgs-display-label">
+                    题干图片
+                </label>
+                <div class="textarea-div imgs-div">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td valign="top" width="140" v-for="(content_img, content_img_index) in content_imgs">
+                                    <img height="80" width="88" :src="content_img.image">
+                                    <div>
+                                        删除
+                                        <input type="checkbox" v-on:change="add_delete_img(content_img.id)"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 编辑模式 -->
+            <div class="file-extra" v-for="(item, index) in content_img_ctr" v-if="is_edit">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        新题图{{index + 1}}
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img"
+                        accept="image/gif,image/jpeg,image/jpg,image/png"
+                        ref="contentImg" v-on:change="input_img(index, 'content')">
+                </div>
+            </div>
+            <hr/>
+
+
+
+            <div v-for="(item, index) in  answer">
+                <div class="text-div">
+                    <label class="text-label">
+                        答案 {{index + 1}}
+                    </label>
+                    <!-- 查看模式 -->
+                    <div class="textarea-div">
+                        <div class="answer-delete" v-if="is_edit">
+                            删除
+                            <input type="checkbox" v-on:change="add_delete_answers(item.id)"/>
+                        </div>
+                        {{item.answer}}
+                        <table cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" width="189" v-for="(answer_img, answer_img_index) in item.images">
+                                        <img height="80" width="88" :src="answer_img.image">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr v-if="is_edit"/>
+            <!-- 编辑模式 -->
+            <div class="text-div" v-if="is_edit">
+                <label class="text-label">
+                    新增答案
+                </label>
+                <textarea name="answer" v-model="add_answer" placeholder="输入题目答案" type="text">
+                </textarea>
+            </div>
+
+            <!-- 编辑模式 -->
+            <div class="file-extra" v-for="(item, index) in answer_img_ctr" v-if="is_edit">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        新答图{{index + 1}}
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="answerImg" v-on:change="input_img(index, 'answer')">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/lib/GetArgs.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/templates/modal/modal.css"></link>
+<script src="/static/templates/modal/modal.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/example/update/update.css"></link>
+<script src="/static/catalogue/example/update/update.js"></script>
+
+</body>
+</html>

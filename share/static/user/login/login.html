@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+</head>
+
+<body>
+<div class="header" id="head">
+  <div class="title">史上最强教育测试版</div>
+
+</div>
+
+<div class="login" id="login">
+	<div class="logGet">
+			<!-- 头部提示信息 -->
+			<div class="logD logDtip">
+				<p class="p1">登录</p>
+			</div>
+			<!-- 输入框 -->
+			<div class="lgD">
+				<!-- <img src="img/logName.png" width="20" height="20" alt=""/> -->
+				<input type="text"
+					placeholder="输入用户名" v-model='username'/>
+			</div>
+			<div class="lgD">
+				<!-- <img src="img/logPwd.png" width="20" height="20" alt=""/> -->
+				<input type="password"
+					placeholder="输入用户密码" v-model='password'/>
+			</div>
+			<div class="logC">
+				<div><button v-on:click="login()">登 录</button></div>
+			</div>
+            <div class="register-div">
+                <a href="/static/user/register/register.html">
+                    还没有帐号立即去注册
+                </a>
+            </div>
+		</div>
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<link rel="stylesheet" href="/static/user/login/login.css"></link>
+<script src="/static/user/login/login.js"></script>
+</body>
+</html>

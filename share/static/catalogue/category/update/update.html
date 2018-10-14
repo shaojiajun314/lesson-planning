@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+
+<div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
+    <modal v-bind:title="title" v-bind:body="body"
+        v-bind:cancel="cancel" v-bind:sure="sure"
+        v-bind:cancel_func="cancel_func"
+        v-bind:sure_func="sure_func">
+    </modal>
+</div>
+
+<div id="category-update">
+    <div class="form">
+        <form>
+
+
+
+            <div class="form-handle">
+                当前编辑分类：
+                <span v-for="(path, index) in current_category_path" >
+                    <a class="category-path" v-on:click="change_category(path.id)">
+                        {{path.name}}
+                    </a>
+                    /
+                </span>
+                <div class="button"　v-on:click="submit_input">
+                    确定
+                </div>
+                <a class="button"　href="/">
+                    返回首页
+                </a>
+            </div>
+
+            <div class="input-div">
+                <label class="input-label">
+                    名称
+                </label>
+                <input name="name" class="input" v-model="name" placeholder="输入新分类名称" type="text">
+            </div>
+
+            <div class="file-extra ">
+                <div class="input-div input-div-only-label disabale-input-label img-label">
+                    <label class="input-label">
+                        图片
+                    </label>
+                </div>
+                <img :src="img_url"　class="input-img">
+                </img>
+            </div>
+
+
+
+            <div class="file-extra">
+                <div class="input-div input-div-only-label disabale-input-label">
+                    <label class="input-label">
+                        修改图片
+                    </label>
+                </div>
+                <div class="input-div-img">
+                    <input type="file" name="img" accept="image/gif,image/jpeg,image/jpg,image/png" ref="imgInput">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/lib/GetArgs.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/templates/modal/modal.css"></link>
+<script src="/static/templates/modal/modal.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/category/update/update.css"></link>
+<script src="/static/catalogue/category/update/update.js"></script>
+
+</body>
+</html>

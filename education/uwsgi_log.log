@@ -1,0 +1,32 @@
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sun Oct 14 20:48:59 2018] ***
+compiled with version: 7.3.0 on 14 October 2018 12:15:42
+os: Linux-4.15.0-34-generic #37-Ubuntu SMP Mon Aug 27 15:21:48 UTC 2018
+nodename: shaojiajun314
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/shaojiajun314/Desktop/education
+detected binary path: /home/shaojiajun314/.local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 7208
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+bind(): Permission denied [core/socket.c line 769]
+*** Starting uWSGI 2.0.17.1 (64bit) on [Sun Oct 14 20:50:18 2018] ***
+compiled with version: 7.3.0 on 14 October 2018 12:15:42
+os: Linux-4.15.0-34-generic #37-Ubuntu SMP Mon Aug 27 15:21:48 UTC 2018
+nodename: shaojiajun314
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/shaojiajun314/Desktop/education
+detected binary path: /home/shaojiajun314/.local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+your processes number limit is 7208
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+bind(): Permission denied [core/socket.c line 769]

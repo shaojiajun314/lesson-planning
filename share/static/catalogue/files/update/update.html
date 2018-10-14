@@ -1,0 +1,96 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+<div id="modal"  class="modal"  v-bind:class="{'hidden': is_hidden}">
+    <modal v-bind:title="title" v-bind:body="body"
+        v-bind:cancel="cancel" v-bind:sure="sure"
+        v-bind:cancel_func="cancel_func"
+        v-bind:sure_func="sure_func">
+    </modal>
+</div>
+
+<div id="file-update">
+    <div class="form">
+        <form>
+            <div class="nav input-div">
+                <!-- 编辑模式 -->
+                <div class="button nav-button submit"　v-on:click="delete_file()" v-if="permissions_modify">
+                    删除
+                </div>
+
+                <div class="button nav-button" v-on:click="download()">
+                    下载
+                </div>
+            </div>
+
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    分类
+                </label>
+                <!-- 查看模式 -->
+                <div class="input disabale-input">
+                    {{current_category.name}}
+                </div>
+
+            </div>
+
+            <div class="input-div">
+                <label class="disabale-input-label input-label">
+                    标题
+                </label>
+                <!-- 查看模式 -->
+                <div class="input disabale-input">
+                    {{file_data.title}}
+                </div>
+
+            </div>
+
+
+            <div class="text-div">
+                <label class="text-label">
+                    描述
+                </label>
+                <!-- 查看模式 -->
+                <div class="textarea-div">
+                    {{file_data.description}}
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/lib/GetArgs.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/templates/modal/modal.css"></link>
+<script src="/static/templates/modal/modal.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/files/update/update.css"></link>
+<script src="/static/catalogue/files/update/update.js"></script>
+
+</body>
+</html>

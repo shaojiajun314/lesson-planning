@@ -1,0 +1,126 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+
+
+</head>
+
+<body>
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+<div id="category">
+    <div class="title">
+        选择分类
+    </div>
+    <!-- <div class="category-list-content" :style="'height:' + (category.length && ((category.length && category[0].length) * 36 + 70)) + 'px'"> -->
+        <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+            <div class="category_root_list" v-if="category_item.length > 0">
+                <div v-for="(item, index) in category_item" class="item"
+                    v-on:mouseenter="get_category(item.id, category_index)"
+                    v-on:mouseleave="clean_category"
+                    v-on:click="query_file(item.id)">
+                    <img :src="item.image" />
+                    <span class="name">
+                        {{item.name}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div id="file-list">
+    <div class="title">
+        <span>
+            <a class="category-path" v-on:click="change_category()">
+                全部
+            </a>
+            /
+            <span v-for="(path, index) in current_category_path" >
+                <a class="category-path" v-on:click="change_category(path.id)">
+                    {{path.name}}
+                </a>
+                /
+            </span>
+        </span>
+    </div>
+    <!-- <div class="title order_by">
+        <span>
+            按创建日期排序
+            <div class="div-icon" v-on:click="change_order('date_created')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'up-icon': order_by=='date_created' && order=='' || order_by!='date_created'}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{'dn-icon': order_by=='date_created' && order=='-' || order_by!='date_created'}">
+                    </i>
+                </div>
+            </div>
+        </span>
+        <span>
+            按组卷次数排序
+            <div class="div-icon" v-on:click="change_order('analytics__num_assemble')">
+                <div class="div-i">
+                    <i class="order_by-icon" v-bind:class="{ 'up-icon' : (order_by=='analytics__num_assemble' && order=='' || order_by!='analytics__num_assemble')}">
+                    </i>
+                </div>
+                <div class="div-i">
+                    <i class="order_by-icon"  v-bind:class="{'dn-icon' : order_by=='analytics__num_assemble' && order=='-' || order_by!='analytics__num_assemble'}">
+                    </i>
+                </div>
+            </div>
+        </span>
+    </div> -->
+
+    <div class="file" v-for="(file_item, file_index) in files">
+
+        <div class="file-container">
+            <div class="content">
+                {{file_index + 1}}: {{file_item.title}}
+            </div>
+            <div class="imgs">
+                {{file_item.description}}
+            </div>
+        </div>
+
+        <div class="msg">
+            <div class="item">
+                下载次数:
+            </div>
+
+            <div class="button"  v-on:click="get_file_detail(file_item.id)">
+                查看详情
+            </div>
+        </div>
+
+    </div>
+    <div class="div-next-link">
+        <div class="next-link" v-on:click="get_files()">
+            下一页
+        </div>
+    </div>
+
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/lib/GetArgs.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/files/query/query.css"></link>
+<script src="/static/catalogue/files/query/query.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>史上最强教育测试版</title>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/config/api.js"></script>
+    <script src="/static/js/vue-resource.min.js"></script>
+</head>
+
+<body>
+
+<div id="nav">
+    <edunav v-bind:index="index" v-bind:user="user">
+    </edunav>
+</div>
+
+<div id="category">
+    <div class="title">
+        立即查题
+    </div>
+    <!-- <div class="category-list-content" :style="'height:' + (category.length && ((category.length && category[0].length) * 36 + 70)) + 'px'"> -->
+        <div class="category-list" v-for="(category_item, category_index) in category" :style="'left:'+ category_index * 162+'px'">
+            <div class="category_root_list" v-if="category_item.length > 0">
+                <div v-for="(item, index) in category_item" class="item"
+                    v-on:mouseenter="get_category(item.id, category_index)"
+                    v-on:mouseleave="clean_category">
+                    <span v-on:click="query_example(item.id)">
+                        <img :src="item.image" />
+                        <span class="name">
+                            {{item.name}}
+                        </span>
+                    </span>
+                    <a :href="'/static/catalogue/category/update/update.html?category_id='+item.id" v-if="permissions_modify">
+                        <img class="edit" src="/static/images/catalogue/edit.png">
+                        </img>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div id="footer" v-html="html">
+</div>
+
+<script src="/static/templates/footer/footer.js"></script>
+
+<script src="/static/templates/nav/nav.js"></script>
+
+<link rel="stylesheet" href="/static/catalogue/index.css"></link>
+<script src="/static/catalogue/index.js"></script>
+
+</body>
+</html>
